@@ -1,0 +1,6 @@
+.cards {
+  display: grid;
+  place-items: center;
+  grid-template-columns: auto auto;
+  grid-row-gap: 25px;
+}

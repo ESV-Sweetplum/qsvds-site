@@ -1,0 +1,7 @@
+@use '../../styles/styles' as *;
+
+.cards {
+  margin-top: 50px;
+  height: 300px;
+  @include flex(row, space-evenly, center);
+}

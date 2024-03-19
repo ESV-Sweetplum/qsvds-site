@@ -1,0 +1,69 @@
+@use './styles.scss' as *;
+
+@font-face {
+  font-family: 'Karla';
+  src: url('../../public/karla.ttf');
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+}
+
+html,
+body {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overscroll-behavior-y: none;
+  background-color: $backgroundColor;
+  font-family: 'Karla', 'sans-serif';
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  padding-inline: 0;
+  font-family: 'Karla', sans-serif;
+  outline: none;
+  border: none;
+}
+
+select {
+  border: none;
+}
+
+img,
+a {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+p {
+  margin-block: 0;
+}
+
+main {
+  padding-top: 100px;
+  width: min(900px, 60vw);
+  margin-left: calc((100vw - min(900px, 60vw)) / 2);
+  min-height: 100%;
+  position: absolute;
+  @include flex(column);
+  transition: opacity 0.3s;
+}

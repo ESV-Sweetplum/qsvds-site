@@ -1,0 +1,18 @@
+@use '../../styles/styles' as *;
+
+.error {
+  position: fixed;
+  margin-inline: auto;
+  left: calc((100vw - max(200px, 25%)) / 2);
+  width: max(200px, 25%);
+  height: 60px;
+  color: white;
+  display: grid;
+  place-items: center;
+  bottom: -70px;
+  z-index: 100;
+  background-color: $denyColor;
+  font-weight: 700;
+  border-radius: 20px;
+  transition: bottom 0.3s;
+}
