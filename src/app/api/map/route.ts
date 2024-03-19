@@ -14,9 +14,10 @@ export async function GET(request: NextRequest) {
   const data = await col
     .doc(map_id)
     .get()
-    .then((doc) => doc.data());
+    .then((doc) => doc.data())
+    .catch((e) => e);
 
-  if (!data) return Response.json({ status: 404 });
+  if (!data) return Response.json({ status: 404, data });
 
   return Response.json({ status: 200, data });
 }
