@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     .then((doc) => doc.data())
     .catch((e) => e);
 
-  if (!data) return Response.json({ status: 404, data });
+  if (!data) return Response.json({ status: 404, data: data });
 
   return Response.json({ status: 200, data });
 }

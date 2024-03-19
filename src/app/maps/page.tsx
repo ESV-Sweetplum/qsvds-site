@@ -17,7 +17,7 @@ export default function Home() {
   useEffect(() => {
     async function getMaps() {
       const resp = await fetch('/api/maps').then((resp) => resp.json());
-      setDocuments(resp);
+      setDocuments(resp.docs);
       setLoading(false);
     }
 

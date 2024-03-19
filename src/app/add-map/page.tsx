@@ -39,9 +39,9 @@ export default function Home() {
     try {
       setLoading(true);
 
-      const existingDoc = await fetch(`/api/map?id=${input}`).then((resp) =>
-        resp.json()
-      );
+      const existingDoc = (
+        await fetch(`/api/map?id=${input}`).then((resp) => resp.json())
+      ).data;
 
       if (existingDoc.rating) {
         throwError('This map was already added.');
