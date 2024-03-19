@@ -41,7 +41,7 @@ export default function Home() {
               ))
             : Array(6)
                 .fill(0)
-                .map((item) => <MapCard key={item} />)}
+                .map((_item, idx) => <MapCard key={idx} />)}
         </div>
       </main>
     </>
