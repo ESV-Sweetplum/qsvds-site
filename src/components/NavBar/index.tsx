@@ -5,7 +5,12 @@ import styles from './navBar.module.scss';
 import { useEffect, useState } from 'react';
 
 export default function NavBar() {
-  const username = localStorage.getItem('username') ?? '';
+  const [username, setUsername] = useState<string>('');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setUsername(localStorage.getItem('username') ?? '');
+  }, []);
 
   return (
     <div className={styles.navBar}>

@@ -7,13 +7,13 @@ import User from '@/interfaces/user';
 import GenerateHash from '@/lib/generateHash';
 
 export default function Home() {
-  const params = useSearchParams();
-  const code = params.get('code');
-
-  const router = useRouter();
   const [loadingText, setText] = useState<string>('Logging you in...');
+  const params = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
+    const code = params.get('code');
+
     async function main() {
       setText('Accessing user token...');
       const resp = await fetch('/api/user-token', {
@@ -66,7 +66,7 @@ export default function Home() {
     }
 
     main();
-  }, []);
+  }, [router]);
 
   return (
     <main>

@@ -36,11 +36,12 @@ export default function Home() {
                   map={doc.map}
                   rating={doc.rating}
                   letter={doc.category.charAt(0)}
+                  key={doc.map.id}
                 />
               ))
             : Array(6)
                 .fill(0)
-                .map((_item) => <MapCard />)}
+                .map((item) => <MapCard key={item} />)}
         </div>
       </main>
     </>

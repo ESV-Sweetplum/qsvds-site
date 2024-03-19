@@ -48,7 +48,7 @@ export default function RatingDisplay(props: RatingDisplayProps) {
     setColor(
       `rgb(${COLOR_GRADIENT[cutoffIDX].color[0]},${COLOR_GRADIENT[cutoffIDX].color[1]},${COLOR_GRADIENT[cutoffIDX].color[2]})`
     );
-  }, [props.rating]);
+  }, [props.rating, props.range]);
 
   return (
     <div
