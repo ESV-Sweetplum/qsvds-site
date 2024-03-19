@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 import axios from 'axios';
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest, response: Response) {
   const body = await request.json();
 
   const code = body.code as string;
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
   const access_token = resp?.data.access_token;
 
   if (!access_token) {
-    return NextResponse.json({ status: 400, msg: 'Access code not found.' });
+    return Response.json({ status: 400, msg: 'Access code not found.' });
   }
   const resp2 = await axios
     .post(
@@ -34,5 +34,5 @@ export async function POST(request: NextRequest, response: NextResponse) {
     .then((resp) => resp)
     .catch((e) => console.log('Error 2'));
 
-  return NextResponse.json({ status: 200, data: resp2?.data });
+  return Response.json({ status: 200, data: resp2?.data });
 }

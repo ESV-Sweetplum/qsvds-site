@@ -1,14 +1,13 @@
 import { Category } from '@/interfaces/category';
 import Map from '@/interfaces/map';
 import UserRating from '@/interfaces/userRating';
-import Rating from '@/interfaces/userRating';
 import initializeDB from '@/lib/db/initializeDB';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const map_id = request.nextUrl.searchParams.get('id');
 
-  if (!map_id) return null;
+  if (!map_id) return Response.json({ status: 400 });
 
   const db = initializeDB();
   const col = db.collection('maps');
@@ -17,9 +16,9 @@ export async function GET(request: NextRequest) {
     .get()
     .then((doc) => doc.data());
 
-  if (!data) return NextResponse.json({ status: 404 });
+  if (!data) return Response.json({ status: 404 });
 
-  return NextResponse.json(data);
+  return Response.json({ status: 200, data });
 }
 
 export async function POST(request: NextRequest) {
@@ -39,5 +38,5 @@ export async function POST(request: NextRequest) {
   doc.set({ map, rating: body.rating, category });
   doc.collection('ratings').doc(body.user_id.toString()).set(userRating);
 
-  return NextResponse.json(body);
+  return Response.json({ status: 200, body });
 }
