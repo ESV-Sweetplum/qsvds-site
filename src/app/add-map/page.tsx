@@ -43,7 +43,7 @@ export default function Home() {
         await fetch(`/api/map?id=${input}`).then((resp) => resp.json())
       ).data;
 
-      if (existingDoc.rating) {
+      if (existingDoc?.rating) {
         throwError('This map was already added.');
         return;
       }
