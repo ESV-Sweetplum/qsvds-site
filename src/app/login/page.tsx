@@ -69,25 +69,23 @@ export default function Home() {
   }, [router]);
 
   return (
-    <main>
-      <div
-        style={{
-          position: 'fixed',
-          width: '100vw',
-          height: '100vh',
-          top: 0,
-          left: 0,
-          color: 'white',
-          fontSize: '5rem',
-          zIndex: '69',
-          display: 'grid',
-          placeItems: 'center',
-          textShadow: '2px 2px 5px black',
-        }}
-      >
-        {loadingText}
-      </div>
-    </main>
+    <div
+      style={{
+        position: 'fixed',
+        width: '100vw',
+        height: '100vh',
+        top: 0,
+        left: 0,
+        color: 'white',
+        fontSize: '5rem',
+        zIndex: '69',
+        display: 'grid',
+        placeItems: 'center',
+        textShadow: '2px 2px 5px black',
+      }}
+    >
+      {loadingText}
+    </div>
   );
 }
 

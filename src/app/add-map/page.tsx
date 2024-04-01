@@ -2,7 +2,7 @@
 
 import '../../styles/global.scss';
 import styles from './addMap.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import PrimaryInput from '@/components/PrimaryInput';
@@ -93,7 +93,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           map,
-          user_id: 0,
+          user_id: localStorage.getItem('id'),
           rating,
           category,
         }),
@@ -114,6 +114,12 @@ export default function Home() {
   async function cancelRating() {
     setMap({});
   }
+
+  useEffect(() => {
+    if (!localStorage.getItem('id')) router.push('/maps');
+  }, []);
+
+  if (!localStorage.getItem('id')) return <></>;
 
   return (
     <>

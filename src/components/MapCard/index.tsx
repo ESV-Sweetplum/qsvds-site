@@ -10,6 +10,7 @@ interface MapCardProps {
   letter?: string;
   emptyText?: string;
   scale?: number;
+  clickable?: boolean;
 }
 
 export default function MapCard(props: MapCardProps) {

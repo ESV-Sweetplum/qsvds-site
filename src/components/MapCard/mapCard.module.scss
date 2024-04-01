@@ -6,7 +6,7 @@ $cardWidth: 400px;
 .mapCard {
   width: $cardWidth;
   border-radius: 25px;
-  height: calc($cardWidth * 0.6);
+  height: calc($cardWidth * 0.5);
   background-color: color.scale($backgroundColor, $lightness: -20%);
   box-shadow: 2px 2px 5px black;
   position: relative;
