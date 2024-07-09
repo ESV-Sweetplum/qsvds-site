@@ -33,13 +33,17 @@ export async function POST(request: NextRequest) {
     
     const db = initializeDB();
     const col = db.collection('maps').doc(body.map_id.toString()).collection("ratings");
+    
+    col.doc(body.user_id.toString()).set(rating)
 
     const totalRatingNum: number = await col.count().get().then((col) => col.data().count)
 
-    col.doc(body.user_id.toString()).set(rating)
-
     const ratingSum: number = await col.aggregate({sum: AggregateField.sum("rating")}).get().then((snp) => snp.data().sum)
     const newRating = ratingSum / totalRatingNum
+
+    console.log(ratingSum)
+    console.log(totalRatingNum)
+
 
     db.collection('maps').doc(body.map_id.toString()).update({rating: newRating})
   
