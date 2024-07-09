@@ -11,11 +11,12 @@ export default function NavBar() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     setUsername(localStorage.getItem('username') ?? '');
-  }, []);
+  });
 
   return (
     <div className={styles.navBar}>
       <div className={styles.navigation}>
+        <NavLink href='/' text='Home' />
         <NavLink href='/maps' text='Maps' />
       </div>
       {username ? (

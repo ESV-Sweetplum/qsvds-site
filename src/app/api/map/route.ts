@@ -26,17 +26,20 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   const map: Map = body.map;
+  map.titleInsensitive = map.title.toLowerCase()
+
   const userRating: UserRating = {
     map_id: map.id,
-    user_id: body.user_id,
-    rating: body.rating,
+    user_id: parseInt(body.user_id),
+    rating: parseInt(body.rating),
+    quality: body.quality ?? "Decent"
   };
   const category: Category = body.category.toLowerCase();
 
   const db = initializeDB();
   const col = db.collection('maps');
   const doc = col.doc(map.id.toString());
-  doc.set({ map, rating: body.rating, category });
+  doc.set({ map, rating: parseInt(body.rating), category, timeAdded: Date.now() });
   doc.collection('ratings').doc(body.user_id.toString()).set(userRating);
 
   return Response.json({ status: 200, body });

@@ -3,6 +3,6 @@ import Map from './map';
 
 export default interface MapDocument {
   map: Map;
-  rating: string;
+  rating: number;
   category: Category;
 }

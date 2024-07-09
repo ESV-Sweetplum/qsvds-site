@@ -21,7 +21,7 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [map, setMap] = useState<Partial<Map>>({});
-  const [rating, setRating] = useState<string>('0');
+  const [rating, setRating] = useState<number>(0);
   const [category, setCategory] = useState<string>('Reading');
 
   async function search() {
@@ -102,7 +102,7 @@ export default function Home() {
       console.log(data);
       setMap({});
       setMapIDInput('');
-      setRating('0');
+      setRating(0);
       setCategory('Reading');
     } catch (e) {
       const error = e as string;

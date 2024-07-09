@@ -28,6 +28,7 @@ $cardWidth: 400px;
   width: 100%;
   @include flex(row, flex-end, center);
   padding: 2px;
+  margin-block: 5px;
   z-index: 420;
 }
 

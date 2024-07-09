@@ -1,1 +1,1 @@
-export type Category = 'reading' | 'memory' | 'physical';
+export type Category = 'reading' | 'memory' | 'physical' | "";

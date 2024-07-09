@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useState } from 'react';
 import styles from './ratingDisplay.module.scss';
 
 interface RatingDisplayProps {
-  rating: number | string;
+  rating: number;
   range: number[];
   scale?: number;
   style?: CSSProperties;
@@ -36,7 +36,7 @@ export default function RatingDisplay(props: RatingDisplayProps) {
   const [colorIndex, setColorIndex] = useState<number>(0);
 
   useEffect(() => {
-    const percentageRating = parseInt(props.rating as string) / props.range[1];
+    const percentageRating = props.rating / props.range[1];
     let cutoffIDX = COLOR_GRADIENT.findIndex(
       (obj, idx) =>
         obj.cutOff <= percentageRating &&
@@ -55,12 +55,12 @@ export default function RatingDisplay(props: RatingDisplayProps) {
       className={styles.rating}
       style={{
         color: color,
-        transform: `scale(${props.scale})`,
+        transform: `scale(${props.scale ?? 1})`,
         ...props.style,
         textShadow: RATING_SHADOW[colorIndex],
       }}
     >
-      {props.rating}
+      {Math.round(props.rating)}
       <span style={{ fontSize: '3rem' }}>{props.letter as string}</span>
     </div>
   );

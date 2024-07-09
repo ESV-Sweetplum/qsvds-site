@@ -2,8 +2,8 @@ import NavBar from '@/components/NavBar';
 import { CookiesProvider } from 'next-client-cookies/server';
 
 export const metadata = {
-  title: 'suck my balls',
-  description: 'aetwiohpuertaoaerthoiaertwhoipaetwrhiopatwehioatwe',
+  title: 'Quaver SV Website yippeee',
+  description: 'I have literally no idea what I\'m doing, send help.',
 };
 
 export default function RootLayout({

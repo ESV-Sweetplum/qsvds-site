@@ -39,6 +39,7 @@ export default function Home() {
         setText('Done!');
         setLocalStorage(existingUser.data);
         router.push('/');
+        router.refresh()
         return;
       }
 

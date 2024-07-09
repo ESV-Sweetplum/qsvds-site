@@ -11,6 +11,7 @@ export default function Home() {
   useEffect(() => {
     deleteLocalStorage();
     router.push('/');
+    router.refresh()
   }, []);
   return (
     <div

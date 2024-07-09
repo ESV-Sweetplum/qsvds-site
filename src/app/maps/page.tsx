@@ -11,11 +11,13 @@ import MapDocument from '@/interfaces/mapDocument';
 import Loading from '@/components/Loading';
 import Link from 'next/link';
 import User from '@/interfaces/user';
+import PrimaryInput from '@/components/PrimaryInput';
 
 export default function Home() {
   const [documents, setDocuments] = useState<MapDocument[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [id, setID] = useState<number>(0);
+  const [id, setID] = useState<number>(-1e70);
+  const [searchInput, setSearchInput] = useState<string>("")
 
   let button = <></>;
 
@@ -25,26 +27,48 @@ export default function Home() {
 
       setDocuments(resp.docs);
       setLoading(false);
-      if (typeof window !== 'undefined') {
-        setID(parseInt(localStorage.getItem('id') as string));
-      }
     }
 
     getMaps();
   }, []);
+ 
+  useEffect(() => {
+    // if (typeof window !== 'undefined') {
+        setID(parseInt(localStorage.getItem('id') as string));
+    //   }
+  })
 
-  button = id ? (
+  button = id > -1e69 ? (
     <Link className={styles.addMapButton} href='/add-map'>
       + Add Map
     </Link>
   ) : (
     <></>
   );
+
+  async function search() {
+        setLoading(true)
+        setDocuments([])
+        const resp = await fetch(`/api/maps?query=${searchInput}`).then((resp) => resp.json());
+  
+        setDocuments(resp.docs);
+        setLoading(false);
+    }
+
   return (
     <>
       <Loading loadingStatus={loading} />
       <main>
         <Title button={button}>Maps</Title>
+        <PrimaryInput
+          value={searchInput}
+          changeValue={setSearchInput}
+          onClick={search}
+          placeholderText='Enter Map Name Here'
+          searchMode={true}
+          onConfirm={() => {}}
+          onCancel={() => {}}
+        />
         <div className={styles.cards}>
           {documents.length
             ? documents.map((doc) => (

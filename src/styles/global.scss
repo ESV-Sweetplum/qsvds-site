@@ -59,18 +59,11 @@ p {
 }
 
 main {
-  padding-top: 100px;
-  width: max(900px, 60vw);
-  margin-left: calc((100vw - max(900px, 60vw)) / 2);
+  padding-top: 70px;
+  width: 900px;
+  margin-left: calc((100vw - 900px) / 2);
   min-height: 100%;
   position: absolute;
   @include flex(column);
   transition: opacity 0.3s;
-}
-
-@media (max-width: 1000px) {
-  main {
-    width: 60vw;
-    margin-left: 20vw;
-  }
 }

@@ -9,6 +9,7 @@ export default interface Map {
   ranked_status: number;
   artist: string;
   title: string;
+  titleInsensitive?: string;
   source: string;
   tags: string;
   description: string;

@@ -3,10 +3,11 @@ import styles from './mapCard.module.scss';
 import Image from 'next/image';
 import RatingDisplay from '../RatingDisplay';
 import Link from 'next/link';
+import {useRouter} from "next/navigation"
 
 interface MapCardProps {
   map?: Partial<Map>;
-  rating?: string;
+  rating?: number;
   letter?: string;
   emptyText?: string;
   scale?: number;
@@ -14,8 +15,13 @@ interface MapCardProps {
 }
 
 export default function MapCard(props: MapCardProps) {
+
+    const router = useRouter()
+
   return (
-    <div className={styles.mapCard} style={{ scale: props.scale ?? 1 }}>
+    <div className={styles.mapCard} style={{ scale: props.scale ?? 1, cursor: props.clickable ? "pointer" : "default"}} onClick={(e) => {if (props.clickable) {
+        router.push(`/map/${props.map?.id || 0}`)
+    }}}>
       {props.map ? (
         <>
           <Image
@@ -45,7 +51,7 @@ export default function MapCard(props: MapCardProps) {
           </div>
           <div className={styles.rating}>
             <RatingDisplay
-              rating={props.rating as string}
+              rating={props.rating ?? 0}
               range={[0, 60]}
               letter={props.letter?.toUpperCase()}
               style={{ opacity: 1 }}

@@ -5,8 +5,8 @@ import Dropdown from '../Dropdown';
 
 interface InputCardProps {
   title: string;
-  rating: string;
-  setRating: Dispatch<SetStateAction<string>>;
+  rating: number;
+  setRating: Dispatch<SetStateAction<number>>;
   category: string;
   setCategory: Dispatch<SetStateAction<string>>;
   clamp: number[];
@@ -19,7 +19,7 @@ export default function InputCard(props: InputCardProps) {
     if (v.charAt(0) === '0' && v.length > 1) v = v.slice(1);
     if (parseInt(v) < props.clamp[0]) v = props.clamp[0].toString();
     if (parseInt(v) > props.clamp[1]) v = props.clamp[1].toString();
-    props.setRating(v);
+    props.setRating(parseFloat(v));
   }
 
   return (
