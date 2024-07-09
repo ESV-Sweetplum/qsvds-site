@@ -12,12 +12,18 @@ import Loading from '@/components/Loading';
 import Link from 'next/link';
 import User from '@/interfaces/user';
 import PrimaryInput from '@/components/PrimaryInput';
+import SearchParams from '@/lib/searchParams';
 
 export default function Home() {
   const [documents, setDocuments] = useState<MapDocument[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [id, setID] = useState<number>(-1e70);
   const [searchInput, setSearchInput] = useState<string>("")
+
+  const [minRating, setMinRating] = useState<string>('0'); 
+  const [maxRating, setMaxRating] = useState<string>('60'); 
+//   const [category, setCategory] = useState<string>("All"); 
+  const [showBanned, setShowBanned] = useState<boolean>(false); 
 
   let button = <></>;
 
@@ -49,7 +55,12 @@ export default function Home() {
   async function search() {
         setLoading(true)
         setDocuments([])
-        const resp = await fetch(`/api/maps?query=${searchInput}`).then((resp) => resp.json());
+        const resp = await fetch(`/api/maps` +  SearchParams({
+            query: searchInput,
+            minRating: minRating,
+            maxRating: maxRating,
+            showBanned,
+          })).then((resp) => resp.json());
   
         setDocuments(resp.docs);
         setLoading(false);
@@ -68,6 +79,13 @@ export default function Home() {
           searchMode={true}
           onConfirm={() => {}}
           onCancel={() => {}}
+          displayDropdown
+          minRating={minRating}
+          maxRating={maxRating}
+          showBanned={showBanned}
+          setMinRating={setMinRating}
+          setMaxRating={setMaxRating}
+          setShowBanned={setShowBanned}
         />
         <div className={styles.cards}>
           {documents.length
