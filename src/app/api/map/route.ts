@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   const map: Map = body.map;
   map.titleInsensitive = map.title.toLowerCase()
 
-  const quaverResp = await axios.get(`https://api.quavergame.com/v1/maps/${map.id}`)
+  const quaverResp = await axios.get(`https://api.quavergame.com/v1/maps/${map.id}`).catch((e) => console.log('Error 1'));
 
   if (quaverResp?.data?.status !== 200) return Response.json({status: 404, message: "Map wasn't found"})
 

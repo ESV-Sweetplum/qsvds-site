@@ -13,6 +13,7 @@ interface MapCardProps {
   scale?: number;
   clickable?: boolean;
   baseline?: boolean;
+  banned?: boolean;
 }
 
 export default function MapCard(props: MapCardProps) {
@@ -59,8 +60,11 @@ export default function MapCard(props: MapCardProps) {
             </div>
           </div>
           <div className={styles.rating}>
-            {props.baseline ? <div className={styles.baselineDiv}>
+            {props.baseline ? <div className={styles.labelDiv} style={{backgroundColor: "rgb(255, 242, 0)"}}>
                 BASELINE
+            </div> : <></>}
+            {props.banned ? <div className={styles.labelDiv} style={{backgroundColor: "rgb(255,0,0)", color: "white"}}>
+                BANNED
             </div> : <></>}
             <RatingDisplay
               rating={props.rating ?? 0}

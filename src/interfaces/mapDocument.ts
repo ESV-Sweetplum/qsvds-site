@@ -6,4 +6,5 @@ export default interface MapDocument {
   rating: number;
   category: Category;
   baseline?: boolean;
+  banned?: boolean;
 }

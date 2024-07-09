@@ -79,6 +79,7 @@ export default function Home() {
                   key={doc.map.id}
                   clickable
                   baseline={doc.baseline}
+                  banned={doc.banned}
                 />
               ))
             : Array(6)
