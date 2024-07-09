@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <main>
-        <Title>don't know what to put here</Title>
+        <Title>don&apos;t know what to put here</Title>
       </main>
     </>
   );
