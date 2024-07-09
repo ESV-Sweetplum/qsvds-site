@@ -30,6 +30,7 @@ export default function PrimaryInput(props: PrimaryInputProps) {
                 color: 'black',
               }
         }
+        onKeyDown={(e) => e.key === "Enter" ? props.onClick() : {}}
       />
       <button
         onClick={props.onClick}
