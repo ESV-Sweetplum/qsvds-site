@@ -21,6 +21,7 @@ export default function Home({ params }: { params: { id: number } }) {
   const [category, setCategory] = useState<Category>("");
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [submittingRating, setSubmittingRating] = useState<boolean>(false);
 
   const [customRatingValue, setCustomRatingValue] = useState<string>("");
 
@@ -47,6 +48,7 @@ export default function Home({ params }: { params: { id: number } }) {
   }, []);
 
   async function submitNewRating() {
+    setSubmittingRating(true)
     const resp = await fetch("/api/ratings", {
       method: "POST",
       headers: {
@@ -58,12 +60,15 @@ export default function Home({ params }: { params: { id: number } }) {
         map_id: map.id,
       }),
     }).then((resp) => resp.json());
+    setTotalRating(resp.newRating)
     console.log(resp);
+    setSubmittingRating(false)
   }
 
   return (
     <>
       <Loading loadingStatus={loading} />
+      <Loading loadingStatus={submittingRating} />
       <main style={{ opacity: +!loading, transition: "opacity 0.3s" }}>
         <div className={styles.bannerImage}>
           <Image
