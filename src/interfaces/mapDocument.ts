@@ -5,4 +5,5 @@ export default interface MapDocument {
   map: Map;
   rating: string;
   category: Category;
+  baseline?: boolean;
 }
