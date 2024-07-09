@@ -56,13 +56,13 @@ export default function RatingDisplay(props: RatingDisplayProps) {
       className={styles.rating}
       style={{
         color: color,
-        transform: `scale(${props.scale ?? 1})`,
+        fontSize: `${6.5 * (props.scale ?? 1)}rem`,
         ...props.style,
         textShadow: RATING_SHADOW[colorIndex],
       }}
     >
       {Math.round(props.rating)}
-      <span style={{ fontSize: '3rem' }}>{props.letter as string}</span>
+      <span style={{ fontSize: `${3 * (props.scale ?? 1)}rem` }}>{props.letter as string}</span>
     </div>
   );
 }
