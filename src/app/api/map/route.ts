@@ -42,5 +42,7 @@ export async function POST(request: NextRequest) {
   doc.set({ map, rating: parseInt(body.rating), category, timeAdded: Date.now() });
   doc.collection('ratings').doc(body.user_id.toString()).set(userRating);
 
+  db.collection('users').doc(body.user_id.toString()).collection("ratings").doc(body.map_id.toString()).set(userRating)
+
   return Response.json({ status: 200, body });
 }
