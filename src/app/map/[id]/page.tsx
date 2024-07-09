@@ -33,6 +33,7 @@ export default function Home({ params }: { params: { id: number } }) {
       const resp2 = await fetch(`/api/ratings?id=${params.id}`).then((resp) =>
         resp.json()
       );
+
       setTotalRating(resp.data.rating);
       setCategory(resp.data.category);
       setRatings(resp2.data);
@@ -56,6 +57,8 @@ export default function Home({ params }: { params: { id: number } }) {
       },
       body: JSON.stringify({
         user_id: localStorage.getItem("id"),
+        quaver_id: localStorage.getItem("quaver_id"),
+        user_hash: localStorage.getItem("hash"),
         rating: customRatingValue,
         map_id: map.id,
       }),

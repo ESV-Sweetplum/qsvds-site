@@ -2,6 +2,7 @@ import { Category } from '@/interfaces/category';
 import Map from '@/interfaces/map';
 import UserRating from '@/interfaces/userRating';
 import initializeDB from '@/lib/db/initializeDB';
+import GenerateHash from '@/lib/generateHash';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -24,6 +25,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
+    
+  if (GenerateHash(body.quaver_id) !== body.user_hash) return Response.json({ status: 401, message: "Unauthorized" })
 
   const map: Map = body.map;
   map.titleInsensitive = map.title.toLowerCase()

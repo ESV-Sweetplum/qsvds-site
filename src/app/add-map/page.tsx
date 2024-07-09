@@ -92,6 +92,8 @@ export default function Home() {
         body: JSON.stringify({
           map,
           user_id: localStorage.getItem('id'),
+          quaver_id: localStorage.getItem('quaver_id'),
+          user_hash: localStorage.getItem('hash'),
           rating,
           category,
         }),

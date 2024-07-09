@@ -1,5 +1,6 @@
 import User from '@/interfaces/user';
 import initializeDB from '@/lib/db/initializeDB';
+import GenerateHash from '@/lib/generateHash';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -23,6 +24,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const user: User = await request.json();
+
+  if (user.hash !== GenerateHash(user.quaver_id)) return Response.json({ status: 401, message: "Incorrect Metadata" })
 
   const db = initializeDB();
   const col = db.collection('users');
