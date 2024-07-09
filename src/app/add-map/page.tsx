@@ -30,8 +30,6 @@ export default function Home() {
       .replace('https://', '')
       .replace('http://', '');
     if (input !== parseInt(input).toString()) {
-      console.log(input);
-      console.log(parseInt(input).toString());
       throwError('Invalid Map ID or URL.');
       return;
     }
@@ -118,8 +116,6 @@ export default function Home() {
   useEffect(() => {
     if (!localStorage.getItem('id')) router.push('/maps');
   }, []);
-
-  if (!localStorage.getItem('id')) return <></>;
 
   return (
     <>

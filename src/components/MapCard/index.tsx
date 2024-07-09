@@ -1,9 +1,9 @@
-import Map from '@/interfaces/map';
-import styles from './mapCard.module.scss';
-import Image from 'next/image';
-import RatingDisplay from '../RatingDisplay';
-import Link from 'next/link';
-import {useRouter} from "next/navigation"
+import Map from "@/interfaces/map";
+import styles from "./mapCard.module.scss";
+import Image from "next/image";
+import RatingDisplay from "../RatingDisplay";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface MapCardProps {
   map?: Partial<Map>;
@@ -12,37 +12,46 @@ interface MapCardProps {
   emptyText?: string;
   scale?: number;
   clickable?: boolean;
+  baseline?: boolean;
 }
 
 export default function MapCard(props: MapCardProps) {
-
-    const router = useRouter()
+  const router = useRouter();
 
   return (
-    <div className={styles.mapCard} style={{ scale: props.scale ?? 1, cursor: props.clickable ? "pointer" : "default"}} onClick={(e) => {if (props.clickable) {
-        router.push(`/map/${props.map?.id || 0}`)
-    }}}>
+    <div
+      className={styles.mapCard}
+      style={{
+        scale: props.scale ?? 1,
+        cursor: props.clickable ? "pointer" : "default",
+      }}
+      onClick={(e) => {
+        if (props.clickable) {
+          router.push(`/map/${props.map?.id || 0}`);
+        }
+      }}
+    >
       {props.map ? (
         <>
           <Image
             src={`https://cdn.quavergame.com/mapsets/${props.map.mapset_id}.jpg`}
-            alt='bruh'
+            alt="bruh"
             fill
             className={styles.cardBG}
           />
           <div className={styles.mapInfo}>
             <div className={styles.title}>{props.map.title}</div>
             <div className={styles.difficulty}>
-              {props.map.artist} - [{(props.map.game_mode as number) * 3 + 1}K]{' '}
-              {props.map.difficulty_rating?.toFixed(2)} -{' '}
+              {props.map.artist} - [{(props.map.game_mode as number) * 3 + 1}K]{" "}
+              {props.map.difficulty_rating?.toFixed(2)} -{" "}
               {props.map.difficulty_name}
             </div>
             <div className={styles.creator}>
-              Made by{' '}
+              Made by{" "}
               <a
-                target='_blank'
-                rel='noopener noreferrer'
-                style={{ color: 'rgb(0,255,255)', cursor: 'pointer' }}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "rgb(0,255,255)", cursor: "pointer" }}
                 href={`https://quavergame.com/user/${props.map.creator_id}`}
               >
                 {props.map.creator_username}
@@ -50,6 +59,9 @@ export default function MapCard(props: MapCardProps) {
             </div>
           </div>
           <div className={styles.rating}>
+            {props.baseline ? <div className={styles.baselineDiv}>
+                BASELINE
+            </div> : <></>}
             <RatingDisplay
               rating={props.rating ?? 0}
               range={[0, 60]}
@@ -60,7 +72,7 @@ export default function MapCard(props: MapCardProps) {
           </div>
         </>
       ) : (
-        <div className={styles.emptyMapText}>{props.emptyText || ''}</div>
+        <div className={styles.emptyMapText}>{props.emptyText || ""}</div>
       )}
     </div>
   );

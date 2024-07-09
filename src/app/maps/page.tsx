@@ -78,6 +78,7 @@ export default function Home() {
                   letter={doc.category.charAt(0)}
                   key={doc.map.id}
                   clickable
+                  baseline={doc.baseline}
                 />
               ))
             : Array(6)
