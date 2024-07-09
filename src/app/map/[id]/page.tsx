@@ -67,8 +67,7 @@ export default function Home({ params }: { params: { id: number } }) {
 
   return (
     <>
-      <Loading loadingStatus={loading} />
-      <Loading loadingStatus={submittingRating} />
+      <Loading loadingStatus={loading || submittingRating} />
       <main style={{ opacity: +!loading, transition: "opacity 0.3s" }}>
         <div className={styles.bannerImage}>
           <Image
