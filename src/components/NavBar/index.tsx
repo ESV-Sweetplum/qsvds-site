@@ -33,7 +33,7 @@ export default function NavBar() {
             `https://quavergame.com/oauth2/authorize` +
             SearchParams({
               client_id: process.env.NEXT_PUBLIC_QUAVER_CLIENT_ID,
-              redirect_uri: 'http://localhost:3000/login',
+              redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI,
               response_type: 'code',
             })
           }
