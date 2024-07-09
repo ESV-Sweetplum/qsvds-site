@@ -5,6 +5,8 @@ import initializeDB from '@/lib/db/initializeDB';
 import GenerateHash from '@/lib/generateHash';
 import { NextRequest } from 'next/server';
 
+import axios from 'axios';
+
 export async function GET(request: NextRequest) {
   const map_id = request.nextUrl.searchParams.get('id');
 
@@ -30,6 +32,10 @@ export async function POST(request: NextRequest) {
 
   const map: Map = body.map;
   map.titleInsensitive = map.title.toLowerCase()
+
+  const quaverResp = await axios.get(`https://api.quavergame.com/v1/maps/${map.id}`)
+
+  if (quaverResp?.data?.status !== 200) return Response.json({status: 404, message: "Map wasn't found"})
 
   const userRating: UserRating = {
     map_id: map.id,
