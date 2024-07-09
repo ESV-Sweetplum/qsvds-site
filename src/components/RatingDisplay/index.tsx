@@ -43,7 +43,7 @@ export default function RatingDisplay(props: RatingDisplayProps) {
         (COLOR_GRADIENT[idx + 1]?.cutOff > percentageRating ||
           percentageRating === 1)
     );
-    if (percentageRating === 1) cutoffIDX = COLOR_GRADIENT.length - 1;
+    if (percentageRating >= 1) cutoffIDX = COLOR_GRADIENT.length - 1;
     setColorIndex(cutoffIDX);
     setColor(
       `rgb(${COLOR_GRADIENT[cutoffIDX].color[0]},${COLOR_GRADIENT[cutoffIDX].color[1]},${COLOR_GRADIENT[cutoffIDX].color[2]})`
