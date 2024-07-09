@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   } else {
     col = await db.collection('maps').orderBy("timeAdded", "desc").where("rating", ">=", (parseInt(min) - 0.5)).where("rating", "<=", (parseInt(max) + 0.5)).get();
   }
-  const docs = col.docs.map((doc) => doc.data()).filter((doc) => !doc.banned || showBanned);
+  const docs = col.docs.map((doc) => doc.data()).filter((doc) => !doc.banned || showBanned === "true");
 
   return Response.json({ status: 200, docs });
 }

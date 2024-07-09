@@ -42,7 +42,7 @@ function changeRating(v: string, f: Dispatch<SetStateAction<string>>) {
         className={styles.dropdown}
         style={{ width: `50px`, display: props.displayDropdown ? "block" : "none" }}
       >
-        {dropdownVisible ? "^" : "v"}
+        <div style={{transform: "scaleX(1.5)"}}>{dropdownVisible ? "^" : "v"}</div>
       </button>
       <input
         type='text'
