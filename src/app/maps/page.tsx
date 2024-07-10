@@ -37,6 +37,10 @@ export default function Home() {
 
     getMaps();
   }, []);
+
+  useEffect(() => {
+    search()
+  }, [minRating, maxRating, showBanned])
  
   useEffect(() => {
     // if (typeof window !== 'undefined') {
