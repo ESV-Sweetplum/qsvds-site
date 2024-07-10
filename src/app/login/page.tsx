@@ -15,8 +15,7 @@ export default function Home() {
     const code = params.get('code');
 
     async function main() {
-      setText('Accessing user token...');
-      const resp = await fetch('/api/user-token', {
+      const resp = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,44 +23,17 @@ export default function Home() {
         body: JSON.stringify({ code: code }),
       }).then((resp) => resp.json());
 
-      if (!resp.data) router.push('/');
-
-      const user = resp.data.user;
-      setText('Fetching user status...');
-
-      let existingUser = await fetch(`/api/user?id=${resp.data.user.id}`).then(
-        (resp) => resp.json()
-      );
-
-      if (existingUser.status === 200) {
-        setText('Done!');
-        setLocalStorage(existingUser.data);
-        router.push('/');
+      if (resp.status !== 200) {
+        setText(resp.message)
+        router.push('/')
         router.refresh()
         return;
       }
 
-      const userData: User = {
-        id: existingUser.highestID + 1,
-        quaver_id: user.id,
-        username: user.username,
-        avatar: user.avatar,
-        hash: GenerateHash(user.id),
-      };
-
-      setText('Generating new user...');
-
-      const userUpload = await fetch('/api/user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      }).then((resp) => resp.json());
-
-      setText('Done!');
-      setLocalStorage(userData);
-      router.push(`/user/${userData.id}`);
+        setText('Done!');
+        setLocalStorage(resp.data.data);
+        router.push('/');
+        router.refresh()
     }
 
     main();
