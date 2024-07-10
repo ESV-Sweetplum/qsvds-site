@@ -37,3 +37,38 @@
     filter: brightness(0.7);
   }
 }
+
+.pageChangerWrapper {
+    width: 400px;
+    height: 50px;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.pageChanger {
+    background-color: rgb(52, 52, 52);
+    flex: 1;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: filter 0.3s;
+    &:hover {
+        filter: brightness(0.8)
+    }
+    &:active {
+        filter: brightness(0.5)
+    }
+    cursor: pointer;
+}
+
+.separator {
+    flex: 0.02;
+    height: 100%;
+    background-color: rgb(29, 29, 29);
+}

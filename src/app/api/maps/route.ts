@@ -5,17 +5,30 @@ export async function GET(request: NextRequest) {
   const LIMIT = 18
 
   const searchTerm = request.nextUrl.searchParams.get('query')?.toLowerCase() ?? "";
-  const min = request.nextUrl.searchParams.get('minRating')?.toLowerCase() ?? '0';
-  const max = request.nextUrl.searchParams.get('maxRating')?.toLowerCase() ?? '60';
-  const showBanned = request.nextUrl.searchParams.get('showBanned')?.toLowerCase() ?? "false";
-  let col;
+  const min = request.nextUrl.searchParams.get('minRating') ?? '0';
+  const max = request.nextUrl.searchParams.get('maxRating') ?? '60';
+  const showBanned = request.nextUrl.searchParams.get('showBanned') ?? "false";
+
+  const startAfter = request.nextUrl.searchParams.get('startAfter') ?? '';
+  const endBefore = request.nextUrl.searchParams.get('endBefore') ?? '';
+
   const db = initializeDB();
-  if (searchTerm) {
-    col = await db.collection('maps').orderBy("category", "desc").orderBy("rating", "asc").where("map.titleInsensitive", ">=", searchTerm).where("map.titleInsensitive", "<", searchTerm + 'z').where("rating", ">=", (parseInt(min) - 0.5)).where("rating", "<=", (parseInt(max) + 0.5)).limit(LIMIT).get();
-  } else {
-    col = await db.collection('maps').orderBy("category", "desc").orderBy("rating", "asc").where("rating", ">=", (parseInt(min) - 0.5)).where("rating", "<=", (parseInt(max) + 0.5)).limit(LIMIT).get();
-  }
-  const docs = col.docs.map((doc) => doc.data()).filter((doc) => !doc.banned || showBanned === "true");
+  
+  let colBuilder = db.collection("maps").orderBy("timeAdded", "asc")
+  
+
+  colBuilder = colBuilder.where("rating", ">=", (parseInt(min) - 0.5)).where("rating", "<=", (parseInt(max) + 0.5));
+
+  if (!(showBanned === "true")) colBuilder = colBuilder.where("banned", "!=", true)
+
+  if (searchTerm) colBuilder = colBuilder.where("map.titleInsensitive", ">=", searchTerm).where("map.titleInsensitive", "<", searchTerm + 'z')
+
+  if (startAfter) colBuilder = colBuilder.startAfter(parseInt(startAfter))
+  if (endBefore) colBuilder = colBuilder.endBefore(parseInt(endBefore))
+
+  const col = await colBuilder.limit(LIMIT).get();
+
+  const docs = col.docs.map((doc) => doc.data());
 
   return Response.json({ status: 200, docs });
 }

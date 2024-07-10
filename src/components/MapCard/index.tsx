@@ -26,9 +26,17 @@ export default function MapCard(props: MapCardProps) {
         scale: props.scale ?? 1,
         cursor: props.clickable ? "pointer" : "default",
       }}
-      onClick={(e) => {
+      onMouseDown={(e) => {
         if (props.clickable) {
-          router.push(`/map/${props.map?.id || 0}`);
+            switch (e.button) {
+                case 2:
+                    break;
+                case 1:
+                    window.open(`/map/${props.map?.id || 0}`, "_blank",'noopener noreferrer');
+                    break;
+                default:
+                    router.push(`/map/${props.map?.id || 0}`);
+            } 
         }
       }}
     >

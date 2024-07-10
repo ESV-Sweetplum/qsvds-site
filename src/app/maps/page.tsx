@@ -20,6 +20,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const [id, setID] = useState<number>(-1e70);
   const [searchInput, setSearchInput] = useState<string>("")
+  const [pageNum, setPageNum] = useState<number>(1);
 
   const [minRating, setMinRating] = useState<string>('0'); 
   const [maxRating, setMaxRating] = useState<string>('60'); 
@@ -65,13 +66,15 @@ export default function Home() {
     <></>
   );
 
-  async function search() {
+  async function search(startAfter?: number, endBefore?: number) {
         setLoading(true)
         setDocuments([])
         const resp = await fetch(`/api/maps` +  SearchParams({
             query: searchInput,
             minRating: minRating,
             maxRating: maxRating,
+            startAfter: startAfter ?? '',
+            endBefore: endBefore ?? '',
             showBanned,
           })).then((resp) => resp.json());
   
@@ -116,6 +119,11 @@ export default function Home() {
             : Array(6)
                 .fill(0)
                 .map((_item, idx) => <MapCard key={idx} />)}
+        </div>
+        <div className={styles.pageChangerWrapper}>
+            <div className={styles.pageChanger} onClick={() => pageNum > 1 ? search(undefined, documents[0].timeAdded) : {}}>Go to Previous Page</div>
+            <div className={styles.separator} />
+            <div className={styles.pageChanger} onClick={() => {search(documents[documents.length - 1].timeAdded, undefined); setPageNum(pageNum + 1)}}>Go to Next Page</div>
         </div>
       </main>
     </>
