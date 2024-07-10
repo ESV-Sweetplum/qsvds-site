@@ -4,6 +4,7 @@ import UserRating from '@/interfaces/userRating';
 import initializeDB from '@/lib/db/initializeDB';
 import GenerateHash from '@/lib/generateHash';
 import { AggregateField } from 'firebase-admin/firestore';
+import _ from 'lodash';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
     const rating: UserRating = {
         user_id: parseInt(body.user_id),
         map_id: parseInt(body.map_id),
-        rating: parseInt(body.rating),
+        rating: _.clamp(parseInt(body.rating), 0,60),
         quality: body.quality ?? "Decent"
     }
     

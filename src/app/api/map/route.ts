@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
   const doc = col.doc(map.id.toString());
   doc.set({
     map,
-    rating: parseInt(body.rating),
+    rating: _.clamp(parseInt(body.rating), 0,60),
     category,
     timeAdded: Date.now(),
     baseline: false,
