@@ -13,6 +13,7 @@ import Link from 'next/link';
 import User from '@/interfaces/user';
 import PrimaryInput from '@/components/PrimaryInput';
 import SearchParams from '@/lib/searchParams';
+import { useDebounce } from '@uidotdev/usehooks';
 
 export default function Home() {
   const [documents, setDocuments] = useState<MapDocument[]>([]);
@@ -24,6 +25,14 @@ export default function Home() {
   const [maxRating, setMaxRating] = useState<string>('60'); 
 //   const [category, setCategory] = useState<string>("All"); 
   const [showBanned, setShowBanned] = useState<boolean>(false); 
+
+  const debounceDelay = 500
+
+  const debouncedMinRating = useDebounce(minRating, debounceDelay)
+  const debouncedMaxRating = useDebounce(maxRating, debounceDelay)
+  const debouncedShowBanned = useDebounce(showBanned, debounceDelay)
+
+  const debouncedInput = useDebounce(searchInput, debounceDelay * 2)
 
   let button = <></>;
 
@@ -40,7 +49,7 @@ export default function Home() {
 
   useEffect(() => {
     search()
-  }, [minRating, maxRating, showBanned])
+  }, [debouncedMinRating, debouncedMaxRating, debouncedShowBanned, debouncedInput])
  
   useEffect(() => {
     // if (typeof window !== 'undefined') {

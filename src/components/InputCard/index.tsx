@@ -42,7 +42,7 @@ export default function InputCard(props: InputCardProps) {
         <Dropdown
           selection={props.category}
           setSelection={props.setCategory}
-          options={['Reading', 'Memory', 'Physical']}
+          options={['Reading', 'Hybrid', 'Memory']}
         />
       </div>
     </div>
