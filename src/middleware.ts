@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
 
     if (pathname.startsWith(`/api/`)) {
         if (!req.headers.get("referer")?.includes(process.env.NEXT_PUBLIC_REDIRECT_URI?.replace("/login", "") as string)) {
-        return NextResponse.json({ message: 'go fuck yourself' }, { status: 401 });
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
       }
 
