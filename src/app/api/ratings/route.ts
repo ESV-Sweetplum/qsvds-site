@@ -39,6 +39,8 @@ export async function POST(request: NextRequest) {
     
     if (!(await db.collection('maps').doc(body.user_id.toString()).get()).exists) return Response.json({status: 404, message: "User does not exist"})
 
+    if (!(await db.collection('maps').doc(body.map_id.toString()).get()).exists) return Response.json({status: 404, message: "Map does not exist"})
+
     col.doc(body.user_id.toString()).set(rating)
 
     const totalRatingNum: number = await col.count().get().then((col) => col.data().count)
