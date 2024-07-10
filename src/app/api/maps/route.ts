@@ -24,9 +24,11 @@ export async function GET(request: NextRequest) {
   if (searchTerm) colBuilder = colBuilder.where("map.titleInsensitive", ">=", searchTerm).where("map.titleInsensitive", "<", searchTerm + 'z')
 
   if (startAfter) colBuilder = colBuilder.startAfter(parseInt(startAfter))
-  if (endBefore) colBuilder = colBuilder.endBefore(parseInt(endBefore))
+  if (endBefore) colBuilder = colBuilder.endBefore(parseInt(endBefore)).limitToLast(LIMIT)
 
-  const col = await colBuilder.limit(LIMIT).get();
+  if (!endBefore) colBuilder = colBuilder.limit(LIMIT)
+
+  const col = await colBuilder.get();
 
   const docs = col.docs.map((doc) => doc.data());
 

@@ -68,6 +68,9 @@ export default function Home() {
 
   async function search(startAfter?: number, endBefore?: number) {
         setLoading(true)
+
+        const tempDocuments = [...documents]
+
         setDocuments([])
         const resp = await fetch(`/api/maps` +  SearchParams({
             query: searchInput,
@@ -77,8 +80,9 @@ export default function Home() {
             endBefore: endBefore ?? '',
             showBanned,
           })).then((resp) => resp.json());
-  
-        setDocuments(resp.docs);
+          
+          setDocuments(resp.docs);
+    if (!resp.docs.length && (startAfter || endBefore)) setDocuments(tempDocuments)
         setLoading(false);
     }
 
