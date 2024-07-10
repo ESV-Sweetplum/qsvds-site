@@ -40,7 +40,7 @@ export async function POST(request: NextRequest, response: Response) {
 
   const user = resp2?.data.user
 
-  const existingUser: any = await axios.get(`${process.env.NEXT_PUBLIC_REDIRECT_URI?.replace("/login", "")}/api/user?id=${user.id}`).catch((e) => console.log('Error 3')); 
+  const existingUser: any = await axios.get(`${process.env.NEXT_PUBLIC_REDIRECT_URI?.replace("/login", "")}/api/user?quaver_id=${user.id}`).catch((e) => console.log('Error 3')); 
 
 
   if (existingUser?.status === 200) {
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest, response: Response) {
   let errored = false;
   let errorText = ""
 
-  await axios.post(`${process.env.NEXT_PUBLIC_REDIRECT_URI?.replace("/login", "")}/api/user`, userData).catch(e => {errored = true;errorText = e})
+  await axios.post(`${process.env.NEXT_PUBLIC_REDIRECT_URI?.replace("/login", "")}/api/user`, userData).catch(e => {errored = true; errorText = e})
 
   if (errored) return Response.json({status: 500, error: errorText})
 

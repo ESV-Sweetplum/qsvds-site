@@ -4,14 +4,21 @@ import GenerateHash from '@/lib/generateHash';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
-  const user_id = request.nextUrl.searchParams.get('id');
+  const id = request.nextUrl.searchParams.get('id');
+  const quaver_id = request.nextUrl.searchParams.get('quaver_id');
 
-  if (!user_id) return Response.json({ status: 400 });
+  if (!quaver_id && !id) return Response.json({ status: 400 });
 
   const db = initializeDB();
   const col = db.collection('users');
 
-  const query = await col.where('quaver_id', '==', parseInt(user_id)).get();
+  let query
+
+  if (quaver_id) {
+    query = await col.where('quaver_id', '==', parseInt(quaver_id)).get();
+  } else {
+    query = await col.where('id', '==', parseInt(id as string)).get();
+  }
 
   const docs = (await col.get()).docs;
   const highestID =

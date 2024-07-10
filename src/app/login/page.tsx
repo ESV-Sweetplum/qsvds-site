@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import '../../styles/global.scss';
 import { useEffect, useState } from 'react';
 import User from '@/interfaces/user';
-import GenerateHash from '@/lib/generateHash';
 
 export default function Home() {
   const [loadingText, setText] = useState<string>('Logging you in...');
