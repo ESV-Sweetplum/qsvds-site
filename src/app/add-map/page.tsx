@@ -99,7 +99,11 @@ export default function Home() {
         }),
       });
       const data = await resp.json();
-      console.log(data);
+      if (data.status !== 200) {
+        throwError(data.message, 3000)
+        setLoading(false)
+        return;
+      }
       setMap({});
       setMapIDInput('');
       setRating(0);

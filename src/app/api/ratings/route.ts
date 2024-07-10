@@ -37,20 +37,20 @@ export async function POST(request: NextRequest) {
     const db = initializeDB();
     const col = db.collection('maps').doc(body.map_id.toString()).collection("ratings");
     
+    if (!(await db.collection('maps').doc(body.user_id.toString()).get()).exists) return Response.json({status: 404, message: "User does not exist"})
+
     col.doc(body.user_id.toString()).set(rating)
 
     const totalRatingNum: number = await col.count().get().then((col) => col.data().count)
 
     const ratingSum: number = await col.aggregate({sum: AggregateField.sum("rating")}).get().then((snp) => snp.data().sum)
-    const newRating = ratingSum / totalRatingNum
+    const newTotalRating = ratingSum / totalRatingNum
+    
+    const newRatings = await db.collection('maps').doc(body.map_id.toString()).collection("ratings").get().then((col) => col.docs.map((doc) => doc.data()));
 
-    console.log(ratingSum)
-    console.log(totalRatingNum)
-
-
-    db.collection('maps').doc(body.map_id.toString()).update({rating: newRating})
+    db.collection('maps').doc(body.map_id.toString()).update({rating: newTotalRating})
   
     db.collection('users').doc(body.user_id.toString()).collection("ratings").doc(body.map_id.toString()).set(rating)
 
-    return Response.json({ status: 200, body, newRating });
+    return Response.json({ status: 200, body, newTotalRating, newRatings });
   }

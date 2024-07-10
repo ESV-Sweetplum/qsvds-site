@@ -63,7 +63,8 @@ export default function Home({ params }: { params: { id: number } }) {
         map_id: map.id,
       }),
     }).then((resp) => resp.json());
-    setTotalRating(resp.newRating)
+    setTotalRating(resp.newTotalRating)
+    setRatings(resp.newRatings)
     console.log(resp);
     setSubmittingRating(false)
   }

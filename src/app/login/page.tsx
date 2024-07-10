@@ -33,8 +33,6 @@ export default function Home() {
         (resp) => resp.json()
       );
 
-      console.log(existingUser);
-
       if (existingUser.status === 200) {
         setText('Done!');
         setLocalStorage(existingUser.data);
