@@ -73,3 +73,20 @@
     font-size: 2rem;
     justify-content: space-evenly;
 }
+
+.ratingList {
+    display: flex;
+    width: 900px;
+    flex-direction: column;
+}
+
+.rating {
+    width: 100%;
+    background-color: white;
+    color: black;
+    height: 50px;
+    border-radius: 25px;
+    margin-block: 20px;
+    display: grid;
+    place-items: center;
+}

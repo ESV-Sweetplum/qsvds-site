@@ -115,6 +115,13 @@ export default function Home({ params }: { params: { id: number } }) {
             Submit heheheha
           </button>
         </div>
+        <div className={styles.ratingList}>
+          {ratings.map(rating => (
+            <div className={styles.rating} key={rating.user_id}>
+              {rating.user_id} - {rating.rating}
+            </div>
+          ))}
+        </div>
       </main>
     </>
   );
