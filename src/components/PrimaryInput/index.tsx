@@ -1,9 +1,9 @@
-import styles from './primaryInput.module.scss';
-import searchIcon from '../../../public/search-icon.svg';
-import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Category } from '@/interfaces/category';
-import Dropdown from '../Dropdown';
+import styles from "./primaryInput.module.scss";
+import searchIcon from "../../../public/search-icon.svg";
+import Image from "next/image";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Category } from "@/interfaces/category";
+import Dropdown from "../Dropdown";
 
 interface PrimaryInputProps {
   value: string;
@@ -20,56 +20,67 @@ interface PrimaryInputProps {
   setMinRating?: Dispatch<SetStateAction<string>>;
   setMaxRating?: Dispatch<SetStateAction<string>>;
   setShowBanned?: Dispatch<SetStateAction<boolean>>;
+  hideSearch?: boolean;
 }
 
 export default function PrimaryInput(props: PrimaryInputProps) {
-
   const [dropdownVisible, setDropdownVisible] = useState<boolean>(false);
 
-function changeRating(v: string, f: Dispatch<SetStateAction<string>>) {
-    v = (v.match(/\d+/g) ?? [0]).join('');
-    if (v === '') v = '0';
-    if (v.charAt(0) === '0' && v.length > 1) v = v.slice(1);
-    if (parseInt(v) < 0) v = '0'
-    if (parseInt(v) > 60) v = '60'
+  function changeRating(v: string, f: Dispatch<SetStateAction<string>>) {
+    v = (v.match(/\d+/g) ?? [0]).join("");
+    if (v === "") v = "0";
+    if (v.charAt(0) === "0" && v.length > 1) v = v.slice(1);
+    if (parseInt(v) < 0) v = "0";
+    if (parseInt(v) > 60) v = "60";
     f(v);
   }
 
   return (
-    <div className={styles.wrapper} style={{height: `${50 + +dropdownVisible * 50}px`}}>
+    <div
+      className={styles.wrapper}
+      style={{ height: `${50 + +dropdownVisible * 50}px` }}
+    >
       <button
         onClick={() => setDropdownVisible(!dropdownVisible)}
         className={styles.dropdown}
-        style={{ width: `50px`, display: props.displayDropdown ? "block" : "none" }}
+        style={{
+          width: `50px`,
+          display: props.displayDropdown ? "block" : "none",
+        }}
       >
-        <div style={{transform: "scaleX(1.5)"}}>{dropdownVisible ? "^" : "v"}</div>
+        <div style={{ transform: "scaleX(1.5)" }}>
+          {dropdownVisible ? "^" : "v"}
+        </div>
       </button>
       <input
-        type='text'
+        type="text"
         value={props.value}
         onChange={(e) => props.changeValue(e.target.value)}
-        placeholder={props.placeholderText ?? ''}
+        placeholder={props.placeholderText ?? ""}
         className={styles.input}
         disabled={!props.searchMode}
         style={
           props.searchMode
             ? {}
             : {
-                cursor: 'not-allowed',
-                color: 'black',
+                cursor: "not-allowed",
+                color: "black",
               }
         }
-        onKeyDown={(e) => e.key === "Enter" ? props.onClick() : {}}
+        onKeyDown={(e) => (e.key === "Enter" ? props.onClick() : {})}
       />
       <button
         onClick={props.onClick}
         className={styles.searchButton}
-        style={{ width: `${+props.searchMode * 100}px` }}
+        style={{
+          width: `${+props.searchMode * 100}px`,
+          display: props.hideSearch ? "none" : "block",
+        }}
       >
         <Image
           src={searchIcon}
           fill
-          alt='searchIcon'
+          alt="searchIcon"
           className={styles.image}
           style={{ scale: +props.searchMode * 0.5 }}
         />
@@ -90,9 +101,25 @@ function changeRating(v: string, f: Dispatch<SetStateAction<string>>) {
       </button>
       <div className={styles.dropdownWrapper}>
         <div className={styles.ratingWrapper}>
-            Min/Max Rating:
-        <input type="text" placeholder='Min Rating' value={props.minRating} onChange={(e) => changeRating(e.target.value, props.setMinRating as any)} className={styles.ratingInput}/>
-        <input type="text" placeholder='Max Rating' value={props.maxRating} onChange={(e) => changeRating(e.target.value, props.setMaxRating as any)} className={styles.ratingInput}/>
+          Min/Max Rating:
+          <input
+            type="text"
+            placeholder="Min Rating"
+            value={props.minRating}
+            onChange={(e) =>
+              changeRating(e.target.value, props.setMinRating as any)
+            }
+            className={styles.ratingInput}
+          />
+          <input
+            type="text"
+            placeholder="Max Rating"
+            value={props.maxRating}
+            onChange={(e) =>
+              changeRating(e.target.value, props.setMaxRating as any)
+            }
+            className={styles.ratingInput}
+          />
         </div>
         {/* <div className={styles.categoryWrapper}>
         Category: 
@@ -103,8 +130,12 @@ function changeRating(v: string, f: Dispatch<SetStateAction<string>>) {
         />
         </div> */}
         <div className={styles.bannedWrapper}>
-            Show Banned Maps?
-            <input type="checkbox" checked={props.showBanned} onChange={() => (props.setShowBanned as any)(!props.showBanned)} />
+          Show Banned Maps?
+          <input
+            type="checkbox"
+            checked={props.showBanned}
+            onChange={() => (props.setShowBanned as any)(!props.showBanned)}
+          />
         </div>
       </div>
     </div>
