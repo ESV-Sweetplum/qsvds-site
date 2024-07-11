@@ -12,6 +12,7 @@ import { Category } from "@/interfaces/category";
 import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
 import _ from 'lodash';
+import { Textfit } from "react-textfit"
 
 export default function Home({ params }: { params: { id: number } }) {
     const router = useRouter();
@@ -88,11 +89,12 @@ export default function Home({ params }: { params: { id: number } }) {
                     />
                 </div>
                 <div className={styles.bannerText}>
+                    <Textfit mode="single" max={48}>
                     {map.artist} - {map.title}
-                    <br />
-                    <span style={{ fontSize: "2rem" }}>
+                    </Textfit>
+                    <Textfit mode="single" max={32}>
                     By: {map.creator_username} - [{map.difficulty_name}] ({map.difficulty_rating?.toFixed(2)})
-                    </span>
+                    </Textfit>
                 </div>
 
                 <div className={styles.ratingCard}>
