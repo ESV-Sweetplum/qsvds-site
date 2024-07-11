@@ -26,8 +26,8 @@ const RATING_SHADOW = [
   '2px 2px 3px green',
   '2px 2px 3px orange',
   '2px 2px 4px red',
-  '2px 2px 5px pink',
-  '2px 2px 5px white',
+  '2px 2px 5px #ed58e8',
+  '2px 2px 5px #bd80f2',
   '2px 2px 5px yellow',
 ];
 
