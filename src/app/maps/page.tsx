@@ -207,6 +207,7 @@ export default function Home() {
                                 _.clamp(parseInt(e.target.value), 1, pageCount)
                             )
                         }
+                        onFocus={(e) => e.target.select()}
                     />{" "}
                     of {pageCount}
                 </div>
