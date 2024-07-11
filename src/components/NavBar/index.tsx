@@ -5,12 +5,16 @@ import styles from "./navBar.module.scss";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+const permittedIDs=[1, 3]
+
 export default function NavBar() {
+    const [id, setID] = useState<string>("");
     const [username, setUsername] = useState<string>("");
 
     useEffect(() => {
         if (typeof window === "undefined") return;
         setUsername(localStorage.getItem("username") ?? "");
+        setID(localStorage.getItem("id") ?? "");
     });
 
     return (
@@ -18,6 +22,7 @@ export default function NavBar() {
             <div className={styles.navigation}>
                 <NavLink href="/" text="Home" />
                 <NavLink href="/maps" text="Maps" />
+                {permittedIDs.includes(parseInt(id)) ? <NavLink href="/admin" text="Admin" /> : <></>}
             </div>
             {username ? (
                 <div className={styles.dropdown}>
