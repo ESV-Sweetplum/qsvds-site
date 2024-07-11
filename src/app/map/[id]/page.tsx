@@ -100,12 +100,7 @@ export default function Home({ params }: { params: { id: number } }) {
                 <div className={styles.ratingCard}>
                     <div className={styles.ratingStatsSection}>
                         <div className={styles.totalRatingDisplay}>
-                            <div
-                                style={{
-                                    backgroundColor: "rgb(50,50,50)",
-                                    borderRadius: "690px",
-                                }}
-                            >
+                            <div>
                                 <RatingDisplay
                                     rating={totalRating}
                                     letter={category.charAt(0).toUpperCase()}

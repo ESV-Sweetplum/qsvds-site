@@ -1,5 +1,3 @@
-import { Category } from "@/interfaces/category";
-import Map from "@/interfaces/map";
 import UserRating from "@/interfaces/userRating";
 import GenerateHash from "@/lib/generateHash";
 import { NextRequest } from "next/server";
@@ -7,7 +5,6 @@ import _ from "lodash";
 
 import axios from "axios";
 import prisma from "../../../../prisma/initialize";
-import { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
     const map_id = request.nextUrl.searchParams.get("id");
@@ -28,20 +25,20 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const body = await request.json();
 
-    // if (GenerateHash(body.quaver_id) !== body.user_hash)
-    //     return Response.json({ status: 401, message: "Unauthorized" });
+    if (GenerateHash(body.quaver_id) !== body.user_hash)
+        return Response.json({ status: 401, message: "Unauthorized" });
 
     const map = body.map;
 
-    // const quaverResp = await axios
-    //     .get(`https://api.quavergame.com/v1/maps/${map.id}`)
-    //     .catch((e) => console.log("Error 1"));
+    const quaverResp = await axios
+        .get(`https://api.quavergame.com/v1/maps/${map.id}`)
+        .catch((e) => console.log("Error 1"));
 
-    // if (quaverResp?.data?.status !== 200)
-    //     return Response.json({ status: 404, message: "Map wasn't found." });
+    if (quaverResp?.data?.status !== 200)
+        return Response.json({ status: 404, message: "Map wasn't found." });
 
-    // if (!_.isEqual(quaverResp.data.map, map))
-    //     return Response.json({ status: 404, message: "Map was invalid." });
+    if (!_.isEqual(quaverResp.data.map, map))
+        return Response.json({ status: 404, message: "Map was invalid." });
 
     map.titleInsensitive = map.title.toLowerCase();
 
