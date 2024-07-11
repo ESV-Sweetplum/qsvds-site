@@ -34,10 +34,7 @@ export async function POST(request: NextRequest) {
     const { user, pw }: { user: any; pw: string } = await request.json();
 
     if (pw !== process.env.SERVER_PW)
-        return Response.json({ status: 401, message: "Incorrect Metadata" });
-
-    if (user.hash !== GenerateHash(user.quaver_id))
-        return Response.json({ status: 401, message: "Incorrect Metadata" });
+        return Response.json({ status: 401, message: "Unauthorized" });
 
     const payload: any = {
         username: user.username,
@@ -45,8 +42,6 @@ export async function POST(request: NextRequest) {
         avatar: user.avatar,
         quaver_id: parseInt(user.quaver_id),
     };
-
-    if (user.id !== -1) payload.id = parseInt(user.id);
 
     const newUser = await prisma.user.create({
         data: payload,
