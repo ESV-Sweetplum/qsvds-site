@@ -12,7 +12,7 @@ export async function POST(request: NextRequest, response: Response) {
   const resp = await axios
     .post(`https://quavergame.com/oauth2/token`, {
       client_id: process.env.NEXT_PUBLIC_QUAVER_CLIENT_ID,
-      client_secret: process.env.NEXT_PUBLIC_QUAVER_CLIENT_SECRET,
+      client_secret: process.env.QUAVER_CLIENT_SECRET,
       grant_type: "client_credentials",
       code,
     })
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest, response: Response) {
       { code: access_token },
       {
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_QUAVER_CLIENT_SECRET}`,
+          Authorization: `Bearer ${process.env.QUAVER_CLIENT_SECRET}`,
         },
       }
     )
