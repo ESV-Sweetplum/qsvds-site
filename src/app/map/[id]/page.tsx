@@ -39,17 +39,13 @@ export default function Home({ params }: { params: { id: number } }) {
       setRatings(resp2.data);
       setMap(resp.data.map);
       setLoading(false);
-
-      console.log(resp.data.map);
-
-      console.log(resp2.data);
     }
 
     getMap();
   }, []);
 
   async function submitNewRating() {
-    setSubmittingRating(true)
+    setSubmittingRating(true);
     const resp = await fetch("/api/ratings", {
       method: "POST",
       headers: {
@@ -63,10 +59,17 @@ export default function Home({ params }: { params: { id: number } }) {
         map_id: map.id,
       }),
     }).then((resp) => resp.json());
-    setTotalRating(resp.newTotalRating)
-    setRatings(resp.newRatings)
+
+    if (resp.status !== 200) {
+      console.log(resp);
+      setSubmittingRating(false);
+      return;
+    }
+
+    setTotalRating(resp.newTotalRating);
+    setRatings(resp.newRatings);
     console.log(resp);
-    setSubmittingRating(false)
+    setSubmittingRating(false);
   }
 
   return (
@@ -88,18 +91,32 @@ export default function Home({ params }: { params: { id: number } }) {
         </div>
 
         <div className={styles.ratingCard}>
-            <div className={styles.ratingStatsSection}>
-                <div className={styles.totalRatingDisplay}>
-                    <div style={{backgroundColor: "rgb(50,50,50)", borderRadius: "690px"}}>
-                    <RatingDisplay rating={totalRating} letter={category.charAt(0).toUpperCase()} range={[0, 60]} style={{zIndex: 69, opacity: 1, position: "relative", margin: 0}} scale={0.7}/>
-                    </div>
-                    from {ratings.length} rating{ratings.length >= 2 ? "s" : ""}
-                </div>
+          <div className={styles.ratingStatsSection}>
+            <div className={styles.totalRatingDisplay}>
+              <div
+                style={{
+                  backgroundColor: "rgb(50,50,50)",
+                  borderRadius: "690px",
+                }}
+              >
+                <RatingDisplay
+                  rating={totalRating}
+                  letter={category.charAt(0).toUpperCase()}
+                  range={[0, 60]}
+                  style={{
+                    zIndex: 69,
+                    opacity: 1,
+                    position: "relative",
+                    margin: 0,
+                  }}
+                  scale={0.7}
+                />
+              </div>
+              from {ratings.length} rating{ratings.length >= 2 ? "s" : ""}
             </div>
-            <div className={styles.ratingHistogram}>
-
-            </div>
-            <div className={styles.ratingAddSection}></div>
+          </div>
+          <div className={styles.ratingHistogram}></div>
+          <div className={styles.ratingAddSection}></div>
         </div>
         <div className={styles.ratingAddCard}>
           Add rating
@@ -116,7 +133,7 @@ export default function Home({ params }: { params: { id: number } }) {
           </button>
         </div>
         <div className={styles.ratingList}>
-          {ratings.map(rating => (
+          {ratings.map((rating) => (
             <div className={styles.rating} key={rating.user_id}>
               {rating.user_id} - {rating.rating}
             </div>
