@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
   let user;
 
   if (quaver_id) {
-    user = await prisma.user.findFirst({
+    user = await prisma.user.findUnique({
       where: {
         quaver_id: parseInt(quaver_id),
       },

@@ -11,7 +11,7 @@ generator client {
 model User {
   id    Int     @id @default(autoincrement())
   createdAt DateTime @default(now())
-  quaver_id Int
+  quaver_id Int @unique
   hash String
   username String
   avatar String
