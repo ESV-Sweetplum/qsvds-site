@@ -78,5 +78,5 @@ export async function POST(request: NextRequest, response: Response) {
 
   if (errored) return Response.json({ status: 500, error: errorText });
 
-  return Response.json({ status: 200, data: newUser?.data.user });
+  return Response.json({ status: 200, user: newUser?.data.user });
 }
