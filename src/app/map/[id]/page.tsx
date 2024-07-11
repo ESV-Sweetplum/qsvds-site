@@ -63,7 +63,8 @@ export default function Home({ params }: { params: { id: number } }) {
         map_id: map.id,
       }),
     }).then((resp) => resp.json());
-    setTotalRating(resp.newRating)
+    setTotalRating(resp.newTotalRating)
+    setRatings(resp.newRatings)
     console.log(resp);
     setSubmittingRating(false)
   }
@@ -113,6 +114,13 @@ export default function Home({ params }: { params: { id: number } }) {
           <button onClick={submitNewRating} className={styles.submitButton}>
             Submit heheheha
           </button>
+        </div>
+        <div className={styles.ratingList}>
+          {ratings.map(rating => (
+            <div className={styles.rating} key={rating.user_id}>
+              {rating.user_id} - {rating.rating}
+            </div>
+          ))}
         </div>
       </main>
     </>

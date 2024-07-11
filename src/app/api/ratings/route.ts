@@ -4,6 +4,7 @@ import UserRating from '@/interfaces/userRating';
 import initializeDB from '@/lib/db/initializeDB';
 import GenerateHash from '@/lib/generateHash';
 import { AggregateField } from 'firebase-admin/firestore';
+import _ from 'lodash';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -30,27 +31,29 @@ export async function POST(request: NextRequest) {
     const rating: UserRating = {
         user_id: parseInt(body.user_id),
         map_id: parseInt(body.map_id),
-        rating: parseInt(body.rating),
+        rating: _.clamp(parseInt(body.rating), 0,60),
         quality: body.quality ?? "Decent"
     }
     
     const db = initializeDB();
     const col = db.collection('maps').doc(body.map_id.toString()).collection("ratings");
     
+    if (!(await db.collection('maps').doc(body.user_id.toString()).get()).exists) return Response.json({status: 404, message: "User does not exist"})
+
+    if (!(await db.collection('maps').doc(body.map_id.toString()).get()).exists) return Response.json({status: 404, message: "Map does not exist"})
+
     col.doc(body.user_id.toString()).set(rating)
 
     const totalRatingNum: number = await col.count().get().then((col) => col.data().count)
 
     const ratingSum: number = await col.aggregate({sum: AggregateField.sum("rating")}).get().then((snp) => snp.data().sum)
-    const newRating = ratingSum / totalRatingNum
+    const newTotalRating = ratingSum / totalRatingNum
+    
+    const newRatings = await db.collection('maps').doc(body.map_id.toString()).collection("ratings").get().then((col) => col.docs.map((doc) => doc.data()));
 
-    console.log(ratingSum)
-    console.log(totalRatingNum)
-
-
-    db.collection('maps').doc(body.map_id.toString()).update({rating: newRating})
+    db.collection('maps').doc(body.map_id.toString()).update({rating: newTotalRating})
   
     db.collection('users').doc(body.user_id.toString()).collection("ratings").doc(body.map_id.toString()).set(rating)
 
-    return Response.json({ status: 200, body, newRating });
+    return Response.json({ status: 200, body, newTotalRating, newRatings });
   }
