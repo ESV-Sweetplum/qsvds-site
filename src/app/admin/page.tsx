@@ -8,6 +8,7 @@ import { Title } from '@/components/Typography/typography';
 import { Textfit } from 'react-textfit';
 import { Category } from '@/interfaces/category';
 import Loading from '@/components/Loading';
+import SearchParamBuilder from '@/lib/searchParamBuilder';
 
 export default function AdminPage() {
 
@@ -18,7 +19,11 @@ export default function AdminPage() {
   useEffect(() => {
     async function getMaps() {
     const resp = await fetch(
-      `/api/maps`)
+      `/api/maps` + SearchParamBuilder({
+        limited: false,
+        quaver_id: localStorage.getItem("quaver_id") || 0,
+        hash: localStorage.getItem("hash") || ""
+      }))
   .then((resp) => resp.json());
 
   setDocs(resp.maps);
