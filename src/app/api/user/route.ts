@@ -71,7 +71,10 @@ export async function GET(request: NextRequest) {
 // }
 
 export async function POST(request: NextRequest) {
-  const user: User = await request.json();
+  const { user, pw }: { user: User; pw: string } = await request.json();
+
+  if (pw !== process.env.SERVER_PW)
+    return Response.json({ status: 401, message: "Incorrect Metadata" });
 
   if (user.hash !== GenerateHash(user.quaver_id))
     return Response.json({ status: 401, message: "Incorrect Metadata" });

@@ -69,7 +69,7 @@ export async function POST(request: NextRequest, response: Response) {
   const newUser = await axios
     .post(
       `${process.env.NEXT_PUBLIC_REDIRECT_URI?.replace("/login", "")}/api/user`,
-      userData
+      { user: userData, pw: process.env.SERVER_PW }
     )
     .catch((e) => {
       errored = true;
