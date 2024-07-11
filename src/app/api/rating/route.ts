@@ -31,15 +31,33 @@ export async function POST(request: NextRequest) {
     if (!mapExists)
         return Response.json({ status: 404, message: "Map does not exist" });
 
-    const newRating = await prisma.rating.create({
-        data: {
+    const existingRating = await prisma.rating.findFirst({
+        where: {
             user_id: rating.user_id,
-            map_id: mapExists.id,
-            map_quaver_id: rating.map_id,
-            quality: rating.quality,
-            rating: rating.rating,
-        },
-    });
+            map_id: mapExists.id
+        }
+    })
+
+    if (existingRating) {
+        await prisma.rating.update({
+            where: {
+                id: existingRating.id
+            },
+            data: {
+                rating: rating.rating
+            }   
+        })
+    } else {
+        await prisma.rating.create({
+            data: {
+                user_id: rating.user_id,
+                map_id: mapExists.id,
+                map_quaver_id: rating.map_id,
+                quality: rating.quality,
+                rating: rating.rating,
+            },
+        });
+    }
 
     const aggregateRating = await prisma.rating
         .aggregate({

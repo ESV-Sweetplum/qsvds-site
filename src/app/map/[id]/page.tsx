@@ -11,19 +11,19 @@ import UserRating from "@/interfaces/userRating";
 import { Category } from "@/interfaces/category";
 import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
+import _ from 'lodash';
 
 export default function Home({ params }: { params: { id: number } }) {
     const router = useRouter();
 
     const [map, setMap] = useState<Partial<Map>>({});
     const [totalRating, setTotalRating] = useState<number>(0);
+    const [userRating, setUserRating] = useState<string>("-1");
     const [ratings, setRatings] = useState<UserRating[]>([]);
     const [category, setCategory] = useState<Category | "">("");
 
     const [loading, setLoading] = useState<boolean>(true);
     const [submittingRating, setSubmittingRating] = useState<boolean>(false);
-
-    const [customRatingValue, setCustomRatingValue] = useState<string>("");
 
     useEffect(() => {
         async function getMap() {
@@ -34,7 +34,7 @@ export default function Home({ params }: { params: { id: number } }) {
                 (resp) => resp.json()
             );
 
-            console.log(resp2);
+            setUserRating(resp2.ratings.filter((r: UserRating) => r.user_id === parseInt(localStorage.getItem("id") ?? "-1e50"))[0]?.rating ?? "-1")
 
             setTotalRating(resp.map.totalRating);
             setCategory(resp.map.category);
@@ -46,7 +46,10 @@ export default function Home({ params }: { params: { id: number } }) {
         getMap();
     }, []);
 
-    async function submitNewRating() {
+    async function submitRating() {
+
+        if (parseInt(userRating) <= 0) return;
+
         setSubmittingRating(true);
         const resp = await fetch("/api/rating", {
             method: "POST",
@@ -57,7 +60,7 @@ export default function Home({ params }: { params: { id: number } }) {
                 user_id: localStorage.getItem("id"),
                 quaver_id: localStorage.getItem("quaver_id"),
                 user_hash: localStorage.getItem("hash"),
-                rating: customRatingValue,
+                rating: userRating,
                 map_id: map.id,
             }),
         }).then((resp) => resp.json());
@@ -75,7 +78,7 @@ export default function Home({ params }: { params: { id: number } }) {
     return (
         <>
             <Loading loadingStatus={loading || submittingRating} />
-            <main style={{ opacity: +!loading, transition: "opacity 0.3s" }}>
+            <main style={{ opacity: +!loading, transition: "opacity 0.3s", pointerEvents: submittingRating || loading ? "none" : "all" }}>
                 <div className={styles.bannerImage}>
                     <Image
                         src={`https://cdn.quavergame.com/mapsets/${map.mapset_id}.jpg`}
@@ -88,7 +91,7 @@ export default function Home({ params }: { params: { id: number } }) {
                     {map.artist} - {map.title}
                     <br />
                     <span style={{ fontSize: "2rem" }}>
-                        By: {map.creator_username}
+                    By: {map.creator_username} - [{map.difficulty_name}] ({map.difficulty_rating?.toFixed(2)})
                     </span>
                 </div>
 
@@ -117,9 +120,13 @@ export default function Home({ params }: { params: { id: number } }) {
                             from {ratings.length} rating
                             {ratings.length >= 2 ? "s" : ""}
                         </div>
-                    </div>
                     <div className={styles.ratingHistogram}></div>
-                    <div className={styles.ratingAddSection}></div>
+                    </div>
+                    <div className={styles.ratingAddSection}>
+                        Your Rating - {userRating === "-1" ? "NONE" : userRating}
+                        <input type='number' value={userRating === "-1" ? "0" : userRating} onChange={e => setUserRating(_.clamp(parseInt(e.target.value) || 0, 0, 60).toString())} />
+                        <button className={styles.ratingSubmitButton} onClick={submitRating}>submit LOL</button>
+                    </div>
                 </div>
                 {/* <div className={styles.ratingAddCard}>
                     Add rating
