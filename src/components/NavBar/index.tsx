@@ -22,6 +22,7 @@ export default function NavBar() {
             <div className={styles.navigation}>
                 <NavLink href="/" text="Home" />
                 <NavLink href="/maps" text="Maps" />
+                <NavLink href="/users" text="Users" />
                 {permittedIDs.includes(parseInt(id)) ? <NavLink href="/admin" text="Admin" /> : <></>}
             </div>
             {username ? (

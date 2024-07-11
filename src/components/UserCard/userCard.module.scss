@@ -1,0 +1,36 @@
+.userCard {
+  width: 900px;
+  height: 90px;
+  border-radius: 70px;
+  outline: 2px solid white;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-inline: 5px;
+  cursor: pointer;
+}
+
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  position: relative;
+  border-radius: 69px;
+  overflow: hidden;
+}
+
+.nameRatingDisplay {
+  margin-left: 30px;
+  color: white;
+}
+
+.nameDisplay {
+  font-size: 2rem;
+}
+
+
+.ratingDisplay {
+  font-size: 1rem;
+}

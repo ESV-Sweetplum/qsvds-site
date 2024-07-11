@@ -30,6 +30,12 @@ module.exports = {
                 port: "",
                 pathname: "/mapsets/**",
             },
+            {
+                protocol: "https",
+                hostname: "avatars.steamstatic.com",
+                port: "",
+                pathname: "/**",
+            },
         ],
     },
     reactStrictMode: false,

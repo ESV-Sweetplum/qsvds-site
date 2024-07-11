@@ -65,7 +65,7 @@ async function changeCategory(id: number, idx: number, category: string) {
   <main style={{opacity: 1 - +loading * 0.5, pointerEvents: loading ? "none" : "all"}}>
     <Title>Admin</Title>
     {docs.map((doc, docIdx) => (
-      <div className={styles.mapDoc}>
+      <div className={styles.mapDoc} key={docIdx}>
         <div className={styles.id}>{doc.id}</div>
         <div className={styles.separator}></div>
         <div className={styles.quaver_id}>{doc.map.id}</div>
