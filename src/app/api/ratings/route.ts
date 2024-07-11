@@ -7,9 +7,15 @@ export async function GET(request: NextRequest) {
 
     if (!map_id) return Response.json({ status: 400 });
 
+    const map = await prisma.map.findUnique({
+        where: {
+            quaver_id: parseInt(map_id),
+        },
+    });
+
     const ratings = await prisma.rating.findMany({
         where: {
-            map_id: parseInt(map_id),
+            map_id: map?.id,
         },
     });
 

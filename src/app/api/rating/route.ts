@@ -18,11 +18,11 @@ export async function POST(request: NextRequest) {
     };
 
     const userExists = !!prisma.user.findFirst({
-        where: { id: parseInt(body.user_id) },
+        where: { id: rating.user_id },
     });
 
-    const mapExists = !!prisma.map.findFirst({
-        where: { id: parseInt(body.map_id) },
+    const mapExists = await prisma.map.findFirst({
+        where: { quaver_id: rating.map_id },
     });
 
     if (!userExists)
@@ -34,7 +34,8 @@ export async function POST(request: NextRequest) {
     const newRating = await prisma.rating.create({
         data: {
             user_id: rating.user_id,
-            map_id: rating.map_id,
+            map_id: mapExists.id,
+            map_quaver_id: rating.map_id,
             quality: rating.quality,
             rating: rating.rating,
         },
@@ -46,19 +47,31 @@ export async function POST(request: NextRequest) {
                 rating: true,
             },
             where: {
-                map_id: rating.map_id,
+                map_id: mapExists.id,
             },
         })
         .then((d) => d._avg.rating);
 
     const updateMap = await prisma.map.update({
         where: {
-            id: rating.map_id,
+            id: mapExists.id,
         },
         data: {
             totalRating: aggregateRating ?? 0,
         },
     });
 
-    return Response.json({ status: 200, body, newMap: updateMap, newRating });
+    const newRatings = await prisma.rating.findMany({
+        where: {
+            map_id: mapExists.id,
+        },
+    });
+
+    return Response.json({
+        status: 200,
+        body,
+        newMap: updateMap,
+        newRatings,
+        newTotalRating: aggregateRating,
+    });
 }

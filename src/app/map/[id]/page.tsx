@@ -34,7 +34,7 @@ export default function Home({ params }: { params: { id: number } }) {
                 (resp) => resp.json()
             );
 
-            console.log(resp);
+            console.log(resp2);
 
             setTotalRating(resp.map.totalRating);
             setCategory(resp.map.category);
@@ -48,7 +48,7 @@ export default function Home({ params }: { params: { id: number } }) {
 
     async function submitNewRating() {
         setSubmittingRating(true);
-        const resp = await fetch("/api/ratings", {
+        const resp = await fetch("/api/rating", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export default function Home({ params }: { params: { id: number } }) {
                     <div className={styles.ratingHistogram}></div>
                     <div className={styles.ratingAddSection}></div>
                 </div>
-                <div className={styles.ratingAddCard}>
+                {/* <div className={styles.ratingAddCard}>
                     Add rating
                     <input
                         type="text"
@@ -139,7 +139,7 @@ export default function Home({ params }: { params: { id: number } }) {
                     >
                         Submit heheheha
                     </button>
-                </div>
+                </div> */}
                 <div className={styles.ratingList}>
                     {ratings.map((rating) => (
                         <div className={styles.rating} key={rating.user_id}>
