@@ -1,1 +1,6 @@
-export type Category = 'reading' | 'hybrid' | 'memory' | "";
+export type Category =
+    | "Reading"
+    | "Hybrid"
+    | "Memory"
+    | "Reverse"
+    | "Splitscroll";

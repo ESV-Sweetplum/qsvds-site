@@ -1,69 +1,82 @@
-@use './styles.scss' as *;
+@use "./styles.scss" as *;
 
 @font-face {
-  font-family: 'Karla';
-  src: url('../../public/karla.ttf');
+    font-family: "Karla";
+    src: url("../../public/karla.ttf");
 }
 
 ::-webkit-scrollbar {
-  display: none;
-  width: 0;
+    display: none;
+    width: 0;
 }
 
 html,
 body {
-  width: 100vw;
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
-  overscroll-behavior-y: none;
-  background-color: $backgroundColor;
-  font-family: 'Karla', 'sans-serif';
-  display: block;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    overscroll-behavior-y: none;
+    background-color: $backgroundColor;
+    font-family: "Karla", "sans-serif";
+    display: block;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 button,
 input,
 textarea,
 select {
-  padding-inline: 0;
-  font-family: 'Karla', sans-serif;
-  outline: none;
-  border: none;
+    padding-inline: 0;
+    font-family: "Karla", sans-serif;
+    outline: none;
+    border: none;
 }
 
 select {
-  border: none;
+    border: none;
 }
 
 img,
 a {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 p {
-  margin-block: 0;
+    margin-block: 0;
 }
 
 main {
-  padding-top: 70px;
-  width: 900px;
-  margin-left: calc((100vw - 900px) / 2);
-  min-height: 100%;
-  position: absolute;
-  @include flex(column);
-  transition: opacity 0.3s;
+    padding-top: 70px;
+    width: 900px;
+    margin-left: calc((100vw - 900px) / 2);
+    min-height: 100%;
+    position: absolute;
+    @include flex(column);
+    transition: opacity 0.3s;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
 }

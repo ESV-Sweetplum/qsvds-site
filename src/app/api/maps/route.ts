@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     if (searchTerm)
         builder.map = {
-            path: ["title"],
+            path: ["titleInsensitive"],
             string_contains: searchTerm,
         };
 
@@ -37,5 +37,9 @@ export async function GET(request: NextRequest) {
         },
     });
 
-    return Response.json({ status: 200, maps });
+    const pageCount = Math.ceil(
+        (await prisma.map.count({ where: builder })) / LIMIT
+    );
+
+    return Response.json({ status: 200, maps, pageCount });
 }
