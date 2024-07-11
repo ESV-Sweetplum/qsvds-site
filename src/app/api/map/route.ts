@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
     const map = await prisma.map.findUnique({
         where: {
-            id: parseInt(map_id),
+            quaver_id: parseInt(map_id),
         },
     });
 

@@ -50,6 +50,7 @@ export default function Home() {
             isInitialMount2.current = false;
             return;
         }
+        if (pageNum !== 1) isInitialMount.current = true;
         search();
     }, [
         debouncedMinRating,
@@ -80,6 +81,8 @@ export default function Home() {
         setMaxRating(params.get("maxRating") ?? "60");
         setSearchInput(params.get("query") ?? "");
         setShowBanned(params.get("showBanned") === "true" ? true : false);
+
+        search();
     }, []);
 
     button =
@@ -145,7 +148,7 @@ export default function Home() {
     return (
         <>
             <Loading loadingStatus={loading} />
-            <main>
+            <main style={{ pointerEvents: loading ? "none" : "all" }}>
                 <Title button={button}>Maps</Title>
                 <PrimaryInput
                     value={searchInput}
@@ -192,7 +195,6 @@ export default function Home() {
                                 _.clamp(parseInt(e.target.value), 1, pageCount)
                             )
                         }
-                        disabled={loading}
                     />{" "}
                     of {pageCount}
                 </div>
