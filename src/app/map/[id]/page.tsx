@@ -61,14 +61,12 @@ export default function Home({ params }: { params: { id: number } }) {
     }).then((resp) => resp.json());
 
     if (resp.status !== 200) {
-      console.log(resp);
       setSubmittingRating(false);
       return;
     }
 
     setTotalRating(resp.newTotalRating);
     setRatings(resp.newRatings);
-    console.log(resp);
     setSubmittingRating(false);
   }
 
