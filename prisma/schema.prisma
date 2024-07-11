@@ -1,0 +1,59 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("SUPABASE_DATABASE_URL")
+  directUrl         = env("SUPABASE_DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  quaver_id Int
+  hash String
+  username String
+  avatar String
+  ratings Rating[]
+  submittedMaps Map[]
+}
+
+model Map {
+    id Int @id @default(autoincrement())
+    submittedBy User @relation(fields: [submittedBy_id], references: [id])
+    submittedBy_id Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+    banned Boolean @default(false)
+    baseline Boolean @default(false)
+    category Category @default(Reading)
+    map Json
+    totalRating Float
+    ratings Rating[]
+}
+
+model Rating {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    quality Quality @default(Decent)
+    user User @relation(fields: [user_id], references: [id])
+    map Map @relation(fields: [map_id], references: [id])
+    user_id Int
+    map_id Int
+}
+
+enum Category {
+    Reading
+    Hybrid
+    Memory
+    Reverse
+    Splitscroll
+}
+
+enum Quality {
+    Bad
+    Decent
+    Great 
+    Brilliant
+}
