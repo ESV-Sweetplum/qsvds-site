@@ -28,7 +28,7 @@ export default function InputCard(props: InputCardProps) {
         <div className={styles.title}>{props.title}</div>
         <RatingDisplay
           rating={props.rating}
-          letter={props.category.charAt(0)}
+          category={props.category}
           range={props.clamp}
         />
       </div>
@@ -42,7 +42,7 @@ export default function InputCard(props: InputCardProps) {
         <Dropdown
           selection={props.category}
           setSelection={props.setCategory}
-          options={['Reading', 'Hybrid', 'Memory']}
+          options={['Reading', 'Hybrid', 'Memory', "Reverse", "Splitscroll"]}
         />
       </div>
     </div>

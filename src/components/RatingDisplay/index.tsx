@@ -6,7 +6,7 @@ interface RatingDisplayProps {
   range: number[];
   scale?: number;
   style?: CSSProperties;
-  letter?: string;
+  category?: string;
 }
 
 const COLOR_GRADIENT = [
@@ -19,6 +19,14 @@ const COLOR_GRADIENT = [
   { cutOff: 0.8, color: [98, 5, 179] },
   { cutOff: 1, color: [255, 255, 255] },
 ];
+
+const abbreviationDictionary: Record<string, string> = {
+  reading: "Read",
+  hybrid: "HB",
+  memory: "Memo",
+  reverse: "Rev",
+  splitscroll: "Split"
+}
 
 const RATING_SHADOW = [
   '',
@@ -62,7 +70,7 @@ export default function RatingDisplay(props: RatingDisplayProps) {
       }}
     >
       {Math.round(props.rating)}
-      <span style={{ fontSize: `${3 * (props.scale ?? 1)}rem` }}>{props.letter as string}</span>
+      <span style={{ fontSize: `${3 * (props.scale ?? 1)}rem` }}>{abbreviationDictionary[props.category?.toLowerCase() as string]}</span>
     </div>
   );
 }

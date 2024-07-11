@@ -5,7 +5,7 @@ import "../../styles/global.scss";
 import { useEffect, useState } from "react";
 import User from "@/interfaces/user";
 
-export default function Home() {
+export default function LoginPage() {
   const [loadingText, setText] = useState<string>("Logging you in...");
   const params = useSearchParams();
   const router = useRouter();

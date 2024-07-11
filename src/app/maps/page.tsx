@@ -14,7 +14,7 @@ import { useDebounce } from "@uidotdev/usehooks";
 import _ from "lodash";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-export default function Home() {
+export default function MapsListPage() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
@@ -185,7 +185,7 @@ export default function Home() {
                               <MapCard
                                   map={doc.map}
                                   rating={doc.totalRating}
-                                  letter={doc.category.charAt(0)}
+                                  category={doc.category}
                                   key={doc.id}
                                   clickable
                                   baseline={doc.baseline}

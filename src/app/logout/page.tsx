@@ -5,7 +5,7 @@ import '../../styles/global.scss';
 import User from '@/interfaces/user';
 import { useEffect } from 'react';
 
-export default function Home() {
+export default function LogoutPage() {
   const router = useRouter();
 
   useEffect(() => {

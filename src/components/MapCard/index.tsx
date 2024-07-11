@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 interface MapCardProps {
   map?: Partial<Map>;
   rating?: number;
-  letter?: string;
+  category?: string;
   emptyText?: string;
   scale?: number;
   clickable?: boolean;
@@ -77,7 +77,7 @@ export default function MapCard(props: MapCardProps) {
             <RatingDisplay
               rating={props.rating ?? 0}
               range={[0, 60]}
-              letter={props.letter?.toUpperCase()}
+              category={props.category}
               style={{ opacity: 1 }}
               scale={0.8}
             />

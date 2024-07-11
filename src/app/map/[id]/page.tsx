@@ -14,7 +14,7 @@ import RatingDisplay from "@/components/RatingDisplay";
 import _ from 'lodash';
 import { Textfit } from "react-textfit"
 
-export default function Home({ params }: { params: { id: number } }) {
+export default function MapPage({ params }: { params: { id: number } }) {
     const router = useRouter();
 
     const [map, setMap] = useState<Partial<Map>>({});
@@ -103,7 +103,7 @@ export default function Home({ params }: { params: { id: number } }) {
                             <div>
                                 <RatingDisplay
                                     rating={totalRating}
-                                    letter={category.charAt(0).toUpperCase()}
+                                    category={category}
                                     range={[0, 60]}
                                     style={{
                                         zIndex: 69,

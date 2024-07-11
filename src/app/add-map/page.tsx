@@ -13,7 +13,7 @@ import InputCard from "@/components/InputCard";
 import MapCard from "@/components/MapCard";
 import { Title } from "@/components/Typography/typography";
 
-export default function Home() {
+export default function AddMapPage() {
     const router = useRouter();
 
     const [mapIDInput, setMapIDInput] = useState<string>("");
@@ -158,7 +158,7 @@ export default function Home() {
                         <MapCard
                             map={map}
                             rating={rating}
-                            letter={category.charAt(0)}
+                            category={category}
                             scale={1.25}
                         />
                     ) : (
