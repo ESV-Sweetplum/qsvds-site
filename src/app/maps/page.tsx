@@ -19,7 +19,7 @@ export default function Home() {
     const pathname = usePathname();
     const { replace } = useRouter();
 
-    const isInitialMount = useRef(true);
+    const isInitialMount = useRef(false);
     const isInitialMount2 = useRef(true);
 
     const [documents, setDocuments] = useState<MapDocument[]>([]);
@@ -33,6 +33,8 @@ export default function Home() {
     const [maxRating, setMaxRating] = useState<string>("60");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
+    const [lastSearchTime, setLastSearchTime] = useState<number>(0);
+    const [loadTime, setLoadTime] = useState<number>(Date.now());
 
     const debounceDelay = 250;
 
@@ -51,6 +53,9 @@ export default function Home() {
             return;
         }
         if (pageNum !== 1) isInitialMount.current = true;
+
+        console.log("search 1");
+
         search();
     }, [
         debouncedMinRating,
@@ -60,6 +65,7 @@ export default function Home() {
     ]);
 
     useEffect(() => {
+        if (Date.now() - loadTime < 1000) return;
         if (isInitialMount.current) {
             isInitialMount.current = false;
             return;
@@ -82,7 +88,9 @@ export default function Home() {
         setSearchInput(params.get("query") ?? "");
         setShowBanned(params.get("showBanned") === "true" ? true : false);
 
-        search();
+        console.log("search 3");
+
+        search(parseInt(params.get("page") ?? "1"));
     }, []);
 
     button =
@@ -96,6 +104,10 @@ export default function Home() {
 
     async function search(newPageNum?: number) {
         setLoading(true);
+
+        if (Date.now() - lastSearchTime < 1000) return;
+
+        setLastSearchTime(Date.now());
 
         const params = new URLSearchParams(searchParams);
         if (searchInput) {
