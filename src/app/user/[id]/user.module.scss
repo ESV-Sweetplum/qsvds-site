@@ -1,0 +1,58 @@
+.mapGrid {
+    display: grid;
+    place-items: center;
+    grid-template-columns: auto auto;
+    grid-row-gap: 25px;
+    margin-block: 25px;
+}
+
+.userInfo {
+    margin-top: 50px;
+    width: 900px;
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-self: flex-start;
+}
+
+.userImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    overflow: hidden;
+    position: relative;
+}
+
+.userText {
+    width: 750px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    color: white;
+    font-weight: 700;
+    font-size: 3rem;
+    padding-left: 20px;
+}
+
+.username {
+    background: linear-gradient(
+        to right,
+        rgb(173, 218, 255) 0%,
+        rgb(183, 255, 208) 25%,
+        rgb(255, 223, 199) 50%,
+        rgb(183, 255, 208) 70%,
+        rgb(173, 218, 255) 100%
+    );
+    background-size: 300% auto;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s linear infinite;
+}
+@keyframes shine {
+    to {
+        background-position: 300% center;
+    }
+}

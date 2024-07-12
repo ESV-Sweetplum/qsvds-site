@@ -1,8 +1,11 @@
 import { Quality } from "./quality";
-
+import MapDocument from "./mapDocument";
 export default interface UserRating {
-  user_id: number;
-  map_id: number;
-  rating: number;
-  quality: Quality;
+    id: number;
+    user_id: number;
+    map_id: number;
+    map_quaver_id: number;
+    rating: number;
+    quality: Quality;
+    map?: MapDocument;
 }

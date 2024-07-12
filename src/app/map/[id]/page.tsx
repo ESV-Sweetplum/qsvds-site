@@ -11,14 +11,15 @@ import UserRating from "@/interfaces/userRating";
 import { Category } from "@/interfaces/category";
 import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
-import _ from 'lodash';
-import { Textfit } from "react-textfit"
+import _ from "lodash";
+import { Textfit } from "react-textfit";
 
 export default function MapPage({ params }: { params: { id: number } }) {
     const router = useRouter();
 
     const [map, setMap] = useState<Partial<Map>>({});
     const [totalRating, setTotalRating] = useState<number>(0);
+    const [submittedRating, setSubmittedRating] = useState<string>("-1");
     const [userRating, setUserRating] = useState<string>("-1");
     const [ratings, setRatings] = useState<UserRating[]>([]);
     const [category, setCategory] = useState<Category | "">("");
@@ -35,9 +36,17 @@ export default function MapPage({ params }: { params: { id: number } }) {
                 (resp) => resp.json()
             );
 
-            setUserRating(resp2.ratings.filter((r: UserRating) => r.user_id === parseInt(localStorage.getItem("id") ?? "-1e50"))[0]?.rating ?? "-1")
+            const userRating =
+                resp2.ratings.filter(
+                    (r: UserRating) =>
+                        r.user_id ===
+                        parseInt(localStorage.getItem("id") ?? "-1e50")
+                )[0]?.rating ?? "-1";
+
+            setUserRating(userRating);
 
             setTotalRating(resp.map.totalRating);
+            setSubmittedRating(userRating);
             setCategory(resp.map.category);
             setRatings(resp2.ratings);
             setMap(resp.map.map);
@@ -48,7 +57,6 @@ export default function MapPage({ params }: { params: { id: number } }) {
     }, []);
 
     async function submitRating() {
-
         if (parseInt(userRating) <= 0) return;
 
         setSubmittingRating(true);
@@ -67,10 +75,12 @@ export default function MapPage({ params }: { params: { id: number } }) {
         }).then((resp) => resp.json());
 
         if (resp.status !== 200) {
+            console.log(resp);
             setSubmittingRating(false);
             return;
         }
 
+        setSubmittedRating(userRating);
         setTotalRating(resp.newTotalRating);
         setRatings(resp.newRatings);
         setSubmittingRating(false);
@@ -79,7 +89,13 @@ export default function MapPage({ params }: { params: { id: number } }) {
     return (
         <>
             <Loading loadingStatus={loading || submittingRating} />
-            <main style={{ opacity: +!loading, transition: "opacity 0.3s", pointerEvents: submittingRating || loading ? "none" : "all" }}>
+            <main
+                style={{
+                    opacity: +!loading,
+                    transition: "opacity 0.3s",
+                    pointerEvents: submittingRating || loading ? "none" : "all",
+                }}
+            >
                 <div className={styles.bannerImage}>
                     <Image
                         src={`https://cdn.quavergame.com/mapsets/${map.mapset_id}.jpg`}
@@ -90,10 +106,11 @@ export default function MapPage({ params }: { params: { id: number } }) {
                 </div>
                 <div className={styles.bannerText}>
                     <Textfit mode="single" max={48}>
-                    {map.artist} - {map.title}
+                        {map.artist} - {map.title}
                     </Textfit>
                     <Textfit mode="single" max={32}>
-                    By: {map.creator_username} - [{map.difficulty_name}] ({map.difficulty_rating?.toFixed(2)})
+                        By: {map.creator_username} - [{map.difficulty_name}] (
+                        {map.difficulty_rating?.toFixed(2)})
                     </Textfit>
                 </div>
 
@@ -117,33 +134,32 @@ export default function MapPage({ params }: { params: { id: number } }) {
                             from {ratings.length} rating
                             {ratings.length >= 2 ? "s" : ""}
                         </div>
-                    <div className={styles.ratingHistogram}></div>
+                        <div className={styles.ratingHistogram}></div>
                     </div>
                     <div className={styles.ratingAddSection}>
-                        Your Rating - {userRating === "-1" ? "NONE" : userRating}
-                        <input type='number' value={userRating === "-1" ? "0" : userRating} onChange={e => setUserRating(_.clamp(parseInt(e.target.value) || 0, 0, 60).toString())} />
-                        <button className={styles.ratingSubmitButton} onClick={submitRating}>submit LOL</button>
+                        Your Rating -{" "}
+                        {submittedRating === "-1" ? "NONE" : submittedRating}
+                        <input
+                            type="number"
+                            value={userRating === "-1" ? "0" : userRating}
+                            onChange={(e) =>
+                                setUserRating(
+                                    _.clamp(
+                                        parseInt(e.target.value) || 0,
+                                        0,
+                                        60
+                                    ).toString()
+                                )
+                            }
+                        />
+                        <button
+                            className={styles.ratingSubmitButton}
+                            onClick={submitRating}
+                        >
+                            submit LOL
+                        </button>
                     </div>
                 </div>
-                {/* <div className={styles.ratingAddCard}>
-                    Add rating
-                    <input
-                        type="text"
-                        placeholder="Rating"
-                        value={customRatingValue}
-                        onChange={(e) =>
-                            setCustomRatingValue(
-                                e.target.value.replaceAll(/[^0-9]/g, "")
-                            )
-                        }
-                    />
-                    <button
-                        onClick={submitNewRating}
-                        className={styles.submitButton}
-                    >
-                        Submit heheheha
-                    </button>
-                </div> */}
                 <div className={styles.ratingList}>
                     {ratings.map((rating) => (
                         <div className={styles.rating} key={rating.user_id}>
