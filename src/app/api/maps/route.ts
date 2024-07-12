@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
-import GenerateHash from '@/lib/generateHash';
+import GenerateHash from "@/lib/generateHash";
 
 export async function GET(request: NextRequest) {
     let LIMIT = 18;
@@ -14,18 +14,15 @@ export async function GET(request: NextRequest) {
 
     const page = parseInt(request.nextUrl.searchParams.get("page") ?? "1");
 
-    const limited =
-    request.nextUrl.searchParams.get("limited") ?? "true";
+    const limited = request.nextUrl.searchParams.get("limited") ?? "true";
 
-    const quaver_id =
-    request.nextUrl.searchParams.get("quaver_id") ?? "0";
+    const quaver_id = request.nextUrl.searchParams.get("quaver_id") ?? "0";
 
-    const hash =
-    request.nextUrl.searchParams.get("hash") ?? "0";
+    const hash = request.nextUrl.searchParams.get("hash") ?? "0";
 
     if (limited === "false") {
         if (GenerateHash(parseInt(quaver_id)) === hash) {
-            LIMIT = 1000
+            LIMIT = 1000;
         }
     }
 

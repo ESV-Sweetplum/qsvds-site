@@ -10,19 +10,14 @@ export async function POST(request: NextRequest) {
     if (GenerateHash(body.quaver_id) !== body.user_hash)
         return Response.json({ status: 401, message: "Unauthorized" });
 
-    const rating: UserRating = {
-        user_id: parseInt(body.user_id),
-        map_id: parseInt(body.map_id),
-        rating: _.clamp(parseInt(body.rating), 0, 60),
-        quality: body.quality ?? "Decent",
-    };
+    const rating = _.clamp(parseInt(body.rating), 0, 60);
 
     const userExists = !!prisma.user.findFirst({
-        where: { id: rating.user_id },
+        where: { id: parseInt(body.user_id) },
     });
 
     const mapExists = await prisma.map.findFirst({
-        where: { quaver_id: rating.map_id },
+        where: { quaver_id: parseInt(body.map_id) },
     });
 
     if (!userExists)
@@ -33,28 +28,28 @@ export async function POST(request: NextRequest) {
 
     const existingRating = await prisma.rating.findFirst({
         where: {
-            user_id: rating.user_id,
-            map_id: mapExists.id
-        }
-    })
+            user_id: parseInt(body.user_id),
+            map_id: mapExists.id,
+        },
+    });
 
     if (existingRating) {
         await prisma.rating.update({
             where: {
-                id: existingRating.id
+                id: existingRating.id,
             },
             data: {
-                rating: rating.rating
-            }   
-        })
+                rating: rating,
+            },
+        });
     } else {
         await prisma.rating.create({
             data: {
-                user_id: rating.user_id,
+                user_id: parseInt(body.user_id),
                 map_id: mapExists.id,
-                map_quaver_id: rating.map_id,
-                quality: rating.quality,
-                rating: rating.rating,
+                map_quaver_id: parseInt(body.map_id),
+                quality: body.quality ?? "Decent",
+                rating: rating,
             },
         });
     }

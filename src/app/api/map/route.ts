@@ -42,13 +42,6 @@ export async function POST(request: NextRequest) {
 
     map.titleInsensitive = map.title.toLowerCase();
 
-    const userRating: UserRating = {
-        map_id: map.id,
-        user_id: parseInt(body.user_id),
-        rating: parseInt(body.rating),
-        quality: body.quality ?? "Decent",
-    };
-
     const category = body.category;
 
     const mapDoc = await prisma.map.create({
@@ -68,8 +61,8 @@ export async function POST(request: NextRequest) {
             user_id: parseInt(body.user_id),
             map_quaver_id: map.id,
             map_id: mapDoc.id,
-            quality: userRating.quality,
-            rating: userRating.rating,
+            quality: body.quality ?? "Decent",
+            rating: parseInt(body.rating),
         },
     });
 
