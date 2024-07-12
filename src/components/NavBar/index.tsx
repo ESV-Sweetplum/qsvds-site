@@ -4,27 +4,26 @@ import SearchParamBuilder from "@/lib/searchParamBuilder";
 import styles from "./navBar.module.scss";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from 'next/navigation';
-import GenerateHash from '@/lib/generateHash';
+import { usePathname, useRouter } from "next/navigation";
+import GenerateHash from "@/lib/generateHash";
 
-const permittedIDs=[1, 3]
+const permittedIDs = [1, 3];
 
 export default function NavBar() {
-
-    const path = usePathname()
-    const router = useRouter()
+    const path = usePathname();
+    const router = useRouter();
 
     const [id, setID] = useState<string>("");
     const [username, setUsername] = useState<string>("");
 
     useEffect(() => {
         if (typeof window === "undefined") return;
-        const id = localStorage.getItem("id") ?? ""
+        const id = localStorage.getItem("id") ?? "";
         setUsername(localStorage.getItem("username") ?? "");
         setID(id);
 
-        if (path.includes("admin") &&!permittedIDs.includes(parseInt(id))) {
-            router.push("/")
+        if (path.includes("admin") && !permittedIDs.includes(parseInt(id))) {
+            router.push("/");
         }
     });
 
@@ -34,7 +33,11 @@ export default function NavBar() {
                 <NavLink href="/" text="Home" />
                 <NavLink href="/maps" text="Maps" />
                 <NavLink href="/users" text="Users" />
-                {permittedIDs.includes(parseInt(id)) ? <NavLink href="/admin" text="Admin" /> : <></>}
+                {permittedIDs.includes(parseInt(id)) ? (
+                    <NavLink href="/admin" text="Admin" />
+                ) : (
+                    <></>
+                )}
             </div>
             {username ? (
                 <div className={styles.dropdown}>
@@ -50,7 +53,7 @@ export default function NavBar() {
                         `https://quavergame.com/oauth2/authorize` +
                         SearchParamBuilder({
                             client_id: process.env.NEXT_PUBLIC_QUAVER_CLIENT_ID,
-                            redirect_uri: process.env.NEXT_PUBLIC_REDIRECT_URI,
+                            redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/login`,
                             response_type: "code",
                         })
                     }
