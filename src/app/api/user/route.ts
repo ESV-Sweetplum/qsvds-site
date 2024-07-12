@@ -8,6 +8,7 @@ import { DefaultArgs } from "@prisma/client/runtime/library";
 export async function GET(request: NextRequest) {
     const id = request.nextUrl.searchParams.get("id");
     const quaver_id = request.nextUrl.searchParams.get("quaver_id");
+    const pw = request.nextUrl.searchParams.get("pw");
     const includeRatings = request.nextUrl.searchParams.get("includeRatings");
 
     if (!quaver_id && !id) return Response.json({ status: 400 });
@@ -25,10 +26,9 @@ export async function GET(request: NextRequest) {
         };
     }
 
-    const user = await prisma.user.findUnique({
-        ...queryBuilder,
-        omit: { hash: true },
-    });
+    if (pw !== process.env.SERVER_PW) queryBuilder.omit = { hash: true };
+
+    const user = await prisma.user.findUnique(queryBuilder);
 
     if (!user) return Response.json({ status: 404 });
 

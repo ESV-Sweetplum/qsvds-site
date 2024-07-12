@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import axios from "axios";
 import User from "@/interfaces/user";
 import GenerateHash from "@/lib/generateHash";
+import SearchParamBuilder from "@/lib/searchParamBuilder";
 
 export async function POST(request: NextRequest, response: Response) {
     const body = await request.json();
@@ -43,7 +44,11 @@ export async function POST(request: NextRequest, response: Response) {
 
     const existingUser: any = await axios
         .get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/user?quaver_id=${user.id}`
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/user` +
+                SearchParamBuilder({
+                    quaver_id: user.id,
+                    pw: process.env.SERVER_PW,
+                })
         )
         .then((resp) => resp.data)
         .catch((e) => console.log("Error 3"));

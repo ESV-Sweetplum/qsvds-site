@@ -18,6 +18,10 @@ model User {
   avatar String
   ratings Rating[]
   submittedMaps Map[]
+  role Role @default(Player)
+  xp Float @default (0)
+  level Int @default (0)
+  prestige Int @default (0)
 }
 
 model Map {
@@ -60,4 +64,10 @@ enum Quality {
     Decent
     Great 
     Brilliant
+}
+
+enum Role {
+    Player
+    Contributor
+    Administrator
 }

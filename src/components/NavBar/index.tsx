@@ -5,7 +5,6 @@ import styles from "./navBar.module.scss";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import GenerateHash from "@/lib/generateHash";
 
 const permittedIDs = [1, 3];
 
