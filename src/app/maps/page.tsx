@@ -197,6 +197,15 @@ export default function MapsListPage() {
                               .map((_item, idx) => <MapCard key={idx} />)}
                 </div>
                 <div className={styles.pageChangerWrapper}>
+                    <div
+                        className={styles.pageNavigator}
+                        onClick={() => {
+                            setPageNum(_.clamp(pageNum - 1, 1, pageCount));
+                            search(_.clamp(pageNum - 1, 1, pageCount));
+                        }}
+                    >
+                        &lt;&lt;
+                    </div>
                     Page
                     <input
                         className={styles.pageChangerInput}
@@ -209,7 +218,16 @@ export default function MapsListPage() {
                         }
                         onFocus={(e) => e.target.select()}
                     />{" "}
-                    of {pageCount}
+                    of {pageCount}{" "}
+                    <div
+                        className={styles.pageNavigator}
+                        onClick={() => {
+                            setPageNum(_.clamp(pageNum + 1, 1, pageCount));
+                            search(_.clamp(pageNum + 1, 1, pageCount));
+                        }}
+                    >
+                        &gt;&gt;
+                    </div>
                 </div>
             </main>
         </>
