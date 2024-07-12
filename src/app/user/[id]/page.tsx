@@ -89,11 +89,12 @@ export default function MapPage({ params }: { params: { id: number } }) {
                         <Title>Submitted Ratings</Title>
                         <div className={styles.mapGrid}>
                             {user.ratings?.length ? (
-                                user.ratings?.map((rating) => {
+                                user.ratings?.map((rating, idx) => {
                                     if (!rating.map) return <></>;
 
                                     return (
                                         <MapCard
+                                            key={idx}
                                             map={rating.map.map}
                                             rating={rating.rating}
                                             category={rating.map.category}
