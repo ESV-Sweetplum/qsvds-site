@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# QSVDS
 
-## Getting Started
+![GitHub License](https://img.shields.io/github/license/ESV-Sweetplum/Luaver)
 
-First, run the development server:
+The **Quaver SV Difficulty System** (or **_QSVDS_** for short) is a player-managed database of SV charts and their respective difficulties. The site is meant to provide information to both SV beginners and SV pros, as well as for players to show off their SV prowess. QSVDS is based solely on [Quaver](https://github.com/Quaver/Quaver) and its APIs.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# List of Contributors
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-   <img src="https://github.com/ESV-Sweetplum.png" width="12"> [ESV-Sweetplum](https://github.com/ESV-Sweetplum) - Developer
+-   <img src="https://github.com/xzeph.png" width="12"> [zeph](https://github.com/xzeph) - Graphic Designer
+-   <img src="https://github.com/ESVEBE.png" width="12"> [EBE](https://github.com/ESVEBE) - Organizer
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Becoming a User
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+When you log into the site, you will start out as a player. If you reach a high enough level within certain charts and the SV community in general, you can apply to become a contributor.
 
-## Learn More
+## As a player, you can:
 
-To learn more about Next.js, take a look at the following resources:
+-   Track your best scores on SV maps
+-   Compete with other players on SV leaderboards
+-   Submit reports of suspected cheaters
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## As a contributor, you can:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+-   Do all of the above
+-   Add maps to the database
+-   Submit ratings to the database
 
-## Deploy on Vercel
+### To become a contributor, submit a ticket at \<WILL BE DONE AT A LATER DATE\>.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[![Tech Stack](https://skillicons.dev/icons?i=ts,react,nextjs,vercel,supabase,prisma,sass,figma)](https://skillicons.dev)
+
+This website is built with the [Next.js](https://nextjs.org) framework, and hosted on [Vercel](https://vercel.com).
+
+## Backend
+
+-   API built with [Next.js](https://nextjs.org).
+-   Database hosted with [Supabase](https://supabase.com).
+-   API-Database connection done with [Prisma](https://www.prisma.io).
+-   Fetching/HTTP requests done with [axios](https://axios-http.com) (most likely going to migrate to xior for middleware support).
+
+## Styling Packages
+
+-   CSS extension done with [Sass](https://sass-lang.com).
+-   Components built with [Radix Themes](https://www.radix-ui.com).
+-   Text fitting algorithm implemented with [react-textfit](https://www.npmjs.com/package/react-textfit).
+
+# Steps for Cloning and Running
+
+-   Clone this repository into a directory of your choice, using `git clone https://github.com/ESV-Sweetplum/qsvds-site.git`.
+-   Install missing packages with `npm i`.
+-   Populate the provided `.env.example` file and rename it to `.env`.
+-   Generate the Prisma ORM client using `npx generate prisma`.
+-   Synchronize the database schema using `npx prisma migrate dev --name init`.
+-   Run `npm run dev` in the terminal to enter a development environment.
