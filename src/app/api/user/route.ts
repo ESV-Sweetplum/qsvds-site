@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
     if (!quaver_id && !id) return Response.json({ status: 400 });
 
-    const queryBuilder: Prisma.UserFindUniqueArgs<DefaultArgs> = {
+    const queryBuilder: Prisma.UserFindUniqueArgs = {
         where: { id: parseInt(id ?? "-1e60") },
     };
 

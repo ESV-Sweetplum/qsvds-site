@@ -14,7 +14,7 @@ import RatingDisplay from "@/components/RatingDisplay";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
 
-export default function MapPage({ params }: { params: { id: number } }) {
+export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const router = useRouter();
 
     const [map, setMap] = useState<Partial<Map>>({});
@@ -29,12 +29,12 @@ export default function MapPage({ params }: { params: { id: number } }) {
 
     useEffect(() => {
         async function getMap() {
-            const resp = await fetch(`/api/map?id=${params.id}`).then(r =>
-                r.json()
-            );
-            const resp2 = await fetch(`/api/ratings?id=${params.id}`).then(r =>
-                r.json()
-            );
+            const resp = await fetch(
+                `/api/map?quaver_id=${params.quaver_id}`
+            ).then(r => r.json());
+            const resp2 = await fetch(
+                `/api/ratings?id=${params.quaver_id}`
+            ).then(r => r.json());
 
             const userRating =
                 resp2.ratings.filter(

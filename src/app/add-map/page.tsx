@@ -38,7 +38,7 @@ export default function AddMapPage() {
             setLoading(true);
 
             const existingDoc = (
-                await fetch(`/api/map?id=${input}`).then(r => r.json())
+                await fetch(`/api/map?quaver_id=${input}`).then(r => r.json())
             ).map;
 
             if (existingDoc?.totalRating) {

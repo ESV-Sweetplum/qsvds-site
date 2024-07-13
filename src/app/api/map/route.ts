@@ -5,17 +5,24 @@ import _ from "lodash";
 
 import axios from "axios";
 import prisma from "../../../../prisma/initialize";
+import { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
     const map_id = request.nextUrl.searchParams.get("id");
+    const map_quaver_id = request.nextUrl.searchParams.get("quaver_id");
 
-    if (!map_id) return Response.json({ status: 400 });
+    if (!map_quaver_id && !map_id) return Response.json({ status: 400 });
 
-    const map = await prisma.map.findUnique({
-        where: {
-            quaver_id: parseInt(map_id),
-        },
-    });
+    const queryBuilder: Prisma.MapFindUniqueArgs = {
+        where: { quaver_id: parseInt(map_quaver_id ?? "0") },
+    };
+
+    if (map_id) {
+        delete queryBuilder.where.quaver_id;
+        queryBuilder.where = { id: parseInt(map_id) };
+    }
+
+    const map = await prisma.map.findUnique(queryBuilder);
 
     if (!map) return Response.json({ status: 404, map });
 
