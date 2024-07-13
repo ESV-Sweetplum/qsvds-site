@@ -29,11 +29,11 @@ export default function MapPage({ params }: { params: { id: number } }) {
 
     useEffect(() => {
         async function getMap() {
-            const resp = await fetch(`/api/map?id=${params.id}`).then(resp =>
-                resp.json()
+            const resp = await fetch(`/api/map?id=${params.id}`).then(r =>
+                r.json()
             );
-            const resp2 = await fetch(`/api/ratings?id=${params.id}`).then(
-                resp => resp.json()
+            const resp2 = await fetch(`/api/ratings?id=${params.id}`).then(r =>
+                r.json()
             );
 
             const userRating =
@@ -72,7 +72,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
                 rating: userRating,
                 map_id: map.id,
             }),
-        }).then(resp => resp.json());
+        }).then(r => r.json());
 
         if (resp.status !== 200) {
             console.log(resp);

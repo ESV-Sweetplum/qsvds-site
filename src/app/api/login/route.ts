@@ -34,7 +34,6 @@ export async function POST(request: NextRequest, response: Response) {
                 },
             }
         )
-        .then(resp => resp)
         .catch(e => console.log("Error 2"));
 
     if (!resp2?.data)
@@ -50,11 +49,10 @@ export async function POST(request: NextRequest, response: Response) {
                     pw: process.env.SERVER_PW,
                 })
         )
-        .then(resp => resp.data)
         .catch(e => console.log("Error 3"));
 
-    if (existingUser?.status === 200) {
-        return Response.json({ status: 200, user: existingUser.user });
+    if (existingUser?.data.status === 200) {
+        return Response.json({ status: 200, user: existingUser?.data.user });
     }
 
     const userData: User = {

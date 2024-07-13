@@ -20,7 +20,7 @@ export default function LoginPage() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ code: code }),
-            }).then(resp => resp.json());
+            }).then(r => r.json());
 
             if (resp.status !== 200) {
                 setText(resp.message);

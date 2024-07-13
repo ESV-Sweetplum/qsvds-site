@@ -31,7 +31,6 @@ export async function POST(request: NextRequest, response: Response) {
                 },
             }
         )
-        .then(resp => resp)
         .catch(e => console.log("Error 2"));
 
     return Response.json({ status: 200, data: resp2?.data });

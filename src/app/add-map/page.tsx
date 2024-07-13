@@ -38,8 +38,8 @@ export default function AddMapPage() {
             setLoading(true);
 
             const existingDoc = (
-                await fetch(`/api/map?id=${input}`).then(resp => resp.json())
-            ).data;
+                await fetch(`/api/map?id=${input}`).then(r => r.json())
+            ).map;
 
             if (existingDoc?.totalRating) {
                 throwError("This map was already added.");
@@ -48,7 +48,7 @@ export default function AddMapPage() {
 
             const resp = await fetch(
                 `https://api.quavergame.com/v1/maps/${input}`
-            ).then(resp => resp.json());
+            ).then(r => r.json());
             if (resp.status !== 200) {
                 switch (resp.status) {
                     case 404:

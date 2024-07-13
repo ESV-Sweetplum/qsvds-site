@@ -34,10 +34,10 @@ export async function POST(request: NextRequest) {
         .get(`https://api.quavergame.com/v1/maps/${map.id}`)
         .catch(e => console.log("Error 1"));
 
-    if (quaverResp?.data?.status !== 200)
+    if (quaverResp?.data.status !== 200)
         return Response.json({ status: 404, message: "Map wasn't found." });
 
-    if (!_.isEqual(quaverResp.data.map, map))
+    if (!_.isEqual(quaverResp?.data.map, map))
         return Response.json({ status: 404, message: "Map was invalid." });
 
     map.titleInsensitive = map.title.toLowerCase();

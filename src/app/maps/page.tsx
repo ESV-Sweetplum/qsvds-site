@@ -147,7 +147,7 @@ export default function MapsListPage() {
                     page: newPageNum || 1,
                     showBanned,
                 })
-        ).then(resp => resp.json());
+        ).then(r => r.json());
 
         setDocuments(resp.maps);
         setPageNum(newPageNum || 1);

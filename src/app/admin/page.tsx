@@ -34,7 +34,7 @@ export default function AdminPage() {
                         quaver_id: localStorage.getItem("quaver_id") || 0,
                         hash: localStorage.getItem("hash") || "",
                     })
-            ).then(resp => resp.json());
+            ).then(r => r.json());
 
             setDocs(resp.maps);
             setCategories(resp.maps.map((doc: MapDocument) => doc.category));
@@ -67,7 +67,7 @@ export default function AdminPage() {
                 user_quaver_id: localStorage.getItem("quaver_id") || 0,
                 user_hash: localStorage.getItem("hash") || "",
             }),
-        }).then(resp => resp.json());
+        }).then(r => r.json());
 
         setLoading(false);
     }
