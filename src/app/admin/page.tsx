@@ -22,7 +22,7 @@ export default function AdminPage() {
         async function getMaps() {
             const userResp = await fetch(
                 `/api/user?id=${localStorage.getItem("id") || 0}`
-            ).then((r) => r.json());
+            ).then(r => r.json());
 
             if (!userResp.user) router.push("/");
             if (userResp.user.role !== "Administrator") router.push("/");
@@ -34,7 +34,7 @@ export default function AdminPage() {
                         quaver_id: localStorage.getItem("quaver_id") || 0,
                         hash: localStorage.getItem("hash") || "",
                     })
-            ).then((resp) => resp.json());
+            ).then(resp => resp.json());
 
             setDocs(resp.maps);
             setCategories(resp.maps.map((doc: MapDocument) => doc.category));
@@ -67,7 +67,7 @@ export default function AdminPage() {
                 user_quaver_id: localStorage.getItem("quaver_id") || 0,
                 user_hash: localStorage.getItem("hash") || "",
             }),
-        }).then((resp) => resp.json());
+        }).then(resp => resp.json());
 
         setLoading(false);
     }
@@ -106,7 +106,7 @@ export default function AdminPage() {
                         <div className={styles.separator}></div>
                         <select
                             className={styles.category}
-                            onChange={(e) =>
+                            onChange={e =>
                                 changeCategory(doc.id, docIdx, e.target.value)
                             }
                         >

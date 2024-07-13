@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
                 map_id: mapExists.id,
             },
         })
-        .then((d) => d._avg.rating);
+        .then(d => d._avg.rating);
 
     const updateMap = await prisma.map.update({
         where: {

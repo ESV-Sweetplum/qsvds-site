@@ -29,11 +29,11 @@ export default function MapPage({ params }: { params: { id: number } }) {
 
     useEffect(() => {
         async function getMap() {
-            const resp = await fetch(`/api/map?id=${params.id}`).then((resp) =>
+            const resp = await fetch(`/api/map?id=${params.id}`).then(resp =>
                 resp.json()
             );
             const resp2 = await fetch(`/api/ratings?id=${params.id}`).then(
-                (resp) => resp.json()
+                resp => resp.json()
             );
 
             const userRating =
@@ -72,7 +72,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
                 rating: userRating,
                 map_id: map.id,
             }),
-        }).then((resp) => resp.json());
+        }).then(resp => resp.json());
 
         if (resp.status !== 200) {
             console.log(resp);
@@ -142,7 +142,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
                         <input
                             type="number"
                             value={userRating === "-1" ? "0" : userRating}
-                            onChange={(e) =>
+                            onChange={e =>
                                 setUserRating(
                                     _.clamp(
                                         parseInt(e.target.value) || 0,
@@ -161,7 +161,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
                     </div>
                 </div>
                 <div className={styles.ratingList}>
-                    {ratings.map((rating) => (
+                    {ratings.map(rating => (
                         <div className={styles.rating} key={rating.user_id}>
                             {rating.user_id} - {rating.rating}
                         </div>

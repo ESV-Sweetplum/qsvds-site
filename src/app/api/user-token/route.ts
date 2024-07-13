@@ -14,7 +14,7 @@ export async function POST(request: NextRequest, response: Response) {
             grant_type: "client_credentials",
             code,
         })
-        .catch((e) => console.log("Error 1"));
+        .catch(e => console.log("Error 1"));
 
     const access_token = resp?.data.access_token;
 
@@ -31,8 +31,8 @@ export async function POST(request: NextRequest, response: Response) {
                 },
             }
         )
-        .then((resp) => resp)
-        .catch((e) => console.log("Error 2"));
+        .then(resp => resp)
+        .catch(e => console.log("Error 2"));
 
     return Response.json({ status: 200, data: resp2?.data });
 }

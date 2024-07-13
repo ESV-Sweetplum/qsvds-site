@@ -1,1 +1,1 @@
-export type Quality = "Bad" | "Decent" | "Great" | "Brilliant"
+export type Quality = "Bad" | "Decent" | "Great" | "Brilliant";

@@ -38,7 +38,7 @@ export default function AddMapPage() {
             setLoading(true);
 
             const existingDoc = (
-                await fetch(`/api/map?id=${input}`).then((resp) => resp.json())
+                await fetch(`/api/map?id=${input}`).then(resp => resp.json())
             ).data;
 
             if (existingDoc?.totalRating) {
@@ -48,7 +48,7 @@ export default function AddMapPage() {
 
             const resp = await fetch(
                 `https://api.quavergame.com/v1/maps/${input}`
-            ).then((resp) => resp.json());
+            ).then(resp => resp.json());
             if (resp.status !== 200) {
                 switch (resp.status) {
                     case 404:
@@ -178,4 +178,4 @@ export default function AddMapPage() {
     );
 }
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

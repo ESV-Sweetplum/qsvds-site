@@ -1,6 +1,6 @@
 export default function SearchParamBuilder(obj: any) {
     let str = "?";
-    Object.entries(obj).forEach((entry) => {
+    Object.entries(obj).forEach(entry => {
         str = `${str}${entry[0]}=${entry[1]}&`;
     });
 

@@ -31,7 +31,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
             const resp = await fetch(
                 "/api/user" +
                     SearchParamBuilder({ id: params.id, includeRatings: true })
-            ).then((resp) => resp.json());
+            ).then(resp => resp.json());
 
             setUser(resp.user);
 

@@ -147,7 +147,7 @@ export default function MapsListPage() {
                     page: newPageNum || 1,
                     showBanned,
                 })
-        ).then((resp) => resp.json());
+        ).then(resp => resp.json());
 
         setDocuments(resp.maps);
         setPageNum(newPageNum || 1);
@@ -180,7 +180,7 @@ export default function MapsListPage() {
                 />
                 <div className={styles.cards}>
                     {documents?.length
-                        ? documents.map((doc) => (
+                        ? documents.map(doc => (
                               <MapCard
                                   map={doc.map}
                                   rating={doc.totalRating}
@@ -210,12 +210,12 @@ export default function MapsListPage() {
                         className={styles.pageChangerInput}
                         type="number"
                         value={pageNum}
-                        onChange={(e) =>
+                        onChange={e =>
                             setPageNum(
                                 _.clamp(parseInt(e.target.value), 1, pageCount)
                             )
                         }
-                        onFocus={(e) => e.target.select()}
+                        onFocus={e => e.target.select()}
                     />{" "}
                     of {pageCount}{" "}
                     <div

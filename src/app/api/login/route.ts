@@ -17,7 +17,7 @@ export async function POST(request: NextRequest, response: Response) {
             grant_type: "client_credentials",
             code,
         })
-        .catch((e) => console.log("Error 1"));
+        .catch(e => console.log("Error 1"));
 
     const access_token = resp?.data.access_token;
 
@@ -34,8 +34,8 @@ export async function POST(request: NextRequest, response: Response) {
                 },
             }
         )
-        .then((resp) => resp)
-        .catch((e) => console.log("Error 2"));
+        .then(resp => resp)
+        .catch(e => console.log("Error 2"));
 
     if (!resp2?.data)
         return Response.json({ status: 500, message: "Server Error" });
@@ -50,8 +50,8 @@ export async function POST(request: NextRequest, response: Response) {
                     pw: process.env.SERVER_PW,
                 })
         )
-        .then((resp) => resp.data)
-        .catch((e) => console.log("Error 3"));
+        .then(resp => resp.data)
+        .catch(e => console.log("Error 3"));
 
     if (existingUser?.status === 200) {
         return Response.json({ status: 200, user: existingUser.user });
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest, response: Response) {
             user: userData,
             pw: process.env.SERVER_PW,
         })
-        .catch((e) => {
+        .catch(e => {
             errored = true;
             errorText = e;
         });
