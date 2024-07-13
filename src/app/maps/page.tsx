@@ -103,9 +103,8 @@ export default function MapsListPage() {
         );
 
     async function search(newPageNum?: number) {
-        setLoading(true);
-
         if (Date.now() - lastSearchTime < 1000) return;
+        setLoading(true);
 
         setLastSearchTime(Date.now());
 
