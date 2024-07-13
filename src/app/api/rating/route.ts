@@ -26,6 +26,12 @@ export async function POST(request: NextRequest) {
     if (!mapExists)
         return Response.json({ status: 404, message: "Map does not exist" });
 
+    if (mapExists.baseline)
+        return Response.json({
+            status: 401,
+            message: "You cannot edit a baseline map.",
+        });
+
     const existingRating = await prisma.rating.findFirst({
         where: {
             user_id: parseInt(body.user_id),

@@ -26,17 +26,17 @@ export async function GET(request: NextRequest) {
         }
     }
 
-    const builder: Record<string, any> = {
+    const queryBuilder: Record<string, any> = {
         totalRating: {
             gte: parseInt(min) - 0.5,
             lte: parseInt(max) + 0.5,
         },
     };
 
-    if (!(showBanned === "true")) builder.banned = false;
+    if (!(showBanned === "true")) queryBuilder.banned = false;
 
     if (searchTerm)
-        builder.map = {
+        queryBuilder.map = {
             path: ["titleInsensitive"],
             string_contains: searchTerm,
         };
@@ -44,14 +44,14 @@ export async function GET(request: NextRequest) {
     const maps = await prisma.map.findMany({
         skip: LIMIT * (page - 1),
         take: LIMIT,
-        where: builder,
+        where: queryBuilder,
         orderBy: {
             createdAt: "desc",
         },
     });
 
     const pageCount = Math.ceil(
-        (await prisma.map.count({ where: builder })) / LIMIT
+        (await prisma.map.count({ where: queryBuilder })) / LIMIT
     );
 
     return Response.json({ status: 200, maps, pageCount });
