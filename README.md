@@ -1,6 +1,6 @@
 # QSVDS
 
-![GitHub License](https://img.shields.io/github/license/ESV-Sweetplum/Luaver)
+![GitHub License](https://img.shields.io/github/license/ESV-Sweetplum/qsvds-site) ![GitHub branch status](https://img.shields.io/github/checks-status/ESV-Sweetplum/qsvds-site/main) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/ESV-Sweetplum/qsvds-site)
 
 The **Quaver SV Difficulty System** (or **_QSVDS_** for short) is a player-managed database of SV charts and their respective difficulties. The site is meant to provide information to both SV beginners and SV pros, as well as for players to show off their SV prowess. QSVDS is based solely on [Quaver](https://github.com/Quaver/Quaver) and its APIs.
 
