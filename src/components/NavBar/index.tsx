@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const permittedIDs = [1, 3];
+const permittedIDs = [1, 3, 5];
 
 export default function NavBar() {
     const path = usePathname();

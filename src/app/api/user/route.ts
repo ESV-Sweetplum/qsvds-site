@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
     const quaver_id = request.nextUrl.searchParams.get("quaver_id");
     const pw = request.nextUrl.searchParams.get("pw");
     const includeRatings = request.nextUrl.searchParams.get("includeRatings");
+    const role = request.nextUrl.searchParams.get("role");
 
     if (!quaver_id && !id) return Response.json({ status: 400 });
 
@@ -24,6 +25,8 @@ export async function GET(request: NextRequest) {
                 include: { map: true },
             },
         };
+
+    if (role) queryBuilder.where.role = role as Prisma.EnumRoleFilter;
 
     if (quaver_id) {
         queryBuilder.where = {
