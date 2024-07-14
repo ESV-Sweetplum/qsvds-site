@@ -1,6 +1,7 @@
 "use client";
 
 import { Title } from "@/components/Typography/typography";
+import styles from "./index.module.scss";
 import "../styles/global.scss";
 import { useEffect, useState } from "react";
 import { useMouse, useWindowSize } from "@uidotdev/usehooks";
@@ -18,7 +19,7 @@ export default function HomePage() {
 
     return (
         <>
-            <main>
+            <main className={styles.main}>
                 <Title>zeph will design this later LOL</Title>
             </main>
         </>
