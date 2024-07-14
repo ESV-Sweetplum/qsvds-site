@@ -4,6 +4,8 @@
 
 The **Quaver SV Difficulty System** (or **_QSVDS_** for short) is a player-managed database of SV charts and their respective difficulties. The site is meant to provide information to both SV beginners and SV pros, as well as for players to show off their SV prowess. QSVDS is based solely on [Quaver](https://github.com/Quaver/Quaver) and its APIs.
 
+### Note that the current design is very incomplete. The site will undergo a complete overhaul spearheaded by zeph.
+
 # List of Contributors
 
 -   <img src="https://github.com/ESV-Sweetplum.png" width="12"> [ESV-Sweetplum](https://github.com/ESV-Sweetplum) - Developer
@@ -40,9 +42,11 @@ This website is built with the [Next.js](https://nextjs.org) framework, and host
 -   Database hosted with [Supabase](https://supabase.com).
 -   API-Database connection done with [Prisma](https://www.prisma.io).
 -   Fetching/HTTP requests done with [axios](https://axios-http.com) (most likely going to migrate to xior for middleware support).
+-   Cron hosting for metrics and live updates done with [val town](https://www.val.town).
 
 ## Styling Packages
 
+-   Designs done with [Figma](https://www.figma.com).
 -   CSS extension done with [Sass](https://sass-lang.com).
 -   Components built with [Radix Themes](https://www.radix-ui.com).
 -   Text fitting algorithm implemented with [react-textfit](https://www.npmjs.com/package/react-textfit).
