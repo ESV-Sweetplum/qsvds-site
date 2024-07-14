@@ -53,6 +53,12 @@ model Rating {
     rating Int
 }
 
+model Badge {
+    badge_id Int @id @default(autoincrement())
+    text String
+    users User[]
+}
+
 model Metric {
     id Int @id @default(autoincrement())
     createdAt DateTime @default(now())
@@ -91,12 +97,4 @@ enum Tournament {
     QOT4
     ESVT1
     ESVT2
-}
-
-enum Badge {
-    bane_of_plum
-    mapper
-    esvt1_first
-    esvt1_second
-    esvt1_third
 }
