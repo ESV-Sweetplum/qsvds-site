@@ -8,7 +8,12 @@ export async function POST(request: NextRequest) {
     console.log(authHeader);
 
     if (authHeader !== `Bearer ${process.env.CRON_AUTH}`)
-        return Response.json({ status: 401, message: "Unauthorized" });
+        return Response.json({
+            status: 401,
+            message: "Unauthorized",
+            authHeader,
+            auth: process.env.CRON_AUTH,
+        });
 
     const userCount = await prisma.user.count();
     const mapCount = await prisma.map.count();
