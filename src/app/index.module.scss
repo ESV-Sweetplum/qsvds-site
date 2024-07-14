@@ -24,7 +24,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-image: linear-gradient(135deg, var(--accent-3), rgb(64, 3, 77));
+    background-image: linear-gradient(135deg, var(--accent-1), rgb(64, 3, 77));
 }
 
 .lander {
@@ -34,8 +34,14 @@
     height: calc(100vh - 160px);
 }
 
+.landerTitle {
+    text-shadow: 1px 1px 4px lightgray;
+    font-size: 9rem;
+    user-select: none;
+}
+
 .landerButton {
-    background-color: rgba(116, 71, 199, 0.2);
+    background-color: rgba(116, 71, 199, 0.1);
     width: 250px;
     height: 50px;
     border: 1px solid var(--accent-9);

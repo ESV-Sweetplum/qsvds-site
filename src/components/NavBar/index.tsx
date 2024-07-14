@@ -51,7 +51,13 @@ export default function NavBar() {
             }}
         >
             <section className={styles.home} onClick={() => router.push("/")}>
-                <Image src={Logo} alt="bruh" width={50} height={50} />
+                <Image
+                    src={Logo}
+                    alt="bruh"
+                    width={50}
+                    height={50}
+                    unoptimized
+                />
                 <Text size="8" weight="bold">
                     QSVDS
                 </Text>
