@@ -6,7 +6,7 @@ The **Quaver SV Difficulty System** (or **_QSVDS_** for short) is a player-manag
 
 ### Note that the current design is very incomplete. The site will undergo a complete overhaul spearheaded by zeph.
 
-# List of Contributors
+# List of Administrators
 
 -   <img src="https://github.com/ESV-Sweetplum.png" width="12"> [ESV-Sweetplum](https://github.com/ESV-Sweetplum) - Developer
 -   <img src="https://github.com/xzeph.png" width="12"> [zeph](https://github.com/xzeph) - Graphic Designer
