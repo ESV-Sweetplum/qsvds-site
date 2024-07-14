@@ -37,6 +37,7 @@ model Map {
     map Json
     totalRating Float
     ratings Rating[]
+    inTournaments Tournament[] @default([])
 }
 
 model Rating {
@@ -80,4 +81,13 @@ enum Role {
     Player
     Contributor
     Administrator
+}
+
+enum Tournament {
+    QOT1
+    QOT2
+    QOT3
+    QOT4
+    ESVT1
+    ESVT2
 }
