@@ -18,7 +18,12 @@ export async function GET(request: NextRequest) {
     };
 
     if (includeRatings === "true")
-        queryBuilder.include = { ratings: { include: { map: true } } };
+        queryBuilder.include = {
+            ratings: {
+                where: { map: { baseline: false } },
+                include: { map: true },
+            },
+        };
 
     if (quaver_id) {
         queryBuilder.where = {
