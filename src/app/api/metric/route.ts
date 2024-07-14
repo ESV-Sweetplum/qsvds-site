@@ -11,8 +11,6 @@ export async function POST(request: NextRequest) {
         return Response.json({
             status: 401,
             message: "Unauthorized",
-            authHeader,
-            auth: process.env.CRON_AUTH,
         });
 
     const userCount = await prisma.user.count();
