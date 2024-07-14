@@ -51,6 +51,16 @@ model Rating {
     rating Int
 }
 
+model Metric {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    userCount Int @default(0)
+    mapCount Int @default(0)
+    ratingCount Int @default(0)
+    scoreCount Int @default(0)
+    categoryMapCount Int[] @default([0, 0, 0, 0, 0])
+}
+
 enum Category {
     Reading
     Hybrid
