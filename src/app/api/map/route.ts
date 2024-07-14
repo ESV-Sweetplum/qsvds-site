@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
     const body = await request.json();
 
-    if (GenerateHash(body.quaver_id) !== body.user_hash)
+    if (GenerateHash(body.quaver_id) !== body.hash)
         return Response.json({ status: 401, message: "Unauthorized" });
 
     const map = body.map;

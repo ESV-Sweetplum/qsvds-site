@@ -5,7 +5,7 @@ import GenerateHash from "@/lib/generateHash";
 export async function PATCH(request: NextRequest) {
     const body = await request.json();
 
-    if (GenerateHash(body.user_quaver_id) !== body.user_hash)
+    if (GenerateHash(body.user_quaver_id) !== body.hash)
         return Response.json({
             status: 401,
             message: "Hash and ID do not match.",

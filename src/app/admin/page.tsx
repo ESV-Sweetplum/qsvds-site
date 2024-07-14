@@ -65,7 +65,7 @@ export default function AdminPage() {
                 id,
                 category,
                 user_quaver_id: localStorage.getItem("quaver_id") || 0,
-                user_hash: localStorage.getItem("hash") || "",
+                hash: localStorage.getItem("hash") || "",
             }),
         }).then(r => r.json());
 
@@ -109,6 +109,8 @@ export default function AdminPage() {
                             onChange={e =>
                                 changeCategory(doc.id, docIdx, e.target.value)
                             }
+                            value={doc.category}
+                            defaultValue={"Reading"}
                         >
                             {[
                                 "Reading",
@@ -117,11 +119,7 @@ export default function AdminPage() {
                                 "Reverse",
                                 "Splitscroll",
                             ].map((item, idx) => (
-                                <option
-                                    value={item}
-                                    key={idx}
-                                    selected={doc.category === item}
-                                >
+                                <option value={item} key={idx}>
                                     {item}
                                 </option>
                             ))}

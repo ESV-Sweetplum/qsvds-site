@@ -7,7 +7,7 @@ import _ from "lodash";
 export async function POST(request: NextRequest) {
     const body = await request.json();
 
-    if (GenerateHash(body.quaver_id) !== body.user_hash)
+    if (GenerateHash(body.quaver_id) !== body.hash)
         return Response.json({ status: 401, message: "Unauthorized" });
 
     const rating = _.clamp(parseInt(body.rating), 0, 60);

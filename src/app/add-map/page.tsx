@@ -95,7 +95,7 @@ export default function AddMapPage() {
                     map,
                     user_id: localStorage.getItem("id"),
                     quaver_id: localStorage.getItem("quaver_id"),
-                    user_hash: localStorage.getItem("hash"),
+                    hash: localStorage.getItem("hash"),
                     rating,
                     category,
                 }),
