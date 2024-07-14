@@ -18,6 +18,7 @@ model User {
   avatar String
   ratings Rating[]
   submittedMaps Map[]
+  badges Badge[]
   role Role @default(Player)
   xp Float @default (0)
   level Int @default (0)
@@ -90,4 +91,12 @@ enum Tournament {
     QOT4
     ESVT1
     ESVT2
+}
+
+enum Badge {
+    bane_of_plum
+    mapper
+    esvt1_first
+    esvt1_second
+    esvt1_third
 }

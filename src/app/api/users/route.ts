@@ -40,7 +40,9 @@ export async function GET(request: NextRequest) {
             ratings:
                 request.nextUrl.searchParams
                     .get("includeRatings")
-                    ?.toLowerCase() === "true",
+                    ?.toLowerCase() === "true"
+                    ? { where: { map: { baseline: false } } }
+                    : false,
         },
         omit: { hash: true },
     });
