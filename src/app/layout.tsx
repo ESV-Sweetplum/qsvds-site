@@ -1,5 +1,6 @@
 import NavBar from "@/components/NavBar";
 import { CookiesProvider } from "next-client-cookies/server";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
     title: "QuaverSV",
@@ -17,6 +18,7 @@ export default function RootLayout({
                 <CookiesProvider>
                     <NavBar />
                     {children}
+                    <Analytics />
                 </CookiesProvider>
             </body>
         </html>
