@@ -110,7 +110,6 @@ export default function AdminPage() {
                                 changeCategory(doc.id, docIdx, e.target.value)
                             }
                             value={doc.category}
-                            defaultValue={"Reading"}
                         >
                             {[
                                 "Reading",
