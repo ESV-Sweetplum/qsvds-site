@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import NavBar from "@/components/NavBar";
 import { CookiesProvider } from "next-client-cookies/server";
@@ -18,11 +19,13 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
+            
             <body>
                 <CookiesProvider>
                     <NavBar />
                     {children}
                     <Analytics />
+                    <GoogleAnalytics gaId="G-XXHWM98XS0" />
                 </CookiesProvider>
             </body>
         </html>
