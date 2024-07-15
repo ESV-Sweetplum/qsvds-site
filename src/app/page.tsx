@@ -35,7 +35,7 @@ export default function HomePage() {
     }, [state]);
 
     useEffect(() => {
-        setFade(true);
+        // setFade(true);
 
         const canvas: HTMLCanvasElement = canvasRef.current;
         const ctx = canvas?.getContext("2d");
@@ -85,6 +85,7 @@ export default function HomePage() {
                             style={{
                                 filter: `drop-shadow(1px 1px 4px gray)`,
                             }}
+                            onLoad={(e) => setFade(true)}
                         />
                         DS
                     </Text>
