@@ -6,8 +6,10 @@ import { CookiesProvider } from "next-client-cookies/server";
 import { Analytics } from "@vercel/analytics/react";
 import { Theme } from "@radix-ui/themes";
 
+const environment = process.env.NODE_ENV === "development" ? "development" : "production"
+
 export const metadata = {
-    title: "QuaverSV",
+    title: `QuaverSV${environment === "development" ? " Dev Environment" : ""}`,
     description: "I have literally no idea what I'm doing, send help.",
 };
 
