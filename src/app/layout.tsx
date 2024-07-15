@@ -12,8 +12,8 @@ const environment =
     process.env.NODE_ENV === "development" ? "development" : "production";
 
 export const metadata = {
-    title: `QuaverSV${environment === "development" ? " Dev Environment" : ""}`,
-    description: "I have literally no idea what I'm doing, send help.",
+    title: `Quaver SV Difficulty System${environment === "development" ? " | Dev Environment" : ""}`,
+    description: "An all-purpose database for managing Quaver SV players and maps.",
 };
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
