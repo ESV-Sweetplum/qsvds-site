@@ -31,7 +31,7 @@
     width: 100%;
     display: flex;
     @include flex(column, center, center);
-    height: calc(100vh);
+    height: 100vh;
 }
 
 .landerTitle {
@@ -46,4 +46,27 @@
     height: 50px;
     border: 1px solid var(--accent-9);
     box-shadow: 0px 0px 15px black;
+    cursor: pointer;
+    color: var(--iris-11);
+    transition: color 0.15s;
+    &:hover {
+        color: var(--iris-12);
+    }
+}
+
+.calligraphyBG {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transform: translateY(-15px);
+    filter: invert(0.5);
+    z-index: -1;
+    mask-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0) 30%,
+        rgba(255, 255, 255, 1),
+        rgba(0, 0, 0, 0) 70%
+    );
+    opacity: 0;
 }

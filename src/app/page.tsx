@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Logo from "../../public/logo.svg";
+import Calligraphy from "../../public/calligraphy.svg";
 import styles from "./index.module.scss";
 import { Button, Container, Section, Text } from "@radix-ui/themes";
 import "../styles/global.scss";
@@ -57,11 +58,16 @@ export default function HomePage() {
                         DS
                     </Text>
                     <Button className={styles.landerButton} radius="large">
-                        <Text size="4" color="iris">
-                            Progression Guide
-                        </Text>
+                        <Text size="4">Progression Guide</Text>
                         <DoubleArrowRightIcon />
                     </Button>
+                    <Section className={styles.calligraphyBG}>
+                        <Image
+                            src={Calligraphy}
+                            alt="Calligraphy"
+                            width={600}
+                        />
+                    </Section>
                 </Section>
             </Container>
         </>

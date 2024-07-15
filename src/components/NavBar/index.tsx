@@ -84,6 +84,7 @@ export default function NavBar() {
                                 <Button
                                     style={{
                                         background: "none",
+                                        cursor: "pointer",
                                     }}
                                 >
                                     <Avatar
