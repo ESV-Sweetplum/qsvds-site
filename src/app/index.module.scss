@@ -107,3 +107,14 @@
     );
     opacity: 0;
 }
+
+.canvas {
+    z-index: -69;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
