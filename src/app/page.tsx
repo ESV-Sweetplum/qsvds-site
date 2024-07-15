@@ -12,7 +12,7 @@ import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 
 export default function HomePage() {
     const [state, _] = useMouse();
-    const { width, height } = useWindowSize();
+    const { width = 0, height = 0 } = useWindowSize();
 
     const [bgAngle, setBGAngle] = useState<number>(135);
     const [bgPercentPos, setBGPercentPos] = useState<number[]>([0, 0]);
