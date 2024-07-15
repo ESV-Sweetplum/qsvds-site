@@ -5,8 +5,10 @@ import NavBar from "@/components/NavBar";
 import { CookiesProvider } from "next-client-cookies/server";
 import { Analytics } from "@vercel/analytics/react";
 import { Theme } from "@radix-ui/themes";
+import Head from "next/head";
 
-const environment = process.env.NODE_ENV === "development" ? "development" : "production"
+const environment =
+    process.env.NODE_ENV === "development" ? "development" : "production";
 
 export const metadata = {
     title: `QuaverSV${environment === "development" ? " Dev Environment" : ""}`,
@@ -22,6 +24,15 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" className={inter.variable}>
+            <Head>
+                <meta property="og:title" content={metadata.title} />
+                <meta
+                    property="og:description"
+                    content={metadata.description}
+                />
+                <meta property="og:type" content="website" />
+                <meta name="theme-color" content="#5105ad" />
+            </Head>
             <body>
                 <Theme
                     accentColor="violet"
