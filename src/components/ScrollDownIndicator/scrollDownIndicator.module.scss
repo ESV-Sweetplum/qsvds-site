@@ -1,0 +1,32 @@
+$container-width: 60px;
+$lowest-bottom: 10px;
+$difference: 10px;
+
+.container {
+    position: fixed;
+    bottom: $lowest-bottom;
+    width: $container-width;
+    height: 90px;
+    left: calc((100vw - $container-width) / 2);
+    animation: flash-and-move 5s ease-in-out infinite;
+}
+
+@keyframes flash-and-move {
+    0% {
+        bottom: $lowest-bottom;
+        opacity: 1;
+    }
+    50% {
+        bottom: $lowest-bottom + $difference;
+        opacity: 0.9;
+    }
+    100% {
+        bottom: $lowest-bottom;
+        opacity: 1;
+    }
+}
+
+.container * {
+    opacity: 1;
+    transition: opacity 0.3s;
+}

@@ -1,8 +1,7 @@
 @use "./styles.scss" as *;
 
-@font-face {
-    font-family: "Karla";
-    src: url("../../public/karla.ttf");
+.radix-themes {
+    --default-font-family: var(--font-inter);
 }
 
 html,
@@ -11,8 +10,6 @@ body {
     padding: 0;
     margin: 0;
     overscroll-behavior-y: none;
-    background-color: $backgroundColor;
-    font-family: "Karla", "sans-serif";
     display: block;
 }
 
@@ -30,7 +27,6 @@ input,
 textarea,
 select {
     padding-inline: 0;
-    font-family: "Karla", sans-serif;
     outline: none;
     border: none;
 }
@@ -53,7 +49,7 @@ p {
 }
 
 main {
-    padding-top: 70px;
+    padding-top: 80px;
     width: 900px;
     margin-left: calc((100vw - 900px) / 2);
     min-height: 100%;
