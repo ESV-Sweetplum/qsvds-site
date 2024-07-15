@@ -26,6 +26,8 @@ export default function RootLayout({
     return (
         <html lang="en" className={inter.variable}>
             <Head>
+            <title>{metadata.title}</title>
+            <meta name="description" content={metadata.description}/>
                 <link rel="icon" href="favicon.ico" type="image/x-icon" />
                 <meta property="og:title" content={metadata.title} />
                 <meta
