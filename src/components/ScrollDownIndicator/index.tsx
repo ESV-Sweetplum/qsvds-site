@@ -11,12 +11,12 @@ interface ScrollDownIndicatorProps {
 }
 
 export default function ScrollDownIndicator(props: ScrollDownIndicatorProps) {
-    const [{ x, y }, scrollTo] = useWindowScroll();
+    const [{ y }, __] = useWindowScroll();
     const [visible, setVisibility] = useState<boolean>(true);
 
     useEffect(() => {
-        if (y ?? 0 > props.stopDisplayingAt) setVisibility(false);
-        if (y ?? 0 <= props.stopDisplayingAt) setVisibility(true);
+        if ((y ?? 0) > props.stopDisplayingAt) setVisibility(false);
+        if ((y ?? 0) <= props.stopDisplayingAt) setVisibility(true);
     }, [y]);
 
     return (
@@ -33,8 +33,13 @@ export default function ScrollDownIndicator(props: ScrollDownIndicatorProps) {
                 width={60}
                 height={90}
                 unoptimized
+                style={{ opacity: +visible }}
             />
-            <DoubleArrowDownIcon width={30} height={30} />
+            <DoubleArrowDownIcon
+                width={30}
+                height={30}
+                style={{ opacity: +visible }}
+            />
         </Flex>
     );
 }
