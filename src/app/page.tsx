@@ -15,6 +15,7 @@ export default function HomePage() {
     const { width = 0, height = 0 } = useWindowSize();
 
     const [bgAngle, setBGAngle] = useState<number>(135);
+    const [fade, setFade] = useState<boolean>(false);
     const [bgPercentPos, setBGPercentPos] = useState<number[]>([0, 0]);
 
     useEffect(() => {
@@ -31,6 +32,8 @@ export default function HomePage() {
         setBGPercentPos([pW, pH]);
     }, [state]);
 
+    useEffect(() => {setFade(true)}, [])
+
     return (
         <>
             <div className={styles.vignette} />
@@ -40,9 +43,9 @@ export default function HomePage() {
                     background: `radial-gradient(circle at ${bgPercentPos[0] * 100}% ${bgPercentPos[1] * 100}%, rgb(64, 3, 77), var(--accent-1))`,
                 }}
             />
-            <ScrollDownIndicator stopDisplayingAt={120} />
+            <ScrollDownIndicator stopDisplayingAt={120} style={{opacity: +fade}}/>
             <Container>
-                <Section className={styles.lander}>
+                <Section className={styles.lander} style={{opacity: +fade}}>
                     <Text weight="light" className={styles.landerTitle}>
                         QS
                         <Image

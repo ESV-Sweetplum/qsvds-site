@@ -32,6 +32,7 @@
     display: flex;
     @include flex(column, center, center);
     height: 100vh;
+    transition: opacity 0.3s;
 }
 
 .landerTitle {
@@ -63,7 +64,7 @@
         border: 1px solid white;
         border-radius: 6px;
         opacity: 1;
-        animation: pulse 1s linear infinite;
+        animation: pulse 2s linear infinite;
     }
 }
 
