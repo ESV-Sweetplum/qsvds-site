@@ -31,7 +31,7 @@
     width: 100%;
     display: flex;
     @include flex(column, center, center);
-    height: calc(100vh - 160px);
+    height: calc(100vh);
 }
 
 .landerTitle {

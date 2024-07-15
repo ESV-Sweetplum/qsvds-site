@@ -2,17 +2,19 @@
 import Image from "next/image";
 import Logo from "../../public/logo.svg";
 import styles from "./index.module.scss";
-import { Button, Text } from "@radix-ui/themes";
+import { Button, Container, Section, Text } from "@radix-ui/themes";
 import "../styles/global.scss";
 import { useEffect, useState } from "react";
 import { useMouse, useWindowSize } from "@uidotdev/usehooks";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
+import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 
 export default function HomePage() {
     const [state, _] = useMouse();
     const { width, height } = useWindowSize();
 
     const [bgAngle, setBGAngle] = useState<number>(135);
+    const [bgPercentPos, setBGPercentPos] = useState<number[]>([0, 0]);
 
     useEffect(() => {
         if (!width || !height) return;
@@ -25,6 +27,7 @@ export default function HomePage() {
 
         const angle = (Math.atan(dy / dx) * 180) / Math.PI;
         setBGAngle(angle + (dx >= 0 ? 180 : 0));
+        setBGPercentPos([pW, pH]);
     }, [state]);
 
     return (
@@ -33,11 +36,12 @@ export default function HomePage() {
             <div
                 className={styles.background}
                 style={{
-                    background: `linear-gradient(${bgAngle}deg, var(--accent-1), rgb(64, 3, 77))`,
+                    background: `radial-gradient(circle at ${bgPercentPos[0] * 100}% ${bgPercentPos[1] * 100}%, rgb(64, 3, 77), var(--accent-1))`,
                 }}
             />
-            <main>
-                <section className={styles.lander}>
+            <ScrollDownIndicator stopDisplayingAt={120} />
+            <Container>
+                <Section className={styles.lander}>
                     <Text weight="light" className={styles.landerTitle}>
                         QS
                         <Image
@@ -58,8 +62,8 @@ export default function HomePage() {
                         </Text>
                         <DoubleArrowRightIcon />
                     </Button>
-                </section>
-            </main>
+                </Section>
+            </Container>
         </>
     );
 }
