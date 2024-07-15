@@ -26,6 +26,7 @@ export default function RootLayout({
     return (
         <html lang="en" className={inter.variable}>
             <Head>
+                <link rel="icon" href="favicon.ico" type="image/x-icon" />
                 <meta property="og:title" content={metadata.title} />
                 <meta
                     property="og:description"
@@ -47,6 +48,7 @@ export default function RootLayout({
                         <NavBar />
                         {children}
                         <Analytics />
+                        <GoogleAnalytics gaId='G-XXHWM98XS0' />
                     </CookiesProvider>
                 </Theme>
             </body>
