@@ -52,7 +52,6 @@ export async function POST(request: NextRequest) {
             data: {
                 user_id: parseInt(body.user_id),
                 map_id: mapExists.map_id,
-                map_quaver_id: parseInt(body.map_id),
                 quality: body.quality ?? "Decent",
                 rating: rating,
             },

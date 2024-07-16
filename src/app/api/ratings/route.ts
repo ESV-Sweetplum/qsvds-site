@@ -9,7 +9,9 @@ export async function GET(request: NextRequest) {
 
     const ratings = await prisma.rating.findMany({
         where: {
-            map_quaver_id: parseInt(map_id),
+            map: {
+                quaver_id: parseInt(map_id),
+            }
         },
     });
 
