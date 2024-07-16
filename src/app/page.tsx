@@ -41,19 +41,29 @@ export default function HomePage() {
         const ctx = canvas?.getContext("2d");
         if (!ctx) return;
 
-        canvas.width = 1920;
-        canvas.height = 1080;
+        const widthResolution = 1920 * 2;
+
+        canvas.width = widthResolution;
+        canvas.height = (widthResolution / 1920) * 1080;
 
         const width = canvas.width;
         const height = canvas.height;
 
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "white";
+        ctx.lineWidth = 4;
 
-        let heightDiff = 0
+        let heightDiff = 0;
 
         function animate(ctx: CanvasRenderingContext2D) {
             if (!ctx) return;
+
+            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+
+            const pipeRatio = 2
+
+            gradient.addColorStop(0, "black");
+            gradient.addColorStop(0.5, "white");
+            gradient.addColorStop(1, "black");
+            ctx.strokeStyle = gradient;
 
             ctx.clearRect(0, 0, width, height);
             ctx.beginPath();
@@ -81,10 +91,14 @@ export default function HomePage() {
             ctx.closePath();
             heightDiff += 1.5;
 
-            requestAnimationFrame(() => animate(ctx))
+            if (heightDiff >= height * 1.5) {
+                heightDiff -= height
+            }
+
+            requestAnimationFrame(() => animate(ctx));
         }
 
-        animate(ctx)
+        animate(ctx);
     }, []);
 
     return (
