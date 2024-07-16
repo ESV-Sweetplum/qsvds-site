@@ -56,7 +56,7 @@ export default function HomePage() {
         const height = canvas.height;
 
         ctx.lineWidth = 4;
-        const heightDelta = 1.5;
+        const heightDelta = 1;
         const pipeRatio = 8;
 
         let heightDiff = 0;
