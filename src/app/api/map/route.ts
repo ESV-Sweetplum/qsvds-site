@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
     const ratingDoc = await prisma.rating.create({
         data: {
             user_id: parseInt(body.user_id),
-            map_quaver_id: map.id,
             map_id: mapDoc.map_id,
             quality: body.quality ?? "Decent",
             rating: parseInt(body.rating),
