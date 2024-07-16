@@ -21,7 +21,7 @@ export default function AdminPage() {
     useEffect(() => {
         async function getMaps() {
             const userResp = await fetch(
-                `/api/user?id=${localStorage.getItem("id") || 0}`
+                `/api/user?user_id=${localStorage.getItem("id") || 0}`
             ).then(r => r.json());
 
             if (!userResp.user) router.push("/");
