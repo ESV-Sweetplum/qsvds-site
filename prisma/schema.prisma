@@ -59,7 +59,7 @@ model Badge {
 }
 
 model Metric {
-    id Int @id @default(autoincrement())
+    metric_id Int @id @default(autoincrement())
     createdAt DateTime @default(now())
     userCount Int @default(0)
     mapCount Int @default(0)
