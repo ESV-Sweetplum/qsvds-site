@@ -23,7 +23,7 @@ export async function PATCH(request: NextRequest) {
 
     await prisma.map.update({
         where: {
-            id: parseInt(body.id),
+            map_id: parseInt(body.id),
         },
         data: {
             category: body.category,
