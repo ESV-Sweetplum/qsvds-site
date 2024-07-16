@@ -21,13 +21,13 @@ export default function UserCard(props: UserCardProps) {
                                 break;
                             case 1:
                                 window.open(
-                                    `/user/${props.user?.id || 0}`,
+                                    `/user/${props.user?.user_id || 0}`,
                                     "_blank",
                                     "noopener noreferrer"
                                 );
                                 break;
                             default:
-                                router.push(`/user/${props.user?.id || 0}`);
+                                router.push(`/user/${props.user?.user_id || 0}`);
                         }
                     }}
                 >
