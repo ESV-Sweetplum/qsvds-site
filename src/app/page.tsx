@@ -56,23 +56,37 @@ export default function HomePage() {
         const height = canvas.height;
 
         ctx.lineWidth = 4;
-        const pipeRatio = 2
+        const heightDelta = 1.5;
+        const pipeRatio = 2;
 
         let heightDiff = 0;
+        let gradientDiff = 0;
 
         function animate(ctx: CanvasRenderingContext2D) {
             if (!ctx) return;
 
-            const gradient = ctx.createLinearGradient(0, 0, 0, height);
+            const gradient = ctx.createLinearGradient(
+                0,
+                0 - gradientDiff,
+                0,
+                height * 3 - gradientDiff
+            );
 
-            gradient.addColorStop(0, "black");
-            gradient.addColorStop(0.5, "white");
-            gradient.addColorStop(1, "black");
-            
+            const color1 = "black";
+            const color2 = "white";
+
+            gradient.addColorStop(0, color1);
+            gradient.addColorStop(0.1666, color2);
+            gradient.addColorStop(0.3333, color1);
+            gradient.addColorStop(0.5, color2);
+            gradient.addColorStop(0.6666, color1);
+            gradient.addColorStop(0.8333, color2);
+            gradient.addColorStop(1, color1);
+
             ctx.strokeStyle = gradient;
 
             ctx.clearRect(0, 0, width, height);
-            
+
             ctx.beginPath();
 
             for (let i = -2; i <= 0; i++) {
@@ -88,13 +102,15 @@ export default function HomePage() {
                     );
                 });
             }
+
             ctx.stroke();
             ctx.closePath();
-            heightDiff += 1.5;
 
-            if (heightDiff >= height * 1.5) {
-                heightDiff -= height
-            }
+            heightDiff += heightDelta;
+            gradientDiff += heightDelta * pipeRatio;
+
+            if (gradientDiff >= height * 1.5) gradientDiff -= height;
+            if (heightDiff >= height * 1.5) heightDiff -= height;
 
             requestAnimationFrame(() => animate(ctx));
         }
