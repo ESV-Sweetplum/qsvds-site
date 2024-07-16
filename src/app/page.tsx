@@ -11,9 +11,9 @@ import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 
 const paths = [
-    [0.65, 0.55, 0.9, 0.75],
-    [0.75, 0.6, 0.75, 0.65],
-    [0.7, 0.9, 0.5, 0.7],
+    [0.45, 0.35, 0.7, 0.55],
+    [0.55, 0.4, 0.55, 0.45],
+    [0.5, 0.7, 0.3, 0.5],
 ];
 
 export default function HomePage() {
@@ -137,7 +137,10 @@ export default function HomePage() {
             <canvas
                 className={styles.canvas}
                 ref={canvasRef}
-                style={{ opacity: +fade }}
+                style={{
+                    opacity: +fade,
+                    transform: "scale(2) rotate(30deg)",
+                }}
             />
             <Container>
                 <Section className={styles.lander} style={{ opacity: +fade }}>
