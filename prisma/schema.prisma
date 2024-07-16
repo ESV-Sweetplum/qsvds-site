@@ -49,7 +49,6 @@ model Rating {
     map Map @relation(fields: [map_id], references: [map_id])
     user_id Int
     map_id Int
-    map_quaver_id Int
     rating Int
 }
 
