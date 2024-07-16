@@ -41,21 +41,50 @@ export default function HomePage() {
         const ctx = canvas?.getContext("2d");
         if (!ctx) return;
 
-        canvas.width = 1920
-        canvas.height = 1080
+        canvas.width = 1920;
+        canvas.height = 1080;
 
-        const width = canvas.width
-        const height = canvas.height
+        const width = canvas.width;
+        const height = canvas.height;
 
-        ctx.moveTo(width * 0.7, 0);
-        ctx.bezierCurveTo(width * 0.9, height / 3, width * 0.5, height * 2 / 3, width * 0.7, height);
-
-        ctx.lineWidth = 2
+        ctx.lineWidth = 2;
         ctx.strokeStyle = "white";
-        ctx.stroke()
 
-        // ctx.fillStyle = "red";
-        // ctx.fillRect(0, 0, width, height);
+        let heightDiff = 0
+
+        function animate(ctx: CanvasRenderingContext2D) {
+            if (!ctx) return;
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+
+            const paths = [
+                [0.65, 0.55, 0.9, 0.75],
+                [0.75, 0.6, 0.75, 0.65],
+                [0.7, 0.9, 0.5, 0.7],
+            ];
+
+            for (let i = -2; i <= 0; i++) {
+                paths.forEach(arr => {
+                    ctx.moveTo(width * arr[0], height * i + heightDiff);
+                    ctx.bezierCurveTo(
+                        arr[1] * width,
+                        height * (1 / 3 + i) + heightDiff,
+                        arr[2] * width,
+                        height * (2 / 3 + i) + heightDiff,
+                        arr[3] * width,
+                        height * (1 + i) + heightDiff
+                    );
+                    ctx.stroke();
+                });
+            }
+            ctx.closePath();
+            heightDiff += 1.5;
+
+            requestAnimationFrame(() => animate(ctx))
+        }
+
+        animate(ctx)
     }, []);
 
     return (
@@ -71,7 +100,11 @@ export default function HomePage() {
                 stopDisplayingAt={120}
                 style={{ opacity: +fade }}
             />
-            <canvas className={styles.canvas} ref={canvasRef} style={{ opacity: +fade }} />
+            <canvas
+                className={styles.canvas}
+                ref={canvasRef}
+                style={{ opacity: +fade }}
+            />
             <Container>
                 <Section className={styles.lander} style={{ opacity: +fade }}>
                     <Text weight="light" className={styles.landerTitle}>
@@ -85,7 +118,7 @@ export default function HomePage() {
                             style={{
                                 filter: `drop-shadow(1px 1px 4px gray)`,
                             }}
-                            onLoad={(e) => setFade(true)}
+                            onLoad={e => setFade(true)}
                         />
                         DS
                     </Text>
