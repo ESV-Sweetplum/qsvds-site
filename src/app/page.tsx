@@ -10,6 +10,12 @@ import { useMouse, useWindowSize } from "@uidotdev/usehooks";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 
+const paths = [
+    [0.65, 0.55, 0.9, 0.75],
+    [0.75, 0.6, 0.75, 0.65],
+    [0.7, 0.9, 0.5, 0.7],
+];
+
 export default function HomePage() {
     const [state, _] = useMouse();
     const { width = 0, height = 0 } = useWindowSize();
@@ -50,6 +56,7 @@ export default function HomePage() {
         const height = canvas.height;
 
         ctx.lineWidth = 4;
+        const pipeRatio = 2
 
         let heightDiff = 0;
 
@@ -58,21 +65,15 @@ export default function HomePage() {
 
             const gradient = ctx.createLinearGradient(0, 0, 0, height);
 
-            const pipeRatio = 2
-
             gradient.addColorStop(0, "black");
             gradient.addColorStop(0.5, "white");
             gradient.addColorStop(1, "black");
+            
             ctx.strokeStyle = gradient;
 
             ctx.clearRect(0, 0, width, height);
+            
             ctx.beginPath();
-
-            const paths = [
-                [0.65, 0.55, 0.9, 0.75],
-                [0.75, 0.6, 0.75, 0.65],
-                [0.7, 0.9, 0.5, 0.7],
-            ];
 
             for (let i = -2; i <= 0; i++) {
                 paths.forEach(arr => {
@@ -85,9 +86,9 @@ export default function HomePage() {
                         arr[3] * width,
                         height * (1 + i) + heightDiff
                     );
-                    ctx.stroke();
                 });
             }
+            ctx.stroke();
             ctx.closePath();
             heightDiff += 1.5;
 
