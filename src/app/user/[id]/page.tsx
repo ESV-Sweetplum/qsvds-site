@@ -94,7 +94,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
                                     return (
                                         <MapCard
                                             key={idx}
-                                            map={rating.map.map}
+                                            map={rating.map.mapQua}
                                             rating={rating.rating}
                                             category={rating.map.category}
                                             clickable

@@ -49,7 +49,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
             setSubmittedRating(userRating);
             setCategory(resp.map.category);
             setRatings(resp2.ratings);
-            setMap(resp.map.map);
+            setMap(resp.map.mapQua);
             setLoading(false);
         }
 

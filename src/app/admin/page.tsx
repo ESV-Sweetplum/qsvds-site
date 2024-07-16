@@ -84,30 +84,30 @@ export default function AdminPage() {
                 <Title>Admin</Title>
                 {docs.map((doc, docIdx) => (
                     <div className={styles.mapDoc} key={docIdx}>
-                        <div className={styles.id}>{doc.id}</div>
+                        <div className={styles.id}>{doc.map_id}</div>
                         <div className={styles.separator}></div>
-                        <div className={styles.quaver_id}>{doc.map.id}</div>
+                        <div className={styles.quaver_id}>{doc.mapQua.id}</div>
                         <div className={styles.separator}></div>
                         <div className={styles.title}>
                             <Textfit mode="single" max={12}>
-                                {doc.map.title}
+                                {doc.mapQua.title}
                             </Textfit>
                         </div>
                         <div className={styles.separator}></div>
                         <div className={styles.diffName}>
                             <Textfit mode="single" max={12}>
-                                {doc.map.difficulty_name}
+                                {doc.mapQua.difficulty_name}
                             </Textfit>
                         </div>
                         <div className={styles.separator}></div>
                         <div className={styles.creator}>
-                            {doc.map.creator_username}
+                            {doc.mapQua.creator_username}
                         </div>
                         <div className={styles.separator}></div>
                         <select
                             className={styles.category}
                             onChange={e =>
-                                changeCategory(doc.id, docIdx, e.target.value)
+                                changeCategory(doc.map_id, docIdx, e.target.value)
                             }
                             value={doc.category}
                         >
