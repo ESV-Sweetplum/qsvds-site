@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../../public/logo.svg";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, TrashIcon } from "@radix-ui/react-icons";
 
 const permittedIDs = [1, 3, 5];
 
@@ -47,7 +47,7 @@ export default function NavBar() {
         <nav
             className={styles.navBar}
             style={{
-                backgroundColor: showBG ? "var(--accent-7)" : "rgba(0,0,0,0)",
+                backgroundColor: showBG ? "var(--accent-2)" : "rgba(0,0,0,0)",
             }}
         >
             <section className={styles.home} onClick={() => router.push("/")}>
@@ -57,6 +57,7 @@ export default function NavBar() {
                     width={50}
                     height={50}
                     unoptimized
+                    style={{ filter: `drop-shadow(1px 1px 5px white)` }}
                 />
                 <Text size="8" weight="bold">
                     QSVDS
@@ -68,14 +69,19 @@ export default function NavBar() {
                 <NavLink href="/" text="Progression" />
                 <NavLink href="/" text="Courses" />
             </section>
-            {/* {permittedIDs.includes(parseInt(id)) ? (
-                <NavLink href="/admin" text="Admin" />
-            ) : (
-                <></>
-            )} */}
             <section className={styles.userData}>
                 {username ? (
                     <>
+                        {permittedIDs.includes(parseInt(id)) ? (
+                            <TrashIcon
+                                onClick={() => router.push("/admin")}
+                                width={20}
+                                height={20}
+                                cursor="pointer"
+                            />
+                        ) : (
+                            <></>
+                        )}
                         <DropdownMenu.Root
                             open={dropdownOpen}
                             onOpenChange={() => setDropdownOpen(!dropdownOpen)}

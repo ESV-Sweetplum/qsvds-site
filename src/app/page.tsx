@@ -47,7 +47,7 @@ export default function HomePage() {
         const ctx = canvas?.getContext("2d");
         if (!ctx) return;
 
-        const widthResolution = 1920 * 2;
+        const widthResolution = 1920;
 
         canvas.width = widthResolution;
         canvas.height = (widthResolution / 1920) * 1080;
@@ -55,7 +55,7 @@ export default function HomePage() {
         const width = canvas.width;
         const height = canvas.height;
 
-        ctx.lineWidth = 4;
+        ctx.lineWidth = 1;
         const heightDelta = 1;
         const pipeRatio = 8;
 
@@ -72,8 +72,8 @@ export default function HomePage() {
                 height * 3 - gradientDiff
             );
 
-            const color1 = "black";
-            const color2 = "purple";
+            const color1 = "transparent";
+            const color2 = "#6e56cf";
 
             gradient.addColorStop(0, color1);
             gradient.addColorStop(0.1666, color2);
@@ -127,9 +127,10 @@ export default function HomePage() {
             <div
                 className={styles.background}
                 style={{
-                    background: `radial-gradient(circle at ${bgPercentPos[0] * 100}% ${bgPercentPos[1] * 100}%, rgb(64, 3, 77), var(--accent-1))`,
+                    background: `radial-gradient(circle at ${bgPercentPos[0] * 100}% ${bgPercentPos[1] * 100}%, var(--violet-3), var(--accent-1))`,
                 }}
             />
+            <div className={styles.backgroundNoise} />
             <ScrollDownIndicator
                 stopDisplayingAt={120}
                 style={{ opacity: +fade }}
@@ -139,7 +140,7 @@ export default function HomePage() {
                 ref={canvasRef}
                 style={{
                     opacity: +fade,
-                    transform: "scale(2) rotate(30deg)",
+                    transform: "scale(1.5) rotate(30deg)",
                 }}
             />
             <Container>
@@ -155,7 +156,7 @@ export default function HomePage() {
                             style={{
                                 filter: `drop-shadow(1px 1px 4px gray)`,
                             }}
-                            onLoad={e => setFade(true)}
+                            onLoad={_ => setFade(true)}
                         />
                         DS
                     </Text>
@@ -170,6 +171,30 @@ export default function HomePage() {
                             width={600}
                         />
                     </Section>
+                </Section>
+                <Section className={styles.introduction}>
+                    Greetings, my name is Beef, and today I would like to
+                    present an exceedingly excellent Your Mother joke. Your 👉
+                    biological 🐘 mother 👩 is so morbidly obese 🎅, when 🍑 she
+                    👧 went 🏃 to go 🏃 get 🉐 her 👩 yearly 📅 physical 👊🌟
+                    done ✅, the doctor 👨‍⚕️ took 👫 her 👩 blood 💉🛁 and the
+                    results 👀💯 concluded that she 👩 had a high 🕛 blood 💉
+                    pressure 🛃, onset Type 💻 2 ✌ Diabetes ❤, hypertension,
+                    and the possibility 🤔 of heart 💔 disease 😷. She 👩🏾 also
+                    👨 suffers 😣😫😖 from severe 👎😡👺 depression 😥😭🎭,
+                    because she 👩 lacks 📉 confidence 😎 in her 👩🏻 physical 👊
+                    appearance 🔎, which enables 😺 her 👩 to consume 👅 even 🌃
+                    more food 🐟🍜, making 🖕 her 👩 more obese 🇺🇸. Not to
+                    mention 🗣, but 🍑 your 👉🚪 mother 👵 is becoming 😔 so
+                    monstrous 👹👺, she 👩 had a hard 🍆 time 🕐 fitting 😂
+                    through small 👌 spaces 🚀👾 and exceeding weight ⚖ limits
+                    ⌛ on 🔛 practical 😚 applications 📄. Your 👉 mother 👵🎨
+                    has an endless 🔄 cycle 🔄 of malicious 🔫 eating 👅 habits
+                    😵😱 that only make 💘 her 👩 health 🚑 worsen 😓😩 over
+                    😳🙊💦 time 🕐🕟. I 👁 hope 🙏 whoever 👤 has just watched
+                    👀 this video 📹 enjoyed 🤤 the humorous 🤣😂👍 Your 👉
+                    Mother 👵 joke 😂🤡😡. Thank 🙏 you 👉🏻 for you 👈 time 🕐👋
+                    and have a blessed 🙏 day 🌞.
                 </Section>
             </Container>
         </>
