@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
     if (map_id) {
         delete queryBuilder.where.quaver_id;
-        queryBuilder.where = { id: parseInt(map_id) };
+        queryBuilder.where = { map_id: parseInt(map_id) };
     }
 
     const map = await prisma.map.findUnique(queryBuilder);
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
 
     const mapDoc = await prisma.map.create({
         data: {
-            map,
+            mapQua: map,
             quaver_id: map.id,
             submittedBy_id: parseInt(body.user_id),
             totalRating: _.clamp(parseInt(body.rating), 0, 60),
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
         data: {
             user_id: parseInt(body.user_id),
             map_quaver_id: map.id,
-            map_id: mapDoc.id,
+            map_id: mapDoc.map_id,
             quality: body.quality ?? "Decent",
             rating: parseInt(body.rating),
         },

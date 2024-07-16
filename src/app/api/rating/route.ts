@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     const existingRating = await prisma.rating.findFirst({
         where: {
             user_id: parseInt(body.user_id),
-            map_id: mapExists.id,
+            map_id: mapExists.map_id,
         },
     });
 
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         await prisma.rating.create({
             data: {
                 user_id: parseInt(body.user_id),
-                map_id: mapExists.id,
+                map_id: mapExists.map_id,
                 map_quaver_id: parseInt(body.map_id),
                 quality: body.quality ?? "Decent",
                 rating: rating,
@@ -65,14 +65,14 @@ export async function POST(request: NextRequest) {
                 rating: true,
             },
             where: {
-                map_id: mapExists.id,
+                map_id: mapExists.map_id,
             },
         })
         .then(d => d._avg.rating);
 
     const updateMap = await prisma.map.update({
         where: {
-            id: mapExists.id,
+            map_id: mapExists.map_id,
         },
         data: {
             totalRating: aggregateRating ?? 0,
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
 
     const newRatings = await prisma.rating.findMany({
         where: {
-            map_id: mapExists.id,
+            map_id: mapExists.map_id,
         },
     });
 
