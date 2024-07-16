@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     const rating = _.clamp(parseInt(body.rating), 0, 60);
 
     const userExists = !!prisma.user.findFirst({
-        where: { id: parseInt(body.user_id) },
+        where: { user_id: parseInt(body.user_id) },
     });
 
     const mapExists = await prisma.map.findFirst({
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     if (existingRating) {
         await prisma.rating.update({
             where: {
-                id: existingRating.id,
+                rating_id: existingRating.rating_id,
             },
             data: {
                 rating: rating,

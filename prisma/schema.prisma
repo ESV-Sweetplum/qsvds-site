@@ -42,7 +42,7 @@ model Map {
 }
 
 model Rating {
-    id Int @id @default(autoincrement())
+    rating_id Int @id @default(autoincrement())
     createdAt DateTime @default(now())
     quality Quality @default(Decent)
     user User @relation(fields: [user_id], references: [user_id])
