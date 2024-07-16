@@ -57,7 +57,7 @@ export default function HomePage() {
 
         ctx.lineWidth = 4;
         const heightDelta = 1.5;
-        const pipeRatio = 2;
+        const pipeRatio = 8;
 
         let heightDiff = 0;
         let gradientDiff = 0;
@@ -73,7 +73,7 @@ export default function HomePage() {
             );
 
             const color1 = "black";
-            const color2 = "white";
+            const color2 = "purple";
 
             gradient.addColorStop(0, color1);
             gradient.addColorStop(0.1666, color2);
@@ -91,14 +91,17 @@ export default function HomePage() {
 
             for (let i = -2; i <= 0; i++) {
                 paths.forEach(arr => {
-                    ctx.moveTo(width * arr[0], height * i + heightDiff);
+                    ctx.moveTo(
+                        Math.floor(width * arr[0]),
+                        Math.floor(height * i + heightDiff)
+                    );
                     ctx.bezierCurveTo(
-                        arr[1] * width,
-                        height * (1 / 3 + i) + heightDiff,
-                        arr[2] * width,
-                        height * (2 / 3 + i) + heightDiff,
-                        arr[3] * width,
-                        height * (1 + i) + heightDiff
+                        Math.floor(arr[1] * width),
+                        Math.floor(height * (0.333 + i) + heightDiff),
+                        Math.floor(arr[2] * width),
+                        Math.floor(height * (0.666 + i) + heightDiff),
+                        Math.floor(arr[3] * width),
+                        Math.floor(height * (1 + i) + heightDiff)
                     );
                 });
             }
