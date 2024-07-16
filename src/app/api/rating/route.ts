@@ -1,4 +1,3 @@
-import UserRating from "@/interfaces/userRating";
 import prisma from "../../../../prisma/initialize";
 import GenerateHash from "@/lib/generateHash";
 import { NextRequest } from "next/server";

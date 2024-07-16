@@ -52,11 +52,13 @@ export async function POST(request: NextRequest, response: Response) {
         .catch(e => console.log("Error 3"));
 
     if (existingUser?.data.status === 200) {
+        console.log(existingUser?.data.user)
+
         return Response.json({ status: 200, user: existingUser?.data.user });
     }
 
     const userData: User = {
-        id: -1,
+        user_id: -1,
         quaver_id: user.id,
         username: user.username,
         avatar: user.avatar,
