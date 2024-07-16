@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import "../../../styles/global.scss";
 import { useEffect, useState } from "react";
 import User from "@/interfaces/user";
-import UserRating from "@/interfaces/userRating";
 import Loading from "@/components/Loading";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
