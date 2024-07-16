@@ -1,7 +1,7 @@
 import UserRating from "./userRating";
 
 export default interface User {
-    id: number;
+    user_id: number;
     createdAt?: any;
     quaver_id: number;
     avatar: string;
