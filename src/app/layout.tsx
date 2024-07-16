@@ -14,7 +14,7 @@ const environment =
 export const metadata = {
     title: `Quaver SV Difficulty System${environment === "development" ? " | Dev Environment" : ""}`,
     description:
-        "An all-purpose database for managing Quaver SV players and maps.",
+        "An all-purpose database for managing Quaver SV players and maps. View ratings of SV maps, measure your progress through our internal leveling system, and improve your SV skills through progression trackers and SV courses. Login to start tracking now, free of charge.",
     openGraph: {
         title: "Quaver SV Difficulty System",
         description:
