@@ -10,5 +10,5 @@ export async function GET(request: NextRequest) {
         .get(`https://api.quavergame.com/v2/map/${map_quaver_id}`)
         .then(r => r.data);
 
-    return Response.json({ status: 200, resp });
+    return Response.json({ status: 200, map: resp.map });
 }

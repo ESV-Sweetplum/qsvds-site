@@ -49,6 +49,7 @@ export default function AddMapPage() {
             const resp = await fetch(`/api/quaverMap?quaver_id=${input}`).then(
                 r => r.json()
             );
+
             if (resp.status !== 200) {
                 switch (resp.status) {
                     case 404:
@@ -66,6 +67,7 @@ export default function AddMapPage() {
                 throwError(`This map no longer exists.`);
                 return;
             }
+
             setMap(resp.map);
             setLoading(false);
         } catch (e) {
