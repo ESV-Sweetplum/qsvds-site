@@ -73,7 +73,11 @@ export default function HomePage() {
             -0.375 * width + height * (0.5 - sqrt3o2)
         );
 
-        function animate(ctx: CanvasRenderingContext2D) {
+        let previousTime: number = Date.now();
+
+        function animate(ctx: CanvasRenderingContext2D, currentTime: number) {
+            const dt = currentTime - previousTime;
+
             if (!ctx) return;
 
             const gradient = ctx.createLinearGradient(
@@ -120,16 +124,18 @@ export default function HomePage() {
             ctx.stroke();
             ctx.closePath();
 
-            heightDiff += heightDelta;
-            gradientDiff += heightDelta * pipeRatio;
+            heightDiff += (heightDelta * dt) / 20;
+            gradientDiff += (heightDelta * pipeRatio * dt) / 20;
 
             if (gradientDiff >= height * 1.5) gradientDiff -= height;
             if (heightDiff >= height * 1.5) heightDiff -= height;
 
-            requestAnimationFrame(() => animate(ctx));
+            previousTime = currentTime;
+
+            requestAnimationFrame(() => animate(ctx, Date.now()));
         }
 
-        animate(ctx);
+        animate(ctx, Date.now());
     }, []);
 
     return (
