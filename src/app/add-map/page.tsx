@@ -46,7 +46,7 @@ export default function AddMapPage() {
                 return;
             }
 
-            const resp = await fetch(`/api/quaverMap?quaver_id=${input}`).then(
+            const resp = await fetch(`/api/quaver-map?quaver_id=${input}`).then(
                 r => r.json()
             );
 
