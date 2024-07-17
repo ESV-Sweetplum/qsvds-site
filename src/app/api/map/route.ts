@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
             mapQua: map,
             quaver_id: map.id,
             submittedBy_id: parseInt(body.user_id),
-            totalRating: _.clamp(parseInt(body.rating), 0, 60),
+            totalRating: _.clamp(parseInt(body.rating), 1, 60),
             category,
             baseline: false,
             banned: false,

@@ -172,7 +172,7 @@ export default function AddMapPage() {
                         setRating={setRating}
                         category={category}
                         setCategory={setCategory}
-                        clamp={[0, 60]}
+                        clamp={[1, 60]}
                     />
                 </div>
             </main>

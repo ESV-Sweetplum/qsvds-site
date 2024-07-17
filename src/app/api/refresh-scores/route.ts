@@ -5,9 +5,9 @@ import { modsToRate } from '@/lib/modsToRate';
 import { xpFormula } from '../compute-xp/route';
 
 export async function GET(request: NextRequest) {
-    const pw = request.nextUrl.searchParams.get("pw");
-    if (pw !== process.env.SERVER_PW)
-        return Response.json({ status: 401, message: "Unauthorized" });
+    // const pw = request.nextUrl.searchParams.get("pw");
+    // if (pw !== process.env.SERVER_PW)
+        // return Response.json({ status: 401, message: "Unauthorized" });
 
     const rankedData = await prisma.map.findMany({
         where: {
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
         for (let j = 0; j < scoreDocuments.length; j++) {
             const scoreDoc = scoreDocuments[j]
 
-            const whereQuery = {user_id_map_id: {user_id: scoreDoc.user_id, map_id: scoreDoc.map_Id}}
+            const whereQuery = {user_id_map_id: {user_id: scoreDoc.user_id, map_id: scoreDoc.map_id}}
 
             const existingScore = await prisma.score.findUnique({where: whereQuery, include: {map:true}})
 
@@ -64,9 +64,9 @@ export async function GET(request: NextRequest) {
                 const oldXP = xpFormula(existingScore.map.totalRating, existingScore.map.category, existingScore.accuracy, existingScore.rate)
                 const newXP = xpFormula(existingScore.map.totalRating, existingScore.map.category, scoreDoc.accuracy, scoreDoc.rate)
 
-                if (oldXP > newXP) return; 
+                if (oldXP > newXP) continue; 
 
-                await prisma.score.update({
+               const updateResp =  await prisma.score.update({
                     where: whereQuery,
                     data: {
                         accuracy: scoreDoc.accuracy,
@@ -74,10 +74,14 @@ export async function GET(request: NextRequest) {
                         rate: scoreDoc.rate
                     }
                 })
+                console.log(updateResp)
+
             } else {
-                await prisma.score.create({
+                const createResp = await prisma.score.create({
                     data: scoreDoc
                 })
+
+                console.log(createResp)
             }
         }
     }

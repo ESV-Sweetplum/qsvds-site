@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
     if (GenerateHash(body.quaver_id) !== body.hash)
         return Response.json({ status: 401, message: "Unauthorized" });
 
-    const rating = _.clamp(parseInt(body.rating), 0, 60);
+    const rating = _.clamp(parseInt(body.rating), 1, 60);
 
     const existingUser = !!prisma.user.findFirst({
         where: { user_id: parseInt(body.user_id) },

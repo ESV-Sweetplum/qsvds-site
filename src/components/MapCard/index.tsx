@@ -100,8 +100,8 @@ export default function MapCard(props: MapCardProps) {
                             <></>
                         )}
                         <RatingDisplay
-                            rating={props.rating ?? 0}
-                            range={[0, 60]}
+                            rating={props.rating ?? 1}
+                            range={[1, 60]}
                             category={props.category}
                             style={{ opacity: 1 }}
                             scale={0.8}

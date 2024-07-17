@@ -129,7 +129,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                                 <RatingDisplay
                                     rating={totalRating}
                                     category={category}
-                                    range={[0, 60]}
+                                    range={[1, 60]}
                                     style={{
                                         zIndex: 69,
                                         opacity: 1,
@@ -153,8 +153,8 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                             onChange={e =>
                                 setUserRating(
                                     _.clamp(
-                                        parseInt(e.target.value) || 0,
-                                        0,
+                                        parseInt(e.target.value) || 1,
+                                        1,
                                         60
                                     ).toString()
                                 )
