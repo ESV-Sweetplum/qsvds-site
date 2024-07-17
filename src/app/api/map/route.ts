@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     const map = body.map;
 
     const quaverResp = await axios
-        .get(`https://api.quavergame.com/v1/maps/${map.id}`)
+        .get(`https://api.quavergame.com/v2/map/${map.id}`)
         .catch(e => console.log("Error 1"));
 
     if (quaverResp?.data.status !== 200)

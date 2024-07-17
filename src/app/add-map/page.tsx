@@ -47,7 +47,7 @@ export default function AddMapPage() {
             }
 
             const resp = await fetch(
-                `https://api.quavergame.com/v1/maps/${input}`
+                `https://api.quavergame.com/v2/map/${input}`
             ).then(r => r.json());
             if (resp.status !== 200) {
                 switch (resp.status) {
