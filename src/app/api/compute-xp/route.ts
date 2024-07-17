@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   return Response.json({status: 200, xp})
 }
 
-function xpFormula(mapRating: number, category: Category, accuracy: number, rate: number) {
+export function xpFormula(mapRating: number, category: Category, accuracy: number, rate: number) {
   const thresholds = [0, 70, 80,  85,  90,  93,   95,   97,  98,   99, 100]
   const bias =       [0, 0.1, 0.5, 0.6, 0.7, 0.77, 0.82, 0.9, 0.95, 1, 1]
   

@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
 import axios from "axios";
 import { modsToRate } from '@/lib/modsToRate';
+import { xpFormula } from '../compute-xp/route';
 
 export async function GET(request: NextRequest) {
     const pw = request.nextUrl.searchParams.get("pw");
@@ -16,6 +17,8 @@ export async function GET(request: NextRequest) {
             },
         },
         select: {
+            totalRating: true,
+            category: true,
             mapQua: true,
             quaver_id: true,
             map_id: true,
@@ -55,9 +58,14 @@ export async function GET(request: NextRequest) {
 
             const whereQuery = {user_id_map_id: {user_id: scoreDoc.user_id, map_id: scoreDoc.map_Id}}
 
-            const existingScore = await prisma.score.findUnique({where: whereQuery})
+            const existingScore = await prisma.score.findUnique({where: whereQuery, include: {map:true}})
 
             if (existingScore) {
+                const oldXP = xpFormula(existingScore.map.totalRating, existingScore.map.category, existingScore.accuracy, existingScore.rate)
+                const newXP = xpFormula(existingScore.map.totalRating, existingScore.map.category, scoreDoc.accuracy, scoreDoc.rate)
+
+                if (oldXP > newXP) return; 
+
                 await prisma.score.update({
                     where: whereQuery,
                     data: {
@@ -72,8 +80,6 @@ export async function GET(request: NextRequest) {
                 })
             }
         }
-
-        // Mass upsert later
     }
 
     return Response.json({ status: 200 });
