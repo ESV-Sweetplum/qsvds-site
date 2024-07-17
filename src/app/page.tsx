@@ -62,6 +62,11 @@ export default function HomePage() {
         let heightDiff = 0;
         let gradientDiff = 0;
 
+        ctx.translate(width * 0.5, height * 0.5);
+        ctx.rotate(Math.PI / 6);
+        ctx.scale(1.5, 2);
+        ctx.translate(width * -0.5, height * -0.5);
+
         function animate(ctx: CanvasRenderingContext2D) {
             if (!ctx) return;
 
@@ -140,7 +145,6 @@ export default function HomePage() {
                 ref={canvasRef}
                 style={{
                     opacity: +fade,
-                    transform: "scale(1.5) rotate(30deg)",
                 }}
             />
             <Container>
