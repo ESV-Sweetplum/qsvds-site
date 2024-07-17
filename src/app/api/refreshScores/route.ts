@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
 import axios from "axios";
-import { modToRate } from '@/lib/modToRate';
+import { modsToRate } from '@/lib/modsToRate';
 
 export async function GET(request: NextRequest) {
     const pw = request.nextUrl.searchParams.get("pw");
@@ -46,18 +46,34 @@ export async function GET(request: NextRequest) {
                 pass: !score.failed,
                 user_id: userIDs[userQuaverIDs.indexOf(score.user.id)],
                 map_id: mapIDs[i],
-                rate: modToRate(score.modifiers)
+                rate: modsToRate(score.modifiers)
             };
         });
 
+        for (let j = 0; j < scoreDocuments.length; j++) {
+            const scoreDoc = scoreDocuments[j]
+
+            const whereQuery = {user_id_map_id: {user_id: scoreDoc.user_id, map_id: scoreDoc.map_Id}}
+
+            const existingScore = await prisma.score.findUnique({where: whereQuery})
+
+            if (existingScore) {
+                await prisma.score.update({
+                    where: whereQuery,
+                    data: {
+                        accuracy: scoreDoc.accuracy,
+                        pass: scoreDoc.pass,
+                        rate: scoreDoc.rate
+                    }
+                })
+            } else {
+                await prisma.score.create({
+                    data: scoreDoc
+                })
+            }
+        }
+
         // Mass upsert later
-
-        const resp = await prisma.score.createMany({
-            data: scoreDocuments,
-            skipDuplicates: true,
-        });
-
-        console.log(`Made ${resp.count} records.`);
     }
 
     return Response.json({ status: 200 });

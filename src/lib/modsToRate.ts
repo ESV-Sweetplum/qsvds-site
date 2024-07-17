@@ -47,7 +47,7 @@ enum ModIdentifiers {
   NoMiss =  17592186044416
 }
 
-export function modToRate(mods: ModIdentifiers): number {
+export function modsToRate(mods: ModIdentifiers): number {
       let rate = 1.0;
 
       // Map mods to rate.
