@@ -11,6 +11,8 @@ body {
     margin: 0;
     overscroll-behavior-y: none;
     display: block;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 a {
