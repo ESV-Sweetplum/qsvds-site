@@ -3,15 +3,15 @@ import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
 
 export async function GET(request: NextRequest) {
-    const map_id = request.nextUrl.searchParams.get("id");
+    const map_quaver_id = request.nextUrl.searchParams.get("quaver_id");
 
-    if (!map_id) return Response.json({ status: 400 });
+    if (!map_quaver_id) return Response.json({ status: 400 });
 
     const ratings = await prisma.rating.findMany({
         where: {
             map: {
-                quaver_id: parseInt(map_id),
-            }
+                quaver_id: parseInt(map_quaver_id),
+            },
         },
     });
 

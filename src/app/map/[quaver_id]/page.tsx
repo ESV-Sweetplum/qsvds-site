@@ -33,7 +33,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                 `/api/map?quaver_id=${params.quaver_id}`
             ).then(r => r.json());
             const resp2 = await fetch(
-                `/api/ratings?id=${params.quaver_id}`
+                `/api/ratings?quaver_id=${params.quaver_id}`
             ).then(r => r.json());
 
             const userRating =
@@ -163,7 +163,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                 <div className={styles.ratingList}>
                     {ratings.map(rating => (
                         <div className={styles.rating} key={rating.user_id}>
-                            {rating.user_id} - {rating.rating}
+                            Rating - {rating.user_id} - {rating.rating}
                         </div>
                     ))}
                 </div>
