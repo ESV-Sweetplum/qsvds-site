@@ -62,10 +62,16 @@ export default function HomePage() {
         let heightDiff = 0;
         let gradientDiff = 0;
 
-        ctx.translate(width * 0.5, height * 0.5);
-        ctx.rotate(Math.PI / 6);
-        ctx.scale(1.5, 2);
-        ctx.translate(width * -0.5, height * -0.5);
+        const sqrt3o2 = 0.866025404;
+
+        ctx.transform(
+            1.5 * sqrt3o2,
+            0.75,
+            -1,
+            sqrt3o2 * 2,
+            (width / 2) * (1 - (3 * sqrt3o2) / 2) + height * 0.5,
+            -0.375 * width + height * (0.5 - sqrt3o2)
+        );
 
         function animate(ctx: CanvasRenderingContext2D) {
             if (!ctx) return;
