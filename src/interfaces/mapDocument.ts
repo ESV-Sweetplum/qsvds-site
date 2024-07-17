@@ -10,5 +10,5 @@ export default interface MapDocument {
     category: Category;
     baseline?: boolean;
     banned?: boolean;
-    timeAdded: number;
+    createdAt: number;
 }
