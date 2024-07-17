@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     if (!(showBanned === "true")) queryBuilder.banned = false;
 
     if (searchTerm)
-        queryBuilder.map = {
+        queryBuilder.mapQua = {
             path: ["titleInsensitive"],
             string_contains: searchTerm,
         };
