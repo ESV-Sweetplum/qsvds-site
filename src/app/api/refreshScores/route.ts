@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
 import axios from "axios";
+import { modToRate } from '@/lib/modToRate';
 
 export async function GET(request: NextRequest) {
     const pw = request.nextUrl.searchParams.get("pw");
@@ -32,7 +33,7 @@ export async function GET(request: NextRequest) {
 
     for (let i = 0; i < rankedMD5s.length; i++) {
         const scoresResp = await axios
-            .get(`https://api.quavergame.com/v2/scores/${rankedMD5s[i]}/rate/0`)
+            .get(`https://api.quavergame.com/v2/scores/${rankedMD5s[i]}/global`)
             .then(r => r.data);
 
         const scores = scoresResp.scores.filter((score: any) =>
@@ -45,6 +46,7 @@ export async function GET(request: NextRequest) {
                 pass: !score.failed,
                 user_id: userIDs[userQuaverIDs.indexOf(score.user.id)],
                 map_id: mapIDs[i],
+                rate: modToRate(score.modifiers)
             };
         });
 
