@@ -17,6 +17,7 @@ model User {
   username String
   avatar String
   ratings Rating[]
+  scores Score[]
   submittedMaps Map[]
   badges Badge[]
   role Role @default(Player)
@@ -38,6 +39,7 @@ model Map {
     mapQua Json
     totalRating Float
     ratings Rating[]
+    scores Score[]
     inTournaments Tournament[] @default([])
 }
 
@@ -50,6 +52,21 @@ model Rating {
     user_id Int
     map_id Int
     rating Int
+
+    @@unique(fields: [user_id, map_id])
+}
+
+model Score {
+    score_id Int @id @default(autoincrement())
+    user User @relation(fields: [user_id], references: [user_id])
+    map Map @relation(fields: [map_id], references: [map_id])
+    user_id Int
+    map_id Int
+    accuracy Float
+    pass Boolean
+    rate Float @default(1.0)
+
+    @@unique(fields: [user_id, map_id])
 }
 
 model Badge {
