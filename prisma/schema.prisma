@@ -50,6 +50,8 @@ model Rating {
     user_id Int
     map_id Int
     rating Int
+
+    @@unique([user_id, map_id])
 }
 
 model Badge {
