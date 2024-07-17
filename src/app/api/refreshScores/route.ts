@@ -35,9 +35,9 @@ export async function GET(request: NextRequest) {
             .get(`https://api.quavergame.com/v2/scores/${rankedMD5s[i]}/rate/0`)
             .then(r => r.data);
 
-        const scores = scoresResp.scores
-            .filter((score: any) => userQuaverIDs.includes(score.user.id))
-            .filter((score: any) => score.is_personal_best);
+        const scores = scoresResp.scores.filter((score: any) =>
+            userQuaverIDs.includes(score.user.id)
+        );
 
         const scoreDocuments = scores.map((score: any) => {
             return {
@@ -47,6 +47,9 @@ export async function GET(request: NextRequest) {
                 map_id: mapIDs[i],
             };
         });
+
+        // Mass upsert later
+
         const resp = await prisma.score.createMany({
             data: scoreDocuments,
             skipDuplicates: true,
