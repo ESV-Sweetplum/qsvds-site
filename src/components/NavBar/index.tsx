@@ -57,7 +57,7 @@ export default function NavBar() {
                     width={50}
                     height={50}
                     unoptimized
-                    style={{ filter: `drop-shadow(1px 1px 5px white)` }}
+                    style={{ filter: `drop-shadow(1px 1px 1px var(--accent-8))` }}
                 />
                 <Text size="8" weight="bold">
                     QSVDS
