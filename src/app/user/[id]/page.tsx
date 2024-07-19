@@ -6,13 +6,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "../../../styles/global.scss";
 import { useEffect, useState } from "react";
-import User from "@/interfaces/user";
 import Loading from "@/components/Loading";
 import _ from "lodash";
-import { Textfit } from "react-textfit";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import { Title } from "@/components/Typography/typography";
 import MapCard from "@/components/MapCard";
+import { Prisma, User } from "@prisma/client";
+import MapQua from "@/interfaces/mapQua";
 
 const monthArr =
     "January February March April May June July August September October November December".split(
@@ -22,14 +22,23 @@ const monthArr =
 export default function MapPage({ params }: { params: { id: number } }) {
     const router = useRouter();
 
-    const [user, setUser] = useState<Partial<User>>({});
+    const [user, setUser] = useState<
+        Partial<
+            Prisma.UserGetPayload<{
+                include: { ratings: { include: { map: true } } };
+            }>
+        >
+    >({});
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         async function getUser() {
             const resp = await fetch(
                 "/api/user" +
-                    SearchParamBuilder({ user_id: params.id, includeRatings: true })
+                    SearchParamBuilder({
+                        user_id: params.id,
+                        includeRatings: true,
+                    })
             ).then(r => r.json());
 
             setUser(resp.user);
@@ -74,11 +83,17 @@ export default function MapPage({ params }: { params: { id: number } }) {
                                     Joined on{" "}
                                     {
                                         monthArr[
-                                            new Date(user.createdAt).getMonth()
+                                            new Date(
+                                                user.createdAt || ""
+                                            ).getMonth()
                                         ]
                                     }{" "}
-                                    {new Date(user.createdAt).getDay() + 1},{" "}
-                                    {new Date(user.createdAt).getFullYear()}
+                                    {new Date(user.createdAt || "").getDay() +
+                                        1}
+                                    ,{" "}
+                                    {new Date(
+                                        user.createdAt || ""
+                                    ).getFullYear()}
                                 </div>
                                 <div style={{ fontSize: "1.5rem" }}>
                                     Submitted {user.ratings?.length} Ratings
@@ -94,7 +109,10 @@ export default function MapPage({ params }: { params: { id: number } }) {
                                     return (
                                         <MapCard
                                             key={idx}
-                                            map={rating.map.mapQua}
+                                            map={
+                                                rating.map
+                                                    .mapQua as unknown as MapQua
+                                            }
                                             rating={rating.rating}
                                             category={rating.map.category}
                                             clickable

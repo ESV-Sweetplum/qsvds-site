@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import "../../styles/global.scss";
 import { useEffect, useState } from "react";
-import User from "@/interfaces/user";
+import { User } from "@prisma/client";
 
 export default function LoginPage() {
     const [loadingText, setText] = useState<string>("Logging you in...");

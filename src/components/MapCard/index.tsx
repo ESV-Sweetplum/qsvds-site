@@ -1,4 +1,4 @@
-import Map from "@/interfaces/map";
+import MapQua from "@/interfaces/mapQua";
 import styles from "./mapCard.module.scss";
 import Image from "next/image";
 import RatingDisplay from "../RatingDisplay";
@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface MapCardProps {
-    map?: Partial<Map>;
+    map?: Partial<MapQua>;
     rating?: number;
     category?: string;
     emptyText?: string;

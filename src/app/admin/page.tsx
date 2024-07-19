@@ -3,18 +3,18 @@
 import { useEffect, useState } from "react";
 import "../../styles/global.scss";
 import styles from "./admin.module.scss";
-import MapDocument from "@/interfaces/mapDocument";
 import { Title } from "@/components/Typography/typography";
 import { Textfit } from "react-textfit";
-import { Category } from "@/interfaces/category";
 import Loading from "@/components/Loading";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import { useRouter } from "next/navigation";
+import { Category, Map } from "@prisma/client";
+import MapQua from "@/interfaces/mapQua";
 
 export default function AdminPage() {
     const router = useRouter();
 
-    const [docs, setDocs] = useState<MapDocument[]>([]);
+    const [docs, setDocs] = useState<Map[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -37,7 +37,7 @@ export default function AdminPage() {
             ).then(r => r.json());
 
             setDocs(resp.maps);
-            setCategories(resp.maps.map((doc: MapDocument) => doc.category));
+            setCategories(resp.maps.map((doc: Map) => doc.category));
             setLoading(false);
         }
 
@@ -82,49 +82,65 @@ export default function AdminPage() {
                 }}
             >
                 <Title>Admin</Title>
-                {docs.map((doc, docIdx) => (
-                    <div className={styles.mapDoc} key={docIdx}>
-                        <div className={styles.id}>{doc.map_id}</div>
-                        <div className={styles.separator}></div>
-                        <div className={styles.quaver_id}>{doc.mapQua.id}</div>
-                        <div className={styles.separator}></div>
-                        <div className={styles.title}>
-                            <Textfit mode="single" max={12}>
-                                {doc.mapQua.title}
-                            </Textfit>
+                {docs.map((doc, docIdx) =>
+                    (doc.mapQua as unknown as MapQua) ? (
+                        <div className={styles.mapDoc} key={docIdx}>
+                            <div className={styles.id}>{doc.map_id}</div>
+                            <div className={styles.separator}></div>
+                            <div className={styles.quaver_id}>
+                                {(doc.mapQua as unknown as MapQua).id}
+                            </div>
+                            <div className={styles.separator}></div>
+                            <div className={styles.title}>
+                                <Textfit mode="single" max={12}>
+                                    {(doc.mapQua as unknown as MapQua).title}
+                                </Textfit>
+                            </div>
+                            <div className={styles.separator}></div>
+                            <div className={styles.diffName}>
+                                <Textfit mode="single" max={12}>
+                                    {
+                                        (doc.mapQua as unknown as MapQua)
+                                            .difficulty_name
+                                    }
+                                </Textfit>
+                            </div>
+                            <div className={styles.separator}></div>
+                            <div className={styles.creator}>
+                                {
+                                    (doc.mapQua as unknown as MapQua)
+                                        .creator_username
+                                }
+                            </div>
+                            <div className={styles.separator}></div>
+                            <select
+                                className={styles.category}
+                                onChange={e =>
+                                    changeCategory(
+                                        doc.map_id,
+                                        docIdx,
+                                        e.target.value
+                                    )
+                                }
+                                value={doc.category}
+                            >
+                                {[
+                                    "Reading",
+                                    "Hybrid",
+                                    "Memory",
+                                    "Reverse",
+                                    "Splitscroll",
+                                ].map((item, idx) => (
+                                    <option value={item} key={idx}>
+                                        {item}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                        <div className={styles.separator}></div>
-                        <div className={styles.diffName}>
-                            <Textfit mode="single" max={12}>
-                                {doc.mapQua.difficulty_name}
-                            </Textfit>
-                        </div>
-                        <div className={styles.separator}></div>
-                        <div className={styles.creator}>
-                            {doc.mapQua.creator_username}
-                        </div>
-                        <div className={styles.separator}></div>
-                        <select
-                            className={styles.category}
-                            onChange={e =>
-                                changeCategory(doc.map_id, docIdx, e.target.value)
-                            }
-                            value={doc.category}
-                        >
-                            {[
-                                "Reading",
-                                "Hybrid",
-                                "Memory",
-                                "Reverse",
-                                "Splitscroll",
-                            ].map((item, idx) => (
-                                <option value={item} key={idx}>
-                                    {item}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                ))}
+                    ) : (
+                        <></>
+                    )
+                )}
             </main>
         </>
     );

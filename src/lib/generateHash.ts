@@ -1,4 +1,3 @@
-import User from "@/interfaces/user";
 import { createHash } from "crypto";
 
 export default function GenerateHash(id: number) {

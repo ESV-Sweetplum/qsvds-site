@@ -1,4 +1,3 @@
-import User from "@/interfaces/user";
 import prisma from "../../../../prisma/initialize";
 import { Prisma } from "@prisma/client";
 import { NextRequest } from "next/server";

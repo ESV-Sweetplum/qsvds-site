@@ -2,16 +2,18 @@
 
 import styles from "./users.module.scss";
 import "../../styles/global.scss";
-import User from "@/interfaces/user";
 import { useEffect, useState } from "react";
 import UserCard from "@/components/UserCard";
 import { Title } from "@/components/Typography/typography";
 import PrimaryInput from "@/components/PrimaryInput";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import Loading from "@/components/Loading";
+import { Prisma } from "@prisma/client";
 
 export default function UsersPage() {
-    const [users, setUsers] = useState<User[]>([]);
+    const [users, setUsers] = useState<
+        Prisma.UserGetPayload<{ include: { ratings: true } }>[]
+    >([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [searchInput, setSearchInput] = useState<string>("");
 

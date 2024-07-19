@@ -5,7 +5,6 @@ import "../../styles/global.scss";
 import styles from "./maps.module.scss";
 import { useEffect, useRef, useState } from "react";
 import MapCard from "@/components/MapCard";
-import MapDocument from "@/interfaces/mapDocument";
 import Loading from "@/components/Loading";
 import Link from "next/link";
 import PrimaryInput from "@/components/PrimaryInput";
@@ -13,6 +12,8 @@ import SearchParamBuilder from "@/lib/searchParamBuilder";
 import { useDebounce } from "@uidotdev/usehooks";
 import _ from "lodash";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { Map } from "@prisma/client";
+import MapQua from "@/interfaces/mapQua";
 
 export default function MapsListPage() {
     const searchParams = useSearchParams();
@@ -22,7 +23,7 @@ export default function MapsListPage() {
     const isInitialMount = useRef(false);
     const isInitialMount2 = useRef(true);
 
-    const [documents, setDocuments] = useState<MapDocument[]>([]);
+    const [documents, setDocuments] = useState<Map[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [id, setID] = useState<number>(-1e70);
     const [searchInput, setSearchInput] = useState<string>("");
@@ -182,7 +183,7 @@ export default function MapsListPage() {
                     {documents?.length
                         ? documents.map(doc => (
                               <MapCard
-                                  map={doc.mapQua}
+                                  map={doc.mapQua as unknown as MapQua}
                                   rating={doc.totalRating}
                                   category={doc.category}
                                   key={doc.map_id}

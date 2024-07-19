@@ -2,8 +2,6 @@ import styles from "./primaryInput.module.scss";
 import searchIcon from "../../../public/search-icon.svg";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
-import { Category } from "@/interfaces/category";
-import Dropdown from "../Dropdown";
 
 interface PrimaryInputProps {
     value: string;

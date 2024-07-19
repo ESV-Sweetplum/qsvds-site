@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import "../../styles/global.scss";
-import User from "@/interfaces/user";
 import { useEffect } from "react";
 
 export default function LogoutPage() {

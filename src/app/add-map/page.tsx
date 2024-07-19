@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 import PrimaryInput from "@/components/PrimaryInput";
 import ErrorMessage from "@/components/ErrorMessage";
-import Map from "@/interfaces/map";
+import MapQua from "@/interfaces/mapQua";
 import Loading from "@/components/Loading";
 import InputCard from "@/components/InputCard";
 import MapCard from "@/components/MapCard";
@@ -20,7 +20,7 @@ export default function AddMapPage() {
     const [errorStatus, setErrorStatus] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const [map, setMap] = useState<Partial<Map>>({});
+    const [map, setMap] = useState<Partial<MapQua>>({});
     const [rating, setRating] = useState<number>(0);
     const [category, setCategory] = useState<string>("Reading");
 

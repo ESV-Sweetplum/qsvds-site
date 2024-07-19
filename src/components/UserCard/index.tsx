@@ -1,10 +1,10 @@
+import { Prisma } from "@prisma/client";
 import styles from "./userCard.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import User from "@/interfaces/user";
 
 interface UserCardProps {
-    user?: User;
+    user?: Prisma.UserGetPayload<{ include: { ratings: true } }>;
 }
 
 export default function UserCard(props: UserCardProps) {
@@ -27,7 +27,9 @@ export default function UserCard(props: UserCardProps) {
                                 );
                                 break;
                             default:
-                                router.push(`/user/${props.user?.user_id || 0}`);
+                                router.push(
+                                    `/user/${props.user?.user_id || 0}`
+                                );
                         }
                     }}
                 >

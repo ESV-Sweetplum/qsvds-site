@@ -1,9 +1,9 @@
 import { NextRequest } from "next/server";
 
 import axios from "axios";
-import User from "@/interfaces/user";
 import GenerateHash from "@/lib/generateHash";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
+import { Prisma, User } from "@prisma/client";
 
 export async function POST(request: NextRequest, response: Response) {
     const body = await request.json();
@@ -52,13 +52,12 @@ export async function POST(request: NextRequest, response: Response) {
         .catch(e => console.log("Error 3"));
 
     if (existingUser?.data.status === 200) {
-        console.log(existingUser?.data.user)
+        console.log(existingUser?.data.user);
 
         return Response.json({ status: 200, user: existingUser?.data.user });
     }
 
-    const userData: User = {
-        user_id: -1,
+    const userData: Prisma.UserCreateInput = {
         quaver_id: user.id,
         username: user.username,
         avatar: user.avatar,

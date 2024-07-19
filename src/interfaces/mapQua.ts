@@ -1,4 +1,4 @@
-export default interface Map {
+export default interface MapQua {
     id: number;
     mapset_id: number;
     md5: string;

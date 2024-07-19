@@ -6,24 +6,22 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import "../../../styles/global.scss";
 import { useEffect, useState } from "react";
-import Map from "@/interfaces/map";
-import UserRating from "@/interfaces/userRating";
-import { Category } from "@/interfaces/category";
+import MapQua from "@/interfaces/mapQua";
 import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
-import UserScore from "@/interfaces/userScore";
+import { Category, Rating, Score } from "@prisma/client";
 
 export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const router = useRouter();
 
-    const [map, setMap] = useState<Partial<Map>>({});
+    const [map, setMap] = useState<Partial<MapQua>>({});
     const [totalRating, setTotalRating] = useState<number>(0);
     const [submittedRating, setSubmittedRating] = useState<string>("-1");
     const [userRating, setUserRating] = useState<string>("-1");
-    const [ratings, setRatings] = useState<UserRating[]>([]);
-    const [scores, setScores] = useState<UserScore[]>([]);
+    const [ratings, setRatings] = useState<Rating[]>([]);
+    const [scores, setScores] = useState<Score[]>([]);
     const [category, setCategory] = useState<Category | "">("");
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -45,7 +43,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
 
             const userRating =
                 resp2.ratings.filter(
-                    (r: UserRating) =>
+                    (r: Rating) =>
                         r.user_id ===
                         parseInt(localStorage.getItem("id") ?? "-1e50")
                 )[0]?.rating ?? "-1";
