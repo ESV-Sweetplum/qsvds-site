@@ -47,7 +47,8 @@ export default function NavBar() {
         <nav
             className={styles.navBar}
             style={{
-                backgroundColor: showBG ? "var(--accent-2)" : "rgba(0,0,0,0)",
+                backgroundColor: showBG ? "var(--accent-3)" : "rgba(0,0,0,0)",
+                backdropFilter: showBG ? "blur(10px)" : "none",
             }}
         >
             <section className={styles.home} onClick={() => router.push("/")}>

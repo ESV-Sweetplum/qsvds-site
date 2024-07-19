@@ -126,9 +126,9 @@ export default function HomePage() {
             <div className={styles.vignette} />
             <div
                 className={styles.background}
-                style={{
-                    background: `radial-gradient(circle at ${bgPercentPos[0] * 100}% ${bgPercentPos[1] * 100}%, var(--violet-3), var(--accent-1))`,
-                }}
+                // style={{
+                //     background: `radial-gradient(circle at ${bgPercentPos[0] * 100}% ${bgPercentPos[1] * 100}%, var(--violet-3), var(--accent-1))`,
+                // }}
             />
             <div className={styles.backgroundNoise} />
             <ScrollDownIndicator
