@@ -20,7 +20,6 @@ export default function HomePage() {
     const [state, _] = useMouse();
     const { width = 0, height = 0 } = useWindowSize();
 
-    const [bgAngle, setBGAngle] = useState<number>(135);
     const [fade, setFade] = useState<boolean>(false);
     const [bgPercentPos, setBGPercentPos] = useState<number[]>([0, 0]);
 
@@ -35,8 +34,6 @@ export default function HomePage() {
         const dx = pW - 0.5;
         const dy = pH - 0.5;
 
-        const angle = (Math.atan(dy / dx) * 180) / Math.PI;
-        setBGAngle(angle + (dx >= 0 ? 180 : 0));
         setBGPercentPos([pW, pH]);
     }, [state]);
 
@@ -188,7 +185,9 @@ export default function HomePage() {
                         />
                     </Section>
                 </Section>
-                <Section className={styles.introduction}>
+            </Container>
+            <Container className={styles.introduction}>
+                <Section>
                     Greetings, my name is Beef, and today I would like to
                     present an exceedingly excellent Your Mother joke. Your 👉
                     biological 🐘 mother 👩 is so morbidly obese 🎅, when 🍑 she
