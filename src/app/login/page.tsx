@@ -61,7 +61,7 @@ export default function LoginPage() {
 }
 
 function setLocalStorage(user: User) {
-    localStorage.setItem("id", user.id.toString());
+    localStorage.setItem("id", user.user_id.toString());
     localStorage.setItem("username", user.username);
     localStorage.setItem("quaver_id", user.quaver_id.toString());
     localStorage.setItem("avatar", user.avatar);

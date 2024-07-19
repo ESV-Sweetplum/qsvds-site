@@ -46,9 +46,10 @@ export default function AddMapPage() {
                 return;
             }
 
-            const resp = await fetch(
-                `https://api.quavergame.com/v1/maps/${input}`
-            ).then(r => r.json());
+            const resp = await fetch(`/api/quaver-map?quaver_id=${input}`).then(
+                r => r.json()
+            );
+
             if (resp.status !== 200) {
                 switch (resp.status) {
                     case 404:
@@ -66,6 +67,7 @@ export default function AddMapPage() {
                 throwError(`This map no longer exists.`);
                 return;
             }
+
             setMap(resp.map);
             setLoading(false);
         } catch (e) {

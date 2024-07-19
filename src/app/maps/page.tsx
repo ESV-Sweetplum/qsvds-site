@@ -182,10 +182,10 @@ export default function MapsListPage() {
                     {documents?.length
                         ? documents.map(doc => (
                               <MapCard
-                                  map={doc.map}
+                                  map={doc.mapQua}
                                   rating={doc.totalRating}
                                   category={doc.category}
-                                  key={doc.id}
+                                  key={doc.map_id}
                                   clickable
                                   baseline={doc.baseline}
                                   banned={doc.banned}

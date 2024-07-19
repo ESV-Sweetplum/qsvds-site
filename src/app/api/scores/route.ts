@@ -6,7 +6,7 @@ export async function GET(request: NextRequest) {
 
     if (!map_quaver_id) return Response.json({ status: 400 });
 
-    const ratings = await prisma.rating.findMany({
+    const scores = await prisma.score.findMany({
         where: {
             map: {
                 quaver_id: parseInt(map_quaver_id),
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
         },
     });
 
-    if (!ratings.length) return Response.json({ status: 404, ratings });
+    if (!scores.length) return Response.json({ status: 404, scores });
 
-    return Response.json({ status: 200, ratings });
+    return Response.json({ status: 200, scores });
 }

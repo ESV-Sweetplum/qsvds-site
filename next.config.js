@@ -41,5 +41,14 @@ module.exports = {
     reactStrictMode: false,
     compiler: {
         removeConsole: process.env.NODE_ENV === "production",
-    }
+    },
+    async redirects() {
+        return [
+          {
+            source: '/mapsets/map/:quaver_id',
+            destination: '/map/:quaver_id',
+            permanent: true,
+          },
+        ]
+      },
 };

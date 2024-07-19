@@ -31,18 +31,16 @@ export async function GET(request: NextRequest) {
                 mode: "insensitive",
             },
         },
-        orderBy: {
-            ratings: {
-                _count: "desc",
-            },
-        },
         include: {
             ratings:
                 request.nextUrl.searchParams
                     .get("includeRatings")
                     ?.toLowerCase() === "true"
-                    ? { where: { map: { baseline: false } } }
-                    : false,
+        },
+        orderBy: {
+            ratings: {
+                _count: "desc",
+            },
         },
         omit: { hash: true },
     });

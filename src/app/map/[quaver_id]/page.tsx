@@ -13,6 +13,7 @@ import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
+import UserScore from "@/interfaces/userScore";
 
 export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const router = useRouter();
@@ -22,6 +23,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const [submittedRating, setSubmittedRating] = useState<string>("-1");
     const [userRating, setUserRating] = useState<string>("-1");
     const [ratings, setRatings] = useState<UserRating[]>([]);
+    const [scores, setScores] = useState<UserScore[]>([]);
     const [category, setCategory] = useState<Category | "">("");
 
     const [loading, setLoading] = useState<boolean>(true);
@@ -33,8 +35,13 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                 `/api/map?quaver_id=${params.quaver_id}`
             ).then(r => r.json());
             const resp2 = await fetch(
-                `/api/ratings?id=${params.quaver_id}`
+                `/api/ratings?map_quaver_id=${params.quaver_id}`
             ).then(r => r.json());
+            const resp3 = await fetch(
+                `/api/scores?map_quaver_id=${params.quaver_id}`
+            ).then(r => r.json());
+
+            console.log(resp3);
 
             const userRating =
                 resp2.ratings.filter(
@@ -49,7 +56,8 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
             setSubmittedRating(userRating);
             setCategory(resp.map.category);
             setRatings(resp2.ratings);
-            setMap(resp.map.map);
+            setScores(resp3.scores);
+            setMap(resp.map.mapQua);
             setLoading(false);
         }
 
@@ -163,7 +171,13 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                 <div className={styles.ratingList}>
                     {ratings.map(rating => (
                         <div className={styles.rating} key={rating.user_id}>
-                            {rating.user_id} - {rating.rating}
+                            Rating - {rating.user_id} - {rating.rating}
+                        </div>
+                    ))}
+                    {scores.map(score => (
+                        <div className={styles.rating} key={score.user_id}>
+                            Score - {score.user_id} -{" "}
+                            {score.accuracy.toFixed(2)}
                         </div>
                     ))}
                 </div>
