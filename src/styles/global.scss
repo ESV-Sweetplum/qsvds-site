@@ -11,6 +11,11 @@ body {
     margin: 0;
     overscroll-behavior-y: none;
     display: block;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+::-webkit-scrollbar {
+    display: none;
 }
 
 a {
