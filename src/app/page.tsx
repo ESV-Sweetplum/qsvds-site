@@ -5,7 +5,7 @@ import Calligraphy from "../../public/calligraphy.svg";
 import styles from "./index.module.scss";
 import { Button, Container, Section, Text } from "@radix-ui/themes";
 import "../styles/global.scss";
-import { useEffect, useRef, useState } from "react";
+import { LegacyRef, useEffect, useRef, useState } from "react";
 import { useMouse, useWindowSize } from "@uidotdev/usehooks";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
@@ -23,7 +23,7 @@ export default function HomePage() {
     const [fade, setFade] = useState<boolean>(false);
     const [bgPercentPos, setBGPercentPos] = useState<number[]>([0, 0]);
 
-    const canvasRef: any = useRef(null);
+    const canvasRef: LegacyRef<HTMLCanvasElement> = useRef(null);
 
     useEffect(() => {
         if (!width || !height) return;
@@ -40,9 +40,9 @@ export default function HomePage() {
     useEffect(() => {
         // setFade(true);
 
-        const canvas: HTMLCanvasElement = canvasRef.current;
+        const canvas = canvasRef.current;
         const ctx = canvas?.getContext("2d");
-        if (!ctx) return;
+        if (!ctx || !canvas) return;
 
         const widthResolution = 1920;
 

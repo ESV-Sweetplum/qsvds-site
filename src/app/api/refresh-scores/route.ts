@@ -5,9 +5,9 @@ import { modsToRate } from "@/lib/modsToRate";
 import { xpFormula } from "@/lib/xpFormula";
 
 export async function GET(request: NextRequest) {
-    // const pw = request.nextUrl.searchParams.get("pw");
-    // if (pw !== process.env.SERVER_PW)
-    // return Response.json({ status: 401, message: "Unauthorized" });
+    const pw = request.nextUrl.searchParams.get("pw");
+    if (pw !== process.env.SERVER_PW)
+        return Response.json({ status: 401, message: "Unauthorized" });
 
     const rankedData = await prisma.map.findMany({
         where: {
@@ -58,8 +58,8 @@ export async function GET(request: NextRequest) {
 
             const whereQuery = {
                 user_id_map_id: {
-                    user_id: scoreDoc.user_id,
-                    map_id: scoreDoc.map_id,
+                    user_id: scoreDoc.user_id || 0,
+                    map_id: scoreDoc.map_id || 0,
                 },
             };
 
