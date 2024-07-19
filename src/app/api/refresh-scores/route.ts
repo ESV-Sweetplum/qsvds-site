@@ -1,13 +1,13 @@
 import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
 import axios from "axios";
-import { modsToRate } from '@/lib/modsToRate';
-import { xpFormula } from '../compute-xp/route';
+import { modsToRate } from "@/lib/modsToRate";
+import { xpFormula } from "@/lib/xpFormula";
 
 export async function GET(request: NextRequest) {
     // const pw = request.nextUrl.searchParams.get("pw");
     // if (pw !== process.env.SERVER_PW)
-        // return Response.json({ status: 401, message: "Unauthorized" });
+    // return Response.json({ status: 401, message: "Unauthorized" });
 
     const rankedData = await prisma.map.findMany({
         where: {
@@ -49,39 +49,56 @@ export async function GET(request: NextRequest) {
                 pass: !score.failed,
                 user_id: userIDs[userQuaverIDs.indexOf(score.user.id)],
                 map_id: mapIDs[i],
-                rate: modsToRate(score.modifiers)
+                rate: modsToRate(score.modifiers),
             };
         });
 
         for (let j = 0; j < scoreDocuments.length; j++) {
-            const scoreDoc = scoreDocuments[j]
+            const scoreDoc = scoreDocuments[j];
 
-            const whereQuery = {user_id_map_id: {user_id: scoreDoc.user_id, map_id: scoreDoc.map_id}}
+            const whereQuery = {
+                user_id_map_id: {
+                    user_id: scoreDoc.user_id,
+                    map_id: scoreDoc.map_id,
+                },
+            };
 
-            const existingScore = await prisma.score.findUnique({where: whereQuery, include: {map:true}})
+            const existingScore = await prisma.score.findUnique({
+                where: whereQuery,
+                include: { map: true },
+            });
 
             if (existingScore) {
-                const oldXP = xpFormula(existingScore.map.totalRating, existingScore.map.category, existingScore.accuracy, existingScore.rate)
-                const newXP = xpFormula(existingScore.map.totalRating, existingScore.map.category, scoreDoc.accuracy, scoreDoc.rate)
+                const oldXP = xpFormula(
+                    existingScore.map.totalRating,
+                    existingScore.map.category,
+                    existingScore.accuracy,
+                    existingScore.rate
+                );
+                const newXP = xpFormula(
+                    existingScore.map.totalRating,
+                    existingScore.map.category,
+                    scoreDoc.accuracy,
+                    scoreDoc.rate
+                );
 
-                if (oldXP > newXP) continue; 
+                if (oldXP > newXP) continue;
 
-               const updateResp =  await prisma.score.update({
+                const updateResp = await prisma.score.update({
                     where: whereQuery,
                     data: {
                         accuracy: scoreDoc.accuracy,
                         pass: scoreDoc.pass,
-                        rate: scoreDoc.rate
-                    }
-                })
-                console.log(updateResp)
-
+                        rate: scoreDoc.rate,
+                    },
+                });
+                console.log(updateResp);
             } else {
                 const createResp = await prisma.score.create({
-                    data: scoreDoc
-                })
+                    data: scoreDoc,
+                });
 
-                console.log(createResp)
+                console.log(createResp);
             }
         }
     }
