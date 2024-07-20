@@ -85,6 +85,12 @@ model Metric {
     categoryMapCount Int[] @default([0, 0, 0, 0, 0])
 }
 
+model AdministratorAction {
+    action_id Int @id @default(autoincrement())
+    user_id Int
+    action String
+}
+
 enum Category {
     Reading
     Hybrid
