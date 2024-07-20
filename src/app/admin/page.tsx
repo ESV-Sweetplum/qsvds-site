@@ -67,7 +67,7 @@ export default function AdminPage() {
             body: JSON.stringify({
                 id,
                 category,
-                user_quaver_id: localStorage.getItem("quaver_id") || 0,
+                user_id: localStorage.getItem("id") || 0,
                 hash: localStorage.getItem("hash") || "",
             }),
         }).then(r => r.json());
