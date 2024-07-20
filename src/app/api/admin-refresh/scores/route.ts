@@ -1,13 +1,17 @@
 import { NextRequest } from "next/server";
-import prisma from "../../../../prisma/initialize";
+import prisma from "../../../../../prisma/initialize";
 import axios from "axios";
 import { modsToRate } from "@/lib/modsToRate";
 import { xpFormula } from "@/lib/xpFormula";
 
-export async function GET(request: NextRequest) {
-    const pw = request.nextUrl.searchParams.get("pw");
-    if (pw !== process.env.SERVER_PW)
-        return Response.json({ status: 401, message: "Unauthorized" });
+export async function POST(request: NextRequest) {
+    const authHeader = request.headers.get("authorization");
+
+    if (authHeader !== `Bearer ${process.env.SERVER_PW}`)
+        return Response.json({
+            status: 401,
+            message: "Unauthorized",
+        });
 
     const rankedData = await prisma.map.findMany({
         where: {

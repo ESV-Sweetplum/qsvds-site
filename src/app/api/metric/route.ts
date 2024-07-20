@@ -5,8 +5,6 @@ import { Category, Prisma } from "@prisma/client";
 export async function POST(request: NextRequest) {
     const authHeader = request.headers.get("authorization");
 
-    console.log(authHeader);
-
     if (authHeader !== `Bearer ${process.env.CRON_AUTH}`)
         return Response.json({
             status: 401,
