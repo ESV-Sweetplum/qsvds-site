@@ -20,12 +20,15 @@ export default function AdminPage() {
 
     useEffect(() => {
         async function getMaps() {
-            const userResp = await fetch(
-                `/api/user?user_id=${localStorage.getItem("id") || 0}`
+            const adminResp = await fetch(
+                `/api/user/validate` +
+                    SearchParamBuilder({
+                        user_id: localStorage.getItem("id") || 0,
+                        hash: localStorage.getItem("hash") || "",
+                    })
             ).then(r => r.json());
 
-            if (!userResp.user) router.push("/");
-            if (userResp.user.role !== "Administrator") router.push("/");
+            if (!adminResp.isAdmin) router.push("/");
 
             const resp = await fetch(
                 `/api/maps` +
