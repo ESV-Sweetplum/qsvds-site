@@ -3,11 +3,19 @@ import prisma from "../../../../../prisma/initialize";
 import axios from "axios";
 import { modsToRate } from "@/lib/modsToRate";
 import { xpFormula } from "@/lib/xpFormula";
+import validateAdministrator from "@/lib/validateAdministrator";
 
 export async function POST(request: NextRequest) {
     const authHeader = request.headers.get("authorization");
+    const body = await request.json();
 
-    if (authHeader !== `Bearer ${process.env.SERVER_PW}`)
+    const authorized = await validateAdministrator(
+        authHeader,
+        body.user_id,
+        body.user_hash
+    );
+
+    if (!authorized)
         return Response.json({
             status: 401,
             message: "Unauthorized",
