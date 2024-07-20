@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "../../../public/logo.svg";
 import { usePathname, useRouter } from "next/navigation";
-import { ChevronDownIcon, TrashIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, LockClosedIcon } from "@radix-ui/react-icons";
 
 const permittedIDs = [1, 3, 5];
 
@@ -58,7 +58,9 @@ export default function NavBar() {
                     width={50}
                     height={50}
                     unoptimized
-                    style={{ filter: `drop-shadow(1px 1px 1px var(--accent-8))` }}
+                    style={{
+                        filter: `drop-shadow(1px 1px 1px var(--accent-8))`,
+                    }}
                 />
                 <Text size="8" weight="bold">
                     QSVDS
@@ -74,7 +76,7 @@ export default function NavBar() {
                 {username ? (
                     <>
                         {permittedIDs.includes(parseInt(id)) ? (
-                            <TrashIcon
+                            <LockClosedIcon
                                 onClick={() => router.push("/admin")}
                                 width={20}
                                 height={20}
