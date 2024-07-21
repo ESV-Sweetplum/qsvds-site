@@ -16,13 +16,26 @@ const permittedIDs = [1, 3, 5];
 
 interface NavbarProps {
     user?: User | null;
+    hash?: string;
 }
 
-export default function NavBar({ user }: NavbarProps) {
+export default function NavBar({ user, hash }: NavbarProps) {
     const router = useRouter();
 
     const [showBG, setShowBG] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    useEffect(() => {
+        async function checkValidity() {
+            if (user?.hash === hash) return;
+            await Logout();
+            const router = useRouter();
+            router.push("/");
+            router.refresh();
+        }
+
+        checkValidity();
+    });
 
     useEffect(() => {
         if (typeof window === "undefined") return;

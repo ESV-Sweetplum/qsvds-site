@@ -9,6 +9,8 @@ import { Theme } from "@radix-ui/themes";
 import { Viewport } from "next";
 import prisma from "../../prisma/initialize";
 import { cookies } from "next/headers";
+import GenerateHash from "@/lib/generateHash";
+import { Logout } from "./actions";
 
 const environment =
     process.env.NODE_ENV === "development" ? "development" : "production";
@@ -54,7 +56,10 @@ export default async function RootLayout({
                     appearance="dark"
                 >
                     <CookiesProvider>
-                        <NavBar user={user} />
+                        <NavBar
+                            user={user}
+                            hash={cookies().get("hash")?.value ?? ""}
+                        />
                         {children}
                         <Analytics />
                     </CookiesProvider>
