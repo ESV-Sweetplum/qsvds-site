@@ -1,6 +1,5 @@
 import prisma from "../../../../prisma/initialize";
 import { Prisma } from "@prisma/client";
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {

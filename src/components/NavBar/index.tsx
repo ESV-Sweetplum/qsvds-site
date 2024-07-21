@@ -10,6 +10,7 @@ import Logo from "../../../public/logo.svg";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDownIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { User } from "@prisma/client";
+import { Logout } from "@/app/actions";
 
 const permittedIDs = [1, 3, 5];
 
@@ -111,9 +112,7 @@ export default function NavBar({ user }: NavbarProps) {
                                 >
                                     View My Profile
                                 </DropdownMenu.Item>
-                                <DropdownMenu.Item
-                                    onClick={() => router.push("/logout")}
-                                >
+                                <DropdownMenu.Item onClick={() => Logout()}>
                                     Logout
                                 </DropdownMenu.Item>
                             </DropdownMenu.Content>

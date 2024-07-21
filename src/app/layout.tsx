@@ -57,7 +57,6 @@ export default async function RootLayout({
                         <NavBar user={user} />
                         {children}
                         <Analytics />
-                        <GoogleAnalytics gaId="G-XXHWM98XS0" />
                     </CookiesProvider>
                 </Theme>
             </body>

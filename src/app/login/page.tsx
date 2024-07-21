@@ -5,6 +5,7 @@ import { Prisma } from "@prisma/client";
 import axios from "axios";
 import GenerateHash from "@/lib/generateHash";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
+import { revalidatePath } from "next/cache";
 
 async function getData(code: string) {
     const resp = await axios
@@ -90,6 +91,4 @@ export default async function LoginPage({
                 })
         );
     }
-
-    redirect("/");
 }
