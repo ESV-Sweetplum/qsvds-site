@@ -9,12 +9,8 @@ import "../styles/global.scss";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 import DynamicBackground from "@/components/DynamicBackground";
-import { cookies } from "next/headers";
 
 export default async function HomePage() {
-    const cookieList = cookies().getAll();
-
-    console.log(cookieList);
     return (
         <>
             <div className={styles.vignette} />
