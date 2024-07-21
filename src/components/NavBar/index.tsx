@@ -27,15 +27,14 @@ export default function NavBar({ user, hash }: NavbarProps) {
 
     useEffect(() => {
         async function checkValidity() {
-            if (user?.hash === hash) return;
+            if (user?.hash === hash || !user) return;
             await Logout();
-            const router = useRouter();
             router.push("/");
             router.refresh();
         }
 
         checkValidity();
-    });
+    }, []);
 
     useEffect(() => {
         if (typeof window === "undefined") return;

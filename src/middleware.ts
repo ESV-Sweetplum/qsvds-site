@@ -6,17 +6,16 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
     const path = req.nextUrl.pathname;
+    const response = NextResponse.next();
+
     if ((path.split("?")[0] = "/")) {
         const user_id = req.nextUrl.searchParams.get("user_id");
         const hash = req.nextUrl.searchParams.get("hash");
 
         if (!user_id || !hash) return;
 
-        const response = NextResponse.next();
         response.cookies.set("user_id", user_id, { httpOnly: true });
         response.cookies.set("hash", hash, { httpOnly: true });
-
-        return response;
     }
     // const url = req.nextUrl
     // const { pathname } = url
@@ -26,7 +25,8 @@ export function middleware(req: NextRequest) {
     //     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     //     }
     //   }
-    //  return NextResponse.next()
+
+    return response;
 }
 
 export const config = {

@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import "@radix-ui/themes/styles.css";
 
 import NavBar from "@/components/NavBar";
@@ -9,8 +8,6 @@ import { Theme } from "@radix-ui/themes";
 import { Viewport } from "next";
 import prisma from "../../prisma/initialize";
 import { cookies } from "next/headers";
-import GenerateHash from "@/lib/generateHash";
-import { Logout } from "./actions";
 
 const environment =
     process.env.NODE_ENV === "development" ? "development" : "production";
