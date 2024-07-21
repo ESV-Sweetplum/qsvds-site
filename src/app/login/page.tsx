@@ -1,69 +1,95 @@
-"use client";
+"use server";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import "../../styles/global.scss";
-import { useEffect, useState } from "react";
-import { User } from "@prisma/client";
+import { redirect } from "next/navigation";
+import { Prisma } from "@prisma/client";
+import axios from "axios";
+import GenerateHash from "@/lib/generateHash";
+import SearchParamBuilder from "@/lib/searchParamBuilder";
 
-export default function LoginPage() {
-    const [loadingText, setText] = useState<string>("Logging you in...");
-    const params = useSearchParams();
-    const router = useRouter();
+async function getData(code: string) {
+    const resp = await axios
+        .post(`https://quavergame.com/oauth2/token`, {
+            client_id: process.env.NEXT_PUBLIC_QUAVER_CLIENT_ID,
+            client_secret: process.env.QUAVER_CLIENT_SECRET,
+            grant_type: "client_credentials",
+            code,
+        })
+        .catch(e => console.log("Error 1"));
 
-    useEffect(() => {
-        const code = params.get("code");
+    const access_token = resp?.data.access_token;
 
-        async function main() {
-            const resp = await fetch("/api/login", {
-                method: "POST",
+    if (!access_token) {
+        return {};
+    }
+    const resp2 = await axios
+        .post(
+            "https://quavergame.com/oauth2/me",
+            { code: access_token },
+            {
                 headers: {
-                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${process.env.QUAVER_CLIENT_SECRET}`,
                 },
-                body: JSON.stringify({ code: code }),
-            }).then(r => r.json());
-
-            if (resp.status !== 200) {
-                setText(resp.message);
-                router.push("/");
-                router.refresh();
-                return;
             }
+        )
+        .catch(e => console.log("Error 2"));
 
-            setText("Done!");
-            console.log(resp);
-            setLocalStorage(resp.user);
-            router.push("/");
-            router.refresh();
-        }
+    if (!resp2?.data) return {};
 
-        main();
-    }, []);
+    const user = resp2?.data.user;
 
-    return (
-        <div
-            style={{
-                position: "fixed",
-                width: "100vw",
-                height: "100vh",
-                top: 0,
-                left: 0,
-                color: "white",
-                fontSize: "5rem",
-                zIndex: "69",
-                display: "grid",
-                placeItems: "center",
-                textShadow: "2px 2px 5px black",
-            }}
-        >
-            {loadingText}
-        </div>
-    );
+    const existingUser: any = await axios
+        .get(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/user` +
+                SearchParamBuilder({
+                    quaver_id: user.id,
+                    pw: process.env.SERVER_PW,
+                })
+        )
+        .catch(e => console.log("Error 3"));
+
+    if (existingUser?.data.status === 200) {
+        return { user: existingUser?.data.user };
+    }
+
+    const userData: Prisma.UserCreateInput = {
+        quaver_id: user.id,
+        username: user.username,
+        avatar: user.avatar,
+        hash: GenerateHash(user.id),
+    };
+
+    let errored = false;
+
+    const newUser = await axios
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user`, {
+            user: userData,
+            pw: process.env.SERVER_PW,
+        })
+        .catch(e => {
+            errored = true;
+        });
+
+    if (errored) return {};
+
+    return { user: newUser };
 }
 
-function setLocalStorage(user: User) {
-    localStorage.setItem("id", user.user_id.toString());
-    localStorage.setItem("username", user.username);
-    localStorage.setItem("quaver_id", user.quaver_id.toString());
-    localStorage.setItem("avatar", user.avatar);
-    localStorage.setItem("hash", user.hash);
+export default async function LoginPage({
+    searchParams,
+}: {
+    searchParams: { [key: string]: string | undefined };
+}) {
+    const userResponse = await getData(searchParams.code ?? "");
+
+    if (userResponse.user) {
+        redirect(
+            `/` +
+                SearchParamBuilder({
+                    user_id: userResponse.user.user_id,
+                    hash: userResponse.user.hash,
+                })
+        );
+    }
+
+    redirect("/");
 }
