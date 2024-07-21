@@ -9,8 +9,19 @@ import "../styles/global.scss";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 import DynamicBackground from "@/components/DynamicBackground";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-export default async function HomePage() {
+export default async function HomePage({
+    searchParams,
+}: {
+    searchParams: { [key: string]: string };
+}) {
+    if (searchParams.hash) {
+        revalidatePath("/");
+        redirect("/");
+    }
+
     return (
         <>
             <div className={styles.vignette} />

@@ -91,4 +91,7 @@ export default async function LoginPage({
                 })
         );
     }
+
+    revalidatePath("/");
+    redirect("/");
 }
