@@ -26,9 +26,9 @@ export default function NavBar({ user, hash }: NavbarProps) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
     useEffect(() => {
-        async function checkValidity() {
+        function checkValidity() {
             if (user?.hash === hash || !user) return;
-            await Logout();
+            Logout();
             router.push("/");
             router.refresh();
         }
