@@ -3,26 +3,26 @@
 import { Title } from "@/components/Typography/typography";
 import "../../styles/global.scss";
 import styles from "./maps.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import MapCard from "@/components/MapCard";
 import Loading from "@/components/Loading";
 import Link from "next/link";
-import PrimaryInput from "@/components/PrimaryInput";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
-import { useDebounce } from "@uidotdev/usehooks";
 import _ from "lodash";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Map } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
 import { getUser } from "../actions";
+import { Button, Dialog, TextField } from "@radix-ui/themes";
+import {
+    MagnifyingGlassIcon,
+    MixerHorizontalIcon,
+} from "@radix-ui/react-icons";
 
 export default function MapsListPage() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
-
-    const isInitialMount = useRef(false);
-    const isInitialMount2 = useRef(true);
 
     const [documents, setDocuments] = useState<Map[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -35,8 +35,6 @@ export default function MapsListPage() {
     const [maxRating, setMaxRating] = useState<string>("60");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
-    const [lastSearchTime, setLastSearchTime] = useState<number>(0);
-    const [loadTime, setLoadTime] = useState<number>(Date.now());
 
     let button = <></>;
 
@@ -65,10 +63,7 @@ export default function MapsListPage() {
         );
 
     async function search(newPageNum?: number) {
-        if (Date.now() - lastSearchTime < 1000) return;
         setLoading(true);
-
-        setLastSearchTime(Date.now());
 
         const params = new URLSearchParams(searchParams);
         if (searchInput) {
@@ -101,17 +96,41 @@ export default function MapsListPage() {
             <Loading loadingStatus={loading} />
             <main style={{ pointerEvents: loading ? "none" : "all" }}>
                 <Title button={button}>Maps</Title>
-                <PrimaryInput
+                <TextField.Root
                     value={searchInput}
-                    changeValue={setSearchInput}
-                    onClick={() => {
-                        search(1);
-                    }}
-                    placeholderText="Enter Map Name Here"
-                    searchMode={true}
-                    onConfirm={() => {}}
-                    onCancel={() => {}}
-                />
+                    onChange={e => setSearchInput(e.target.value)}
+                    placeholder="Search for a map, or click on the filter icon to apply filters."
+                    size="3"
+                    radius="medium"
+                >
+                    <TextField.Slot>
+                        <Dialog.Root>
+                            <Dialog.Trigger>
+                                <MixerHorizontalIcon
+                                    height="16"
+                                    width="16"
+                                    style={{ cursor: "pointer" }}
+                                    color="white"
+                                />
+                            </Dialog.Trigger>
+                            <Dialog.Content>
+                                <Dialog.Title size="8">Filters</Dialog.Title>
+                            </Dialog.Content>
+                        </Dialog.Root>
+                    </TextField.Slot>
+                    <TextField.Slot pr="0">
+                        <Button
+                            size="3"
+                            onClick={() => search(1)}
+                            radius="medium"
+                            loading={loading}
+                            style={{ gap: "var(--space-1)" }}
+                        >
+                            <MagnifyingGlassIcon width="20" height="20" />
+                            Search
+                        </Button>
+                    </TextField.Slot>
+                </TextField.Root>
                 <div className={styles.cards}>
                     {documents?.length
                         ? documents.map(doc => (
