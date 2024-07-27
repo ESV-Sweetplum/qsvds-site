@@ -13,7 +13,7 @@ import InputCard from "@/components/InputCard";
 import MapCard from "@/components/MapCard";
 import { Title } from "@/components/Typography/typography";
 import { User } from "@prisma/client";
-import { GetUser } from "../actions";
+import { getUser } from "../actions";
 
 export default function AddMapPage() {
     const router = useRouter();
@@ -128,7 +128,7 @@ export default function AddMapPage() {
 
     useEffect(() => {
         async function getUserData() {
-            const user = await GetUser();
+            const user = await getUser();
             if (!user) {
                 router.push("/maps");
             } else {

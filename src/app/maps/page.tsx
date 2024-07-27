@@ -14,7 +14,7 @@ import _ from "lodash";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Map } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
-import { GetUser } from "../actions";
+import { getUser } from "../actions";
 
 export default function MapsListPage() {
     const searchParams = useSearchParams();
@@ -77,7 +77,7 @@ export default function MapsListPage() {
 
     useEffect(() => {
         async function getUserData() {
-            const user = await GetUser();
+            const user = await getUser();
             setID(user?.user_id ?? -1e70);
         }
 

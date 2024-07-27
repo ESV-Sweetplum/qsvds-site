@@ -12,7 +12,7 @@ import RatingDisplay from "@/components/RatingDisplay";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
 import { Category, Rating, Score, User } from "@prisma/client";
-import { GetUser } from "@/app/actions";
+import { getUser } from "@/app/actions";
 
 export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const router = useRouter();
@@ -32,7 +32,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
 
     useEffect(() => {
         async function getMap() {
-            const user = await GetUser();
+            const user = await getUser();
             setUser(user);
 
             const resp = await fetch(

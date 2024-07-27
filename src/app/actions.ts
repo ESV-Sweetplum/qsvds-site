@@ -16,7 +16,7 @@ export async function Logout() {
     redirect("/");
 }
 
-export async function GetUser(): Promise<User | undefined> {
+export async function getUser(): Promise<User | undefined> {
     const user_id = cookies().get("user_id")?.value;
     const hash = cookies().get("hash")?.value;
 
