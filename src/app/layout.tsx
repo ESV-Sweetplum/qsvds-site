@@ -37,8 +37,13 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    let user_id = parseInt(cookies().get("user_id")?.value ?? "-6.9e6");
+    if (isNaN(user_id)) user_id = -6.9e6;
+
     const user = await prisma.user.findUnique({
-        where: { user_id: parseInt(cookies().get("user_id")?.value ?? "0") },
+        where: {
+            user_id,
+        },
     });
 
     return (

@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
     if (!quaver_id && !user_id) return Response.json({ status: 400 });
 
     const queryBuilder: Prisma.UserFindUniqueArgs = {
-        where: { user_id: parseInt(user_id ?? "-1e60") },
+        where: { user_id: parseInt(user_id ?? "-6.9e6") },
     };
 
     if (includeRatings === "true")

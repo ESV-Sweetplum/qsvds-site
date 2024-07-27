@@ -48,6 +48,8 @@ async function getData(code: string) {
         )
         .catch(e => console.log("Error 3"));
 
+    console.log(existingUser.data);
+
     if (existingUser?.data.status === 200) {
         return { user: existingUser?.data.user };
     }
@@ -66,13 +68,14 @@ async function getData(code: string) {
             user: userData,
             pw: process.env.SERVER_PW,
         })
+        .then(r => r.data)
         .catch(e => {
             errored = true;
         });
 
     if (errored) return {};
 
-    return { user: newUser };
+    return { user: newUser.user };
 }
 
 export default async function LoginPage({
