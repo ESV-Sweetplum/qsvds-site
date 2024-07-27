@@ -12,6 +12,8 @@ import Loading from "@/components/Loading";
 import InputCard from "@/components/InputCard";
 import MapCard from "@/components/MapCard";
 import { Title } from "@/components/Typography/typography";
+import { User } from "@prisma/client";
+import { GetUser } from "../actions";
 
 export default function AddMapPage() {
     const router = useRouter();
@@ -23,6 +25,7 @@ export default function AddMapPage() {
     const [map, setMap] = useState<Partial<MapQua>>({});
     const [rating, setRating] = useState<number>(0);
     const [category, setCategory] = useState<string>("Reading");
+    const [user, setUser] = useState<User>();
 
     async function search() {
         const input = mapIDInput
@@ -95,9 +98,9 @@ export default function AddMapPage() {
                 },
                 body: JSON.stringify({
                     map,
-                    user_id: localStorage.getItem("id"),
-                    quaver_id: localStorage.getItem("quaver_id"),
-                    hash: localStorage.getItem("hash"),
+                    user_id: user?.user_id,
+                    quaver_id: user?.quaver_id,
+                    hash: user?.hash,
                     rating,
                     category,
                 }),
@@ -124,12 +127,21 @@ export default function AddMapPage() {
     }
 
     useEffect(() => {
-        if (!localStorage.getItem("id")) router.push("/maps");
+        async function getUserData() {
+            const user = await GetUser();
+            if (!user) {
+                router.push("/maps");
+            } else {
+                setUser(user);
+            }
+        }
+
+        getUserData();
     }, []);
 
     return (
         <>
-            <Loading loadingStatus={loading} />
+            <Loading loadingStatus={loading || !user} />
             <ErrorMessage
                 errorText={errorMessage}
                 errorTriggered={errorStatus}
@@ -141,8 +153,13 @@ export default function AddMapPage() {
                               transition: "filter 0.5s",
                               filter: "brightness(0.25)",
                               pointerEvents: "none",
+                              opacity: user ? 1 : 0,
                           }
-                        : { transition: "filter 0.5s", filter: "brightness(1)" }
+                        : {
+                              transition: "filter 0.5s",
+                              filter: "brightness(1)",
+                              opacity: user ? 1 : 0,
+                          }
                 }
             >
                 <Title>Add Map and Rating</Title>

@@ -24,7 +24,10 @@ export async function GetUser() {
         where: { user_id: parseInt(user_id as string) },
     });
 
-    if (GenerateHash(user?.quaver_id ?? 0) !== (hash as string)) return null;
+    if (GenerateHash(user?.quaver_id ?? 0) !== (hash as string)) {
+        Logout();
+        return null;
+    }
 
     return user;
 }
