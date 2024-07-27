@@ -11,7 +11,8 @@ import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
-import { Category, Rating, Score } from "@prisma/client";
+import { Category, Rating, Score, User } from "@prisma/client";
+import { getUser } from "@/app/actions";
 
 export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const router = useRouter();
@@ -27,8 +28,13 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const [loading, setLoading] = useState<boolean>(true);
     const [submittingRating, setSubmittingRating] = useState<boolean>(false);
 
+    const [user, setUser] = useState<User>();
+
     useEffect(() => {
         async function getMap() {
+            const user = await getUser();
+            setUser(user);
+
             const resp = await fetch(
                 `/api/map?quaver_id=${params.quaver_id}`
             ).then(r => r.json());
@@ -43,9 +49,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
 
             const userRating =
                 resp2.ratings.filter(
-                    (r: Rating) =>
-                        r.user_id ===
-                        parseInt(localStorage.getItem("id") ?? "-1e50")
+                    (r: Rating) => r.user_id === user?.user_id ?? "-1e70"
                 )[0]?.rating ?? "-1";
 
             setUserRating(userRating);
@@ -72,9 +76,9 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                user_id: localStorage.getItem("id"),
-                quaver_id: localStorage.getItem("quaver_id"),
-                hash: localStorage.getItem("hash"),
+                user_id: user?.user_id,
+                quaver_id: user?.quaver_id,
+                hash: user?.hash,
                 rating: userRating,
                 map_id: map.id,
             }),
@@ -142,29 +146,41 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                         </div>
                         <div className={styles.ratingHistogram}></div>
                     </div>
-                    <div className={styles.ratingAddSection}>
-                        Your Rating -{" "}
-                        {submittedRating === "-1" ? "NONE" : submittedRating}
-                        <input
-                            type="number"
-                            value={userRating === "-1" ? "0" : userRating}
-                            onChange={e =>
-                                setUserRating(
-                                    _.clamp(
-                                        parseInt(e.target.value) || 0,
-                                        0,
-                                        60
-                                    ).toString()
-                                )
-                            }
-                        />
-                        <button
-                            className={styles.ratingSubmitButton}
-                            onClick={submitRating}
-                        >
-                            submit LOL
-                        </button>
-                    </div>
+                    {user ? (
+                        <>
+                            <div className={styles.ratingAddSection}>
+                                Your Rating -{" "}
+                                {submittedRating === "-1"
+                                    ? "NONE"
+                                    : submittedRating}
+                                <input
+                                    type="number"
+                                    value={
+                                        userRating === "-1" ? "0" : userRating
+                                    }
+                                    onChange={e =>
+                                        setUserRating(
+                                            _.clamp(
+                                                parseInt(e.target.value) || 0,
+                                                0,
+                                                60
+                                            ).toString()
+                                        )
+                                    }
+                                />
+                                <button
+                                    className={styles.ratingSubmitButton}
+                                    onClick={submitRating}
+                                >
+                                    submit LOL
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <div className={styles.ratingAddSection}>
+                            log in bruh
+                        </div>
+                    )}
                 </div>
                 <div className={styles.ratingList}>
                     {ratings.map(rating => (

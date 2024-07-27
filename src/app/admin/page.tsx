@@ -8,11 +8,13 @@ import { Textfit } from "react-textfit";
 import Loading from "@/components/Loading";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import { useRouter } from "next/navigation";
-import { Category, Map } from "@prisma/client";
+import { Category, Map, User } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
+import { getUser, userIsAdmin } from "../actions";
 
 export default function AdminPage() {
     const router = useRouter();
+    const [user, setUser] = useState<User>();
 
     const [docs, setDocs] = useState<Map[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
@@ -20,22 +22,22 @@ export default function AdminPage() {
 
     useEffect(() => {
         async function getMaps() {
-            const adminResp = await fetch(
-                `/api/user/validate` +
-                    SearchParamBuilder({
-                        user_id: localStorage.getItem("id") || 0,
-                        hash: localStorage.getItem("hash") || "",
-                    })
-            ).then(r => r.json());
+            const isAdmin = await userIsAdmin();
 
-            if (!adminResp.isAdmin) router.push("/");
+            if (!isAdmin) {
+                router.push("/");
+                return;
+            }
+
+            const user = await getUser();
+            setUser(user);
 
             const resp = await fetch(
                 `/api/maps` +
                     SearchParamBuilder({
                         limited: false,
-                        quaver_id: localStorage.getItem("quaver_id") || 0,
-                        hash: localStorage.getItem("hash") || "",
+                        quaver_id: user?.quaver_id,
+                        hash: user?.hash,
                     })
             ).then(r => r.json());
 
@@ -67,8 +69,8 @@ export default function AdminPage() {
             body: JSON.stringify({
                 id,
                 category,
-                user_id: localStorage.getItem("id") || 0,
-                hash: localStorage.getItem("hash") || "",
+                user_id: user?.user_id,
+                hash: user?.hash,
             }),
         }).then(r => r.json());
 

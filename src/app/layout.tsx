@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import "@radix-ui/themes/styles.css";
 
 import NavBar from "@/components/NavBar";
@@ -7,6 +6,8 @@ import { CookiesProvider } from "next-client-cookies/server";
 import { Analytics } from "@vercel/analytics/react";
 import { Theme } from "@radix-ui/themes";
 import { Viewport } from "next";
+import prisma from "../../prisma/initialize";
+import { cookies } from "next/headers";
 
 const environment =
     process.env.NODE_ENV === "development" ? "development" : "production";
@@ -31,11 +32,15 @@ export const viewport: Viewport = {
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const user = await prisma.user.findUnique({
+        where: { user_id: parseInt(cookies().get("user_id")?.value ?? "0") },
+    });
+
     return (
         <html lang="en" className={inter.variable}>
             <body>
@@ -48,10 +53,12 @@ export default function RootLayout({
                     appearance="dark"
                 >
                     <CookiesProvider>
-                        <NavBar />
+                        <NavBar
+                            user={user}
+                            hash={cookies().get("hash")?.value ?? ""}
+                        />
                         {children}
                         <Analytics />
-                        <GoogleAnalytics gaId="G-XXHWM98XS0" />
                     </CookiesProvider>
                 </Theme>
             </body>
