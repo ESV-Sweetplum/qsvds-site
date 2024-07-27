@@ -26,7 +26,7 @@ export default function MapsListPage() {
 
     const [documents, setDocuments] = useState<Map[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [id, setID] = useState<number>(-1e70);
+    const [id, setID] = useState<number>(-6.9e6);
     const [searchInput, setSearchInput] = useState<string>("");
     const [pageCount, setPageCount] = useState<number>(1);
     const [pageNum, setPageNum] = useState<number>(1);
@@ -78,7 +78,7 @@ export default function MapsListPage() {
     useEffect(() => {
         async function getUserData() {
             const user = await getUser();
-            setID(user?.user_id ?? -1e70);
+            setID(user?.user_id ?? -6.9e6);
         }
 
         getUserData();
@@ -101,7 +101,7 @@ export default function MapsListPage() {
     }, []);
 
     button =
-        id > -1e69 ? (
+        id !== -6.9e6 ? (
             <Link className={styles.addMapButton} href="/add-map">
                 + Add Map
             </Link>

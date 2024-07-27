@@ -49,7 +49,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
 
             const userRating =
                 resp2.ratings.filter(
-                    (r: Rating) => r.user_id === user?.user_id ?? "-1e70"
+                    (r: Rating) => r.user_id === user?.user_id ?? "-6.9e6"
                 )[0]?.rating ?? "-1";
 
             setUserRating(userRating);
