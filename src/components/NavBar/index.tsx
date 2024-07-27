@@ -9,29 +9,35 @@ import Image from "next/image";
 import Logo from "../../../public/logo.svg";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDownIcon, LockClosedIcon } from "@radix-ui/react-icons";
+import { User } from "@prisma/client";
+import { Logout } from "@/app/actions";
 
 const permittedIDs = [1, 3, 5];
 
-export default function NavBar() {
-    const path = usePathname();
+interface NavbarProps {
+    user?: User | null;
+    hash?: string;
+}
+
+export default function NavBar({ user, hash }: NavbarProps) {
     const router = useRouter();
 
-    const [id, setID] = useState<string>("");
-    const [avatarLink, setAvatarLink] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
-    const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-    const [showBG, setShowBG] = useState<boolean>(false);
+    const [showBG, setShowBG] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
+    useEffect(() => {
+        async function checkValidity() {
+            if (user?.hash === hash || !user) return;
+            await Logout();
+            router.push("/");
+            router.refresh();
+        }
+
+        checkValidity();
+    }, []);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
-        const id = localStorage.getItem("id") ?? "";
-        setAvatarLink(localStorage.getItem("avatar") ?? "");
-        setUsername(localStorage.getItem("username") ?? "");
-        setID(id);
-
-        if (path.includes("admin") && !permittedIDs.includes(parseInt(id))) {
-            router.push("/");
-        }
 
         window.addEventListener("scroll", () => {
             if (window.scrollY >= 80) {
@@ -73,9 +79,9 @@ export default function NavBar() {
                 <NavLink href="/" text="Courses" />
             </section>
             <section className={styles.userData}>
-                {username ? (
+                {user ? (
                     <>
-                        {permittedIDs.includes(parseInt(id)) ? (
+                        {permittedIDs.includes(user.user_id) ? (
                             <LockClosedIcon
                                 onClick={() => router.push("/admin")}
                                 width={20}
@@ -97,11 +103,11 @@ export default function NavBar() {
                                     }}
                                 >
                                     <Avatar
-                                        src={avatarLink}
+                                        src={user.avatar}
                                         fallback="pfp"
                                         style={{ marginRight: "5px" }}
                                     />
-                                    <Text size="5">{username}</Text>
+                                    <Text size="5">{user.username}</Text>
                                     <ChevronDownIcon
                                         style={{
                                             transform: `rotate(${+dropdownOpen * 180}deg)`,
@@ -112,13 +118,13 @@ export default function NavBar() {
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content align="end">
                                 <DropdownMenu.Item
-                                    onClick={() => router.push(`/user/${id}`)}
+                                    onClick={() =>
+                                        router.push(`/user/${user.user_id}`)
+                                    }
                                 >
                                     View My Profile
                                 </DropdownMenu.Item>
-                                <DropdownMenu.Item
-                                    onClick={() => router.push("/logout")}
-                                >
+                                <DropdownMenu.Item onClick={() => Logout()}>
                                     Logout
                                 </DropdownMenu.Item>
                             </DropdownMenu.Content>
