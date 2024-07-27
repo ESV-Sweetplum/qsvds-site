@@ -38,42 +38,7 @@ export default function MapsListPage() {
     const [lastSearchTime, setLastSearchTime] = useState<number>(0);
     const [loadTime, setLoadTime] = useState<number>(Date.now());
 
-    const debounceDelay = 250;
-
-    const debouncedMinRating = useDebounce(minRating, debounceDelay);
-    const debouncedMaxRating = useDebounce(maxRating, debounceDelay);
-    const debouncedShowBanned = useDebounce(showBanned, debounceDelay);
-
-    const debouncedInput = useDebounce(searchInput, debounceDelay);
-    const debouncedPageNum = useDebounce(pageNum, debounceDelay);
-
     let button = <></>;
-
-    useEffect(() => {
-        if (isInitialMount2.current) {
-            isInitialMount2.current = false;
-            return;
-        }
-        if (pageNum !== 1) isInitialMount.current = true;
-
-        console.log("search 1");
-
-        search();
-    }, [
-        debouncedMinRating,
-        debouncedMaxRating,
-        debouncedShowBanned,
-        debouncedInput,
-    ]);
-
-    useEffect(() => {
-        if (Date.now() - loadTime < 1000) return;
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            return;
-        }
-        search(debouncedPageNum);
-    }, [debouncedPageNum]);
 
     useEffect(() => {
         async function getUserData() {
@@ -86,16 +51,6 @@ export default function MapsListPage() {
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams);
-
-        if (!params) return;
-
-        setPageNum(parseInt(params.get("page") ?? "1"));
-        setMinRating(params.get("minRating") ?? "0");
-        setMaxRating(params.get("maxRating") ?? "60");
-        setSearchInput(params.get("query") ?? "");
-        setShowBanned(params.get("showBanned") === "true" ? true : false);
-
-        console.log("search 3");
 
         search(parseInt(params.get("page") ?? "1"));
     }, []);
@@ -121,26 +76,8 @@ export default function MapsListPage() {
         } else {
             params.delete("query");
         }
-        if (minRating && minRating !== "0") {
-            params.set("minRating", minRating);
-        } else {
-            params.delete("minRating");
-        }
-        if (maxRating && maxRating !== "60") {
-            params.set("maxRating", maxRating);
-        } else {
-            params.delete("maxRating");
-        }
-        if (newPageNum) {
-            params.set("page", newPageNum.toString());
-        } else {
-            params.set("page", "1");
-        }
-        if (showBanned) {
-            params.set("showBanned", `${showBanned}`);
-        } else {
-            params.delete("showBanned");
-        }
+
+        params.set("page", newPageNum ? newPageNum.toString() : "1");
 
         replace(`${pathname}?${params.toString()}`);
 
@@ -149,17 +86,13 @@ export default function MapsListPage() {
             `/api/maps` +
                 SearchParamBuilder({
                     query: searchInput,
-                    minRating: minRating,
-                    maxRating: maxRating,
                     page: newPageNum || 1,
-                    showBanned,
                 })
         ).then(r => r.json());
 
         setDocuments(resp.maps);
         setPageNum(newPageNum || 1);
         setPageCount(resp.pageCount);
-        // if (!resp.maps.length) setDocuments(tempDocuments);
         setLoading(false);
     }
 
@@ -171,19 +104,13 @@ export default function MapsListPage() {
                 <PrimaryInput
                     value={searchInput}
                     changeValue={setSearchInput}
-                    onClick={search}
+                    onClick={() => {
+                        search(1);
+                    }}
                     placeholderText="Enter Map Name Here"
                     searchMode={true}
                     onConfirm={() => {}}
                     onCancel={() => {}}
-                    displayDropdown
-                    minRating={minRating}
-                    maxRating={maxRating}
-                    showBanned={showBanned}
-                    setMinRating={setMinRating}
-                    setMaxRating={setMaxRating}
-                    setShowBanned={setShowBanned}
-                    hideSearch
                 />
                 <div className={styles.cards}>
                     {documents?.length
@@ -201,39 +128,6 @@ export default function MapsListPage() {
                         : Array(6)
                               .fill(0)
                               .map((_item, idx) => <MapCard key={idx} />)}
-                </div>
-                <div className={styles.pageChangerWrapper}>
-                    <div
-                        className={styles.pageNavigator}
-                        onClick={() => {
-                            setPageNum(_.clamp(pageNum - 1, 1, pageCount));
-                            search(_.clamp(pageNum - 1, 1, pageCount));
-                        }}
-                    >
-                        &lt;&lt;
-                    </div>
-                    Page
-                    <input
-                        className={styles.pageChangerInput}
-                        type="number"
-                        value={pageNum}
-                        onChange={e =>
-                            setPageNum(
-                                _.clamp(parseInt(e.target.value), 1, pageCount)
-                            )
-                        }
-                        onFocus={e => e.target.select()}
-                    />{" "}
-                    of {pageCount}{" "}
-                    <div
-                        className={styles.pageNavigator}
-                        onClick={() => {
-                            setPageNum(_.clamp(pageNum + 1, 1, pageCount));
-                            search(_.clamp(pageNum + 1, 1, pageCount));
-                        }}
-                    >
-                        &gt;&gt;
-                    </div>
                 </div>
             </main>
         </>
