@@ -24,6 +24,33 @@ export default async function HomePage({
 
     return (
         <>
+            <div
+                style={{
+                    width: "100vw",
+                    height: "35px",
+                    color: "white",
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    backgroundColor: "black",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "14px",
+                    gap: "4px",
+                }}
+            >
+                ESVT staff registrations are open now!{" "}
+                <a
+                    href="https://quavergame.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: "inline", textDecoration: "underline" }}
+                >
+                    Sign up here
+                </a>{" "}
+                to become a referree, streamer, commentator, or mappooler.
+            </div>
             <div className={styles.vignette} />
             <DynamicBackground />
             <ScrollDownIndicator stopDisplayingAt={120} />
