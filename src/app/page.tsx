@@ -42,7 +42,7 @@ export default async function HomePage({
             >
                 ESVT staff registrations are open now!{" "}
                 <a
-                    href="https://quavergame.com"
+                    href="https://forms.gle/o5XLDuLGuNBwHAxq8"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ display: "inline", textDecoration: "underline" }}
