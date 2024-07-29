@@ -18,6 +18,8 @@ import {
     Container,
     Dialog,
     DropdownMenu,
+    Flex,
+    Heading,
     Section,
     Skeleton,
     Text,
@@ -32,6 +34,8 @@ import {
     DropdownMenuIcon,
     MagnifyingGlassIcon,
     MixerHorizontalIcon,
+    PlusIcon,
+    ShuffleIcon,
 } from "@radix-ui/react-icons";
 
 export default function MapsListPage() {
@@ -50,6 +54,7 @@ export default function MapsListPage() {
     const [maxRating, setMaxRating] = useState<string>("60");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
+    const [selectingRandom, setSelectingRandom] = useState<boolean>(false);
 
     let button = <></>;
 
@@ -123,7 +128,41 @@ export default function MapsListPage() {
 
     return (
         <Container width="900px" pt="70px">
-            <Title button={button}>Maps</Title>
+            <Flex align="center" justify="between" mt="8" mb="6">
+                <Heading size="8">Maps</Heading>
+                <Flex gap="3">
+                    {id !== -6.9e6 ? (
+                        <Button color="grass" radius="medium" size="3" asChild>
+                            <Link href="/add-map">
+                                <PlusIcon width="20" height="20" /> Add Map
+                            </Link>
+                        </Button>
+                    ) : (
+                        <></>
+                    )}
+                    <Button
+                        color="blue"
+                        radius="medium"
+                        size="3"
+                        loading={selectingRandom}
+                        // asChild
+                    >
+                        <Link
+                            href="/map/random"
+                            onClick={() => setSelectingRandom(true)}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: "10px",
+                            }}
+                        >
+                            <ShuffleIcon width="20" height="20" /> Select Random
+                        </Link>
+                    </Button>
+                </Flex>
+            </Flex>
+
             <TextField.Root
                 value={searchInput}
                 onChange={e => setSearchInput(e.target.value)}
