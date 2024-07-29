@@ -21,7 +21,7 @@ export default function NotFound() {
                 <Text>your shit wasn&apos;t found bruh</Text>
                 <Button asChild>
                     <Link href="/">
-                        take me back home (like your father never could)
+                        go back to home (like your father never could)
                     </Link>
                 </Button>
             </Flex>
