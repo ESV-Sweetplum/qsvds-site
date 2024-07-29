@@ -1,5 +1,6 @@
 import prisma from "../../../../prisma/initialize";
 import { Prisma } from "@prisma/client";
+import _ from "lodash";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -12,7 +13,9 @@ export async function GET(request: NextRequest) {
     if (!quaver_id && !user_id) return Response.json({ status: 400 });
 
     const queryBuilder: Prisma.UserFindUniqueArgs = {
-        where: { user_id: parseInt(user_id ?? "-6.9e6") },
+        where: {
+            user_id: _.clamp(parseInt(user_id ?? "-6.9e6"), -6.9e6, 6.9e6),
+        },
     };
 
     if (includeRatings === "true")
