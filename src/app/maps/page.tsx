@@ -184,8 +184,8 @@ export default function MapsListPage() {
                             <Dialog.Title size="8">Filters</Dialog.Title>
                             <Dialog.Description>
                                 Radix makes me wanna kms (i will do this
-                                eventually) (also don't forget to replace the
-                                search icon with a filter icon you bozo)
+                                eventually) (also don&apos;t forget to replace
+                                the search icon with a filter icon you bozo)
                             </Dialog.Description>
                         </Dialog.Content>
                     </Dialog.Root>
@@ -218,11 +218,12 @@ export default function MapsListPage() {
                       ))
                     : Array(4)
                           .fill(0)
-                          .map(_ => (
+                          .map((_, idx) => (
                               <Skeleton
                                   width="400px"
                                   height="200px"
                                   style={{ borderRadius: "25px" }}
+                                  key={idx}
                               />
                           ))}
             </div>
@@ -249,6 +250,7 @@ export default function MapsListPage() {
                                     onClick={() =>
                                         ChangePage(idx + 1, pageNum, pageCount)
                                     }
+                                    key={idx}
                                 >
                                     {idx + 1}
                                 </DropdownMenu.Item>

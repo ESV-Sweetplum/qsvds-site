@@ -18,7 +18,7 @@ export default function NotFound() {
                 gap={"2"}
             >
                 <Heading size="9">yo bitch</Heading>
-                <Text>Your shit wasn't found bruh</Text>
+                <Text>Your shit wasn&apos;t found bruh</Text>
                 <Button asChild>
                     <Link href="/">
                         take me back home (like your father never could)
