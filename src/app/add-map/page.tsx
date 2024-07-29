@@ -173,7 +173,7 @@ export default function AddMapPage() {
                     onCancel={cancelRating}
                 />
                 <div className={styles.cards}>
-                    {map.id ? (
+                    {Object.keys(map).length ? (
                         <MapCard
                             map={map}
                             rating={rating}
