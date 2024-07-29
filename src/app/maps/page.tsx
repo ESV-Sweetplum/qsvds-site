@@ -166,17 +166,17 @@ export default function MapsListPage() {
             <TextField.Root
                 value={searchInput}
                 onChange={e => setSearchInput(e.target.value)}
-                placeholder="Search for a map, or click on the filter icon to apply filters."
+                placeholder="Search for a map..."
                 size="3"
                 radius="medium"
             >
                 <TextField.Slot>
                     <Dialog.Root>
                         <Dialog.Trigger>
-                            <MixerHorizontalIcon
+                            <MagnifyingGlassIcon
                                 height="16"
                                 width="16"
-                                style={{ cursor: "pointer" }}
+                                // style={{ cursor: "pointer" }}
                                 color="white"
                             />
                         </Dialog.Trigger>
@@ -184,7 +184,8 @@ export default function MapsListPage() {
                             <Dialog.Title size="8">Filters</Dialog.Title>
                             <Dialog.Description>
                                 Radix makes me wanna kms (i will do this
-                                eventually)
+                                eventually) (also don't forget to replace the
+                                search icon with a filter icon you bozo)
                             </Dialog.Description>
                         </Dialog.Content>
                     </Dialog.Root>
