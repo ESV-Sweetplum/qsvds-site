@@ -13,8 +13,23 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Map } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
 import { getUser } from "../actions";
-import { Button, Dialog, TextField } from "@radix-ui/themes";
 import {
+    Button,
+    Container,
+    Dialog,
+    DropdownMenu,
+    Section,
+    Skeleton,
+    Text,
+    TextField,
+} from "@radix-ui/themes";
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ChevronUpIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    DropdownMenuIcon,
     MagnifyingGlassIcon,
     MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
@@ -91,64 +106,123 @@ export default function MapsListPage() {
         setLoading(false);
     }
 
+    const router = useRouter();
+    function ChangePage(
+        desiredPage: number,
+        currentPage: number,
+        pageCount: number
+    ): void {
+        const newPage = _.clamp(desiredPage, 1, pageCount);
+
+        if (newPage === currentPage) return;
+
+        router.push(`/maps?page=${newPage}`);
+        setPageNum(newPage);
+        search(newPage);
+    }
+
     return (
-        <>
-            <Loading loadingStatus={loading} />
-            <main style={{ pointerEvents: loading ? "none" : "all" }}>
-                <Title button={button}>Maps</Title>
-                <TextField.Root
-                    value={searchInput}
-                    onChange={e => setSearchInput(e.target.value)}
-                    placeholder="Search for a map, or click on the filter icon to apply filters."
-                    size="3"
-                    radius="medium"
-                >
-                    <TextField.Slot>
-                        <Dialog.Root>
-                            <Dialog.Trigger>
-                                <MixerHorizontalIcon
-                                    height="16"
-                                    width="16"
-                                    style={{ cursor: "pointer" }}
-                                    color="white"
-                                />
-                            </Dialog.Trigger>
-                            <Dialog.Content>
-                                <Dialog.Title size="8">Filters</Dialog.Title>
-                            </Dialog.Content>
-                        </Dialog.Root>
-                    </TextField.Slot>
-                    <TextField.Slot pr="0">
-                        <Button
-                            size="3"
-                            onClick={() => search(1)}
-                            radius="medium"
-                            loading={loading}
-                            style={{ gap: "var(--space-1)" }}
-                        >
-                            <MagnifyingGlassIcon width="20" height="20" />
-                            Search
-                        </Button>
-                    </TextField.Slot>
-                </TextField.Root>
-                <div className={styles.cards}>
-                    {documents?.length
-                        ? documents.map(doc => (
-                              <MapCard
-                                  map={doc.mapQua as unknown as MapQua}
-                                  rating={doc.totalRating}
-                                  category={doc.category}
-                                  key={doc.map_id}
-                                  clickable
-                                  baseline={doc.baseline}
-                                  banned={doc.banned}
+        <Container width="900px" pt="70px">
+            <Title button={button}>Maps</Title>
+            <TextField.Root
+                value={searchInput}
+                onChange={e => setSearchInput(e.target.value)}
+                placeholder="Search for a map, or click on the filter icon to apply filters."
+                size="3"
+                radius="medium"
+            >
+                <TextField.Slot>
+                    <Dialog.Root>
+                        <Dialog.Trigger>
+                            <MixerHorizontalIcon
+                                height="16"
+                                width="16"
+                                style={{ cursor: "pointer" }}
+                                color="white"
+                            />
+                        </Dialog.Trigger>
+                        <Dialog.Content>
+                            <Dialog.Title size="8">Filters</Dialog.Title>
+                            <Dialog.Description>
+                                Radix makes me wanna kms (i will do this
+                                eventually)
+                            </Dialog.Description>
+                        </Dialog.Content>
+                    </Dialog.Root>
+                </TextField.Slot>
+                <TextField.Slot pr="0">
+                    <Button
+                        size="3"
+                        onClick={() => search(1)}
+                        radius="medium"
+                        loading={loading}
+                        style={{ gap: "var(--space-1)" }}
+                    >
+                        <MagnifyingGlassIcon width="20" height="20" />
+                        Search
+                    </Button>
+                </TextField.Slot>
+            </TextField.Root>
+            <div className={styles.cards}>
+                {documents?.length
+                    ? documents.map(doc => (
+                          <MapCard
+                              map={doc.mapQua as unknown as MapQua}
+                              rating={doc.totalRating}
+                              category={doc.category}
+                              key={doc.map_id}
+                              clickable
+                              baseline={doc.baseline}
+                              banned={doc.banned}
+                          />
+                      ))
+                    : Array(4)
+                          .fill(0)
+                          .map(_ => (
+                              <Skeleton
+                                  width="400px"
+                                  height="200px"
+                                  style={{ borderRadius: "25px" }}
                               />
-                          ))
-                        : Array(6)
-                              .fill(0)
-                              .map((_item, idx) => <MapCard key={idx} />)}
-                </div>
-            </main>
-        </>
+                          ))}
+            </div>
+            <Section className={styles.pageNavigator}>
+                <DoubleArrowLeftIcon
+                    onClick={() => ChangePage(1, pageNum, pageCount)}
+                />
+                <ChevronLeftIcon
+                    onClick={() => ChangePage(pageNum - 1, pageNum, pageCount)}
+                />
+                <Text>Page</Text>
+                <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                        <Button size="1" radius="large" variant="surface">
+                            {pageNum}
+                            <ChevronUpIcon />
+                        </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content>
+                        {Array(pageCount)
+                            .fill(-1)
+                            .map((_, idx) => (
+                                <DropdownMenu.Item
+                                    onClick={() =>
+                                        ChangePage(idx + 1, pageNum, pageCount)
+                                    }
+                                >
+                                    {idx + 1}
+                                </DropdownMenu.Item>
+                            ))}
+                    </DropdownMenu.Content>
+                </DropdownMenu.Root>
+                <Text>of {pageCount}</Text>
+                <ChevronRightIcon
+                    onClick={() => ChangePage(pageNum + 1, pageNum, pageCount)}
+                />
+                <DoubleArrowRightIcon
+                    onClick={() => ChangePage(pageCount, pageNum, pageCount)}
+                />
+            </Section>
+        </Container>
     );
 }
