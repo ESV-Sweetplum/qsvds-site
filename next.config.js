@@ -38,17 +38,17 @@ module.exports = {
             },
         ],
     },
-    reactStrictMode: false,
+    // reactStrictMode: false,
     compiler: {
         removeConsole: process.env.NODE_ENV === "production",
     },
     async redirects() {
         return [
-          {
-            source: '/mapsets/map/:quaver_id',
-            destination: '/map/:quaver_id',
-            permanent: true,
-          },
-        ]
-      },
+            {
+                source: "/mapsets/map/:quaver_id",
+                destination: "/map/:quaver_id",
+                permanent: true,
+            },
+        ];
+    },
 };
