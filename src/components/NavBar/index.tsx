@@ -56,8 +56,8 @@ export default function NavBar({ user, hash }: NavbarProps) {
         <nav
             className={styles.navBar}
             style={{
-                backgroundColor: showBG ? "var(--accent-3)" : "rgba(0,0,0,0)",
-                backdropFilter: showBG ? "blur(10px)" : "none",
+                backgroundColor: showBG ? "var(--accent-a3)" : "rgba(0,0,0,0)",
+                backdropFilter: showBG ? "brightness(0.2) sepia(0.3)" : "none",
                 marginTop: `${path === "/" ? Math.max(35 - windowScrollValue, 0) : 0}px`,
             }}
         >
