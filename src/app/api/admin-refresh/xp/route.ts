@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const authorized = await validateAdministrator(
         authHeader,
         body.user_id,
-        body.user_hash
+        body.hash
     );
 
     if (!authorized)

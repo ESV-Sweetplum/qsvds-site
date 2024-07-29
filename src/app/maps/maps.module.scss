@@ -38,40 +38,25 @@
     }
 }
 
-.pageChangerWrapper {
-    width: 150px;
-    height: 30px;
-    border-radius: 10px;
-    margin: auto;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    color: white;
-    margin-bottom: 30px;
-    overflow: hidden;
-}
-
-.pageChangerInput {
-    width: 40px;
-    border-radius: 10px;
-    padding-inline: 10px;
-    background-color: rgb(52, 52, 52);
-    height: 100%;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: filter 0.3s;
-    cursor: pointer;
-    text-align: center;
-}
-
 .pageNavigator {
-    color: lightblue;
-    cursor: pointer;
-    &:hover {
-        filter: brightness(0.9);
-    }
-    &:active {
-        filter: brightness(0.6);
+    color: white;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    gap: 5px;
+    padding-block: 10px;
+    user-select: none;
+    align-items: center;
+    & svg {
+        &:hover {
+            filter: brightness(0.8);
+        }
+        &:active {
+            filter: brightness(0.3);
+        }
+        transition: brightness 0.1s;
+        cursor: pointer;
+        filter: brightness(0) saturate(100%) invert(38%) sepia(94%)
+            saturate(631%) hue-rotate(217deg) brightness(83%) contrast(95%);
     }
 }

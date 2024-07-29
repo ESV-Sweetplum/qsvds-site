@@ -3,26 +3,45 @@
 import { Title } from "@/components/Typography/typography";
 import "../../styles/global.scss";
 import styles from "./maps.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import MapCard from "@/components/MapCard";
 import Loading from "@/components/Loading";
 import Link from "next/link";
-import PrimaryInput from "@/components/PrimaryInput";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
-import { useDebounce } from "@uidotdev/usehooks";
 import _ from "lodash";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { Map } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
 import { getUser } from "../actions";
+import {
+    Button,
+    Container,
+    Dialog,
+    DropdownMenu,
+    Flex,
+    Heading,
+    Section,
+    Skeleton,
+    Text,
+    TextField,
+} from "@radix-ui/themes";
+import {
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ChevronUpIcon,
+    DoubleArrowLeftIcon,
+    DoubleArrowRightIcon,
+    DropdownMenuIcon,
+    MagnifyingGlassIcon,
+    MixerHorizontalIcon,
+    PlusIcon,
+    ShuffleIcon,
+} from "@radix-ui/react-icons";
 
 export default function MapsListPage() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
-
-    const isInitialMount = useRef(false);
-    const isInitialMount2 = useRef(true);
 
     const [documents, setDocuments] = useState<Map[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -35,45 +54,9 @@ export default function MapsListPage() {
     const [maxRating, setMaxRating] = useState<string>("60");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
-    const [lastSearchTime, setLastSearchTime] = useState<number>(0);
-    const [loadTime, setLoadTime] = useState<number>(Date.now());
-
-    const debounceDelay = 250;
-
-    const debouncedMinRating = useDebounce(minRating, debounceDelay);
-    const debouncedMaxRating = useDebounce(maxRating, debounceDelay);
-    const debouncedShowBanned = useDebounce(showBanned, debounceDelay);
-
-    const debouncedInput = useDebounce(searchInput, debounceDelay);
-    const debouncedPageNum = useDebounce(pageNum, debounceDelay);
+    const [selectingRandom, setSelectingRandom] = useState<boolean>(false);
 
     let button = <></>;
-
-    useEffect(() => {
-        if (isInitialMount2.current) {
-            isInitialMount2.current = false;
-            return;
-        }
-        if (pageNum !== 1) isInitialMount.current = true;
-
-        console.log("search 1");
-
-        search();
-    }, [
-        debouncedMinRating,
-        debouncedMaxRating,
-        debouncedShowBanned,
-        debouncedInput,
-    ]);
-
-    useEffect(() => {
-        if (Date.now() - loadTime < 1000) return;
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-            return;
-        }
-        search(debouncedPageNum);
-    }, [debouncedPageNum]);
 
     useEffect(() => {
         async function getUserData() {
@@ -86,16 +69,6 @@ export default function MapsListPage() {
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams);
-
-        if (!params) return;
-
-        setPageNum(parseInt(params.get("page") ?? "1"));
-        setMinRating(params.get("minRating") ?? "0");
-        setMaxRating(params.get("maxRating") ?? "60");
-        setSearchInput(params.get("query") ?? "");
-        setShowBanned(params.get("showBanned") === "true" ? true : false);
-
-        console.log("search 3");
 
         search(parseInt(params.get("page") ?? "1"));
     }, []);
@@ -110,10 +83,7 @@ export default function MapsListPage() {
         );
 
     async function search(newPageNum?: number) {
-        if (Date.now() - lastSearchTime < 1000) return;
         setLoading(true);
-
-        setLastSearchTime(Date.now());
 
         const params = new URLSearchParams(searchParams);
         if (searchInput) {
@@ -121,26 +91,8 @@ export default function MapsListPage() {
         } else {
             params.delete("query");
         }
-        if (minRating && minRating !== "0") {
-            params.set("minRating", minRating);
-        } else {
-            params.delete("minRating");
-        }
-        if (maxRating && maxRating !== "60") {
-            params.set("maxRating", maxRating);
-        } else {
-            params.delete("maxRating");
-        }
-        if (newPageNum) {
-            params.set("page", newPageNum.toString());
-        } else {
-            params.set("page", "1");
-        }
-        if (showBanned) {
-            params.set("showBanned", `${showBanned}`);
-        } else {
-            params.delete("showBanned");
-        }
+
+        params.set("page", newPageNum ? newPageNum.toString() : "1");
 
         replace(`${pathname}?${params.toString()}`);
 
@@ -149,93 +101,170 @@ export default function MapsListPage() {
             `/api/maps` +
                 SearchParamBuilder({
                     query: searchInput,
-                    minRating: minRating,
-                    maxRating: maxRating,
                     page: newPageNum || 1,
-                    showBanned,
                 })
         ).then(r => r.json());
 
         setDocuments(resp.maps);
         setPageNum(newPageNum || 1);
         setPageCount(resp.pageCount);
-        // if (!resp.maps.length) setDocuments(tempDocuments);
         setLoading(false);
     }
 
+    const router = useRouter();
+    function ChangePage(
+        desiredPage: number,
+        currentPage: number,
+        pageCount: number
+    ): void {
+        const newPage = _.clamp(desiredPage, 1, pageCount);
+
+        if (newPage === currentPage) return;
+
+        router.push(`/maps?page=${newPage}`);
+        setPageNum(newPage);
+        search(newPage);
+    }
+
     return (
-        <>
-            <Loading loadingStatus={loading} />
-            <main style={{ pointerEvents: loading ? "none" : "all" }}>
-                <Title button={button}>Maps</Title>
-                <PrimaryInput
-                    value={searchInput}
-                    changeValue={setSearchInput}
-                    onClick={search}
-                    placeholderText="Enter Map Name Here"
-                    searchMode={true}
-                    onConfirm={() => {}}
-                    onCancel={() => {}}
-                    displayDropdown
-                    minRating={minRating}
-                    maxRating={maxRating}
-                    showBanned={showBanned}
-                    setMinRating={setMinRating}
-                    setMaxRating={setMaxRating}
-                    setShowBanned={setShowBanned}
-                    hideSearch
-                />
-                <div className={styles.cards}>
-                    {documents?.length
-                        ? documents.map(doc => (
-                              <MapCard
-                                  map={doc.mapQua as unknown as MapQua}
-                                  rating={doc.totalRating}
-                                  category={doc.category}
-                                  key={doc.map_id}
-                                  clickable
-                                  baseline={doc.baseline}
-                                  banned={doc.banned}
+        <Container width="900px" pt="70px">
+            <Flex align="center" justify="between" mt="8" mb="6">
+                <Heading size="8">Maps</Heading>
+                <Flex gap="3">
+                    {id !== -6.9e6 ? (
+                        <Button color="grass" radius="medium" size="3" asChild>
+                            <Link href="/add-map">
+                                <PlusIcon width="20" height="20" /> Add Map
+                            </Link>
+                        </Button>
+                    ) : (
+                        <></>
+                    )}
+                    <Button
+                        color="blue"
+                        radius="medium"
+                        size="3"
+                        loading={selectingRandom}
+                        // asChild
+                    >
+                        <Link
+                            href="/map/random"
+                            onClick={() => setSelectingRandom(true)}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: "10px",
+                            }}
+                        >
+                            <ShuffleIcon width="20" height="20" /> Select Random
+                        </Link>
+                    </Button>
+                </Flex>
+            </Flex>
+
+            <TextField.Root
+                value={searchInput}
+                onChange={e => setSearchInput(e.target.value)}
+                placeholder="Search for a map..."
+                size="3"
+                radius="medium"
+            >
+                <TextField.Slot>
+                    <Dialog.Root>
+                        <Dialog.Trigger>
+                            <MagnifyingGlassIcon
+                                height="16"
+                                width="16"
+                                // style={{ cursor: "pointer" }}
+                                color="white"
+                            />
+                        </Dialog.Trigger>
+                        <Dialog.Content>
+                            <Dialog.Title size="8">Filters</Dialog.Title>
+                            <Dialog.Description>
+                                Radix makes me wanna kms (i will do this
+                                eventually) (also don&apos;t forget to replace
+                                the search icon with a filter icon you bozo)
+                            </Dialog.Description>
+                        </Dialog.Content>
+                    </Dialog.Root>
+                </TextField.Slot>
+                <TextField.Slot pr="0">
+                    <Button
+                        size="3"
+                        onClick={() => search(1)}
+                        radius="medium"
+                        loading={loading}
+                        style={{ gap: "var(--space-1)" }}
+                    >
+                        <MagnifyingGlassIcon width="20" height="20" />
+                        Search
+                    </Button>
+                </TextField.Slot>
+            </TextField.Root>
+            <div className={styles.cards}>
+                {documents?.length
+                    ? documents.map(doc => (
+                          <MapCard
+                              map={doc.mapQua as unknown as MapQua}
+                              rating={doc.totalRating}
+                              category={doc.category}
+                              key={doc.map_id}
+                              clickable
+                              baseline={doc.baseline}
+                              banned={doc.banned}
+                          />
+                      ))
+                    : Array(4)
+                          .fill(0)
+                          .map((_, idx) => (
+                              <Skeleton
+                                  width="400px"
+                                  height="200px"
+                                  style={{ borderRadius: "25px" }}
+                                  key={idx}
                               />
-                          ))
-                        : Array(6)
-                              .fill(0)
-                              .map((_item, idx) => <MapCard key={idx} />)}
-                </div>
-                <div className={styles.pageChangerWrapper}>
-                    <div
-                        className={styles.pageNavigator}
-                        onClick={() => {
-                            setPageNum(_.clamp(pageNum - 1, 1, pageCount));
-                            search(_.clamp(pageNum - 1, 1, pageCount));
-                        }}
-                    >
-                        &lt;&lt;
-                    </div>
-                    Page
-                    <input
-                        className={styles.pageChangerInput}
-                        type="number"
-                        value={pageNum}
-                        onChange={e =>
-                            setPageNum(
-                                _.clamp(parseInt(e.target.value), 1, pageCount)
-                            )
-                        }
-                        onFocus={e => e.target.select()}
-                    />{" "}
-                    of {pageCount}{" "}
-                    <div
-                        className={styles.pageNavigator}
-                        onClick={() => {
-                            setPageNum(_.clamp(pageNum + 1, 1, pageCount));
-                            search(_.clamp(pageNum + 1, 1, pageCount));
-                        }}
-                    >
-                        &gt;&gt;
-                    </div>
-                </div>
-            </main>
-        </>
+                          ))}
+            </div>
+            <Section className={styles.pageNavigator}>
+                <DoubleArrowLeftIcon
+                    onClick={() => ChangePage(1, pageNum, pageCount)}
+                />
+                <ChevronLeftIcon
+                    onClick={() => ChangePage(pageNum - 1, pageNum, pageCount)}
+                />
+                <Text>Page</Text>
+                <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                        <Button size="1" radius="large" variant="surface">
+                            {pageNum}
+                            <ChevronUpIcon />
+                        </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content>
+                        {Array(pageCount)
+                            .fill(-1)
+                            .map((_, idx) => (
+                                <DropdownMenu.Item
+                                    onClick={() =>
+                                        ChangePage(idx + 1, pageNum, pageCount)
+                                    }
+                                    key={idx}
+                                >
+                                    {idx + 1}
+                                </DropdownMenu.Item>
+                            ))}
+                    </DropdownMenu.Content>
+                </DropdownMenu.Root>
+                <Text>of {pageCount}</Text>
+                <ChevronRightIcon
+                    onClick={() => ChangePage(pageNum + 1, pageNum, pageCount)}
+                />
+                <DoubleArrowRightIcon
+                    onClick={() => ChangePage(pageCount, pageNum, pageCount)}
+                />
+            </Section>
+        </Container>
     );
 }

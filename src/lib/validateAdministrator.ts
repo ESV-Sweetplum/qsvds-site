@@ -4,7 +4,7 @@ import GenerateHash from "./generateHash";
 export default async function validateAdministrator(
     authHeader: string | null,
     user_id: number = 0,
-    user_hash: string = ""
+    hash: string = ""
 ) {
     if ((authHeader ?? "") !== `Bearer ${process.env.SERVER_PW}`) return false;
 
@@ -13,7 +13,7 @@ export default async function validateAdministrator(
     if (!user) return false;
     if (user.role !== "Administrator") return false;
 
-    if (GenerateHash(user.quaver_id) !== user_hash) return false;
+    if (GenerateHash(user.quaver_id) !== hash) return false;
 
     return true;
 }
