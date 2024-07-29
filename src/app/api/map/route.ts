@@ -13,7 +13,9 @@ export async function GET(request: NextRequest) {
     if (!map_quaver_id && !map_id) return Response.json({ status: 400 });
 
     const queryBuilder: Prisma.MapFindUniqueArgs = {
-        where: { quaver_id: parseInt(map_quaver_id ?? "0") },
+        where: {
+            quaver_id: _.clamp(parseInt(map_quaver_id ?? "0"), 0, 2147483647),
+        },
     };
 
     if (map_id) {
@@ -40,7 +42,7 @@ export async function POST(request: NextRequest) {
         .get(`https://api.quavergame.com/v2/map/${map.id}`)
         .catch(e => console.log("Error 1"));
 
-    console.log(quaverResp)
+    console.log(quaverResp);
 
     if (!quaverResp?.data.map)
         return Response.json({ status: 404, message: "Map wasn't found." });
