@@ -240,6 +240,8 @@ export default function MapsListPage() {
                                                     setMinRating(e.target.value)
                                                 }
                                                 placeholder="Min Rating"
+                                                variant="classic"
+                                                radius="large"
                                             />
                                             <TextField.Root
                                                 value={maxRating}
@@ -247,6 +249,8 @@ export default function MapsListPage() {
                                                     setMaxRating(e.target.value)
                                                 }
                                                 placeholder="Max Rating"
+                                                variant="classic"
+                                                radius="large"
                                             />
                                         </Flex>
                                     </Container>
