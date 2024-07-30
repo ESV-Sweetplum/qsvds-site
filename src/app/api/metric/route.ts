@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
     const userCount = await prisma.user.count();
     const mapCount = await prisma.map.count();
     const ratingCount = await prisma.rating.count();
+    const scoreCount = await prisma.score.count();
 
     const categories: Category[] = [
         "Reading",
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
             userCount,
             mapCount,
             ratingCount,
-            scoreCount: 0,
+            scoreCount,
             categoryMapCount,
         },
     });
