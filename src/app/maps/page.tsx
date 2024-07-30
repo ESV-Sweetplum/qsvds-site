@@ -57,6 +57,7 @@ export default function MapsListPage() {
     const [maxRating, setMaxRating] = useState<string>("");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
+    const [forceRanked, setForceRanked] = useState<boolean>(false);
     const [selectingRandom, setSelectingRandom] = useState<boolean>(false);
 
     const [categoryArray, setCategoryArray] = useState([
@@ -112,6 +113,7 @@ export default function MapsListPage() {
                     minRating: minRating || 0,
                     maxRating: maxRating || 60,
                     showBanned: showBanned || false,
+                    forceRanked: forceRanked || false,
                     categories: categoryArray,
                 })
         ).then(r => r.json());
@@ -227,7 +229,7 @@ export default function MapsListPage() {
                             <Dialog.Description>
                                 <Flex>
                                     <Container
-                                        flexGrow="2"
+                                        flexGrow="1.5"
                                         flexBasis="0"
                                         pr="5"
                                     >
@@ -255,9 +257,20 @@ export default function MapsListPage() {
                                     <Flex
                                         flexGrow="1"
                                         flexBasis="0"
-                                        align={"center"}
+                                        direction={"column"}
+                                        justify={"center"}
                                     >
-                                        <Text>
+                                        <Text size="2" mb="1">
+                                            Only Show Ranked?{" "}
+                                            <Switch
+                                                color="green"
+                                                checked={forceRanked}
+                                                onCheckedChange={() =>
+                                                    setForceRanked(!forceRanked)
+                                                }
+                                            />
+                                        </Text>
+                                        <Text size="2">
                                             Show Banned?{" "}
                                             <Switch
                                                 color="red"
