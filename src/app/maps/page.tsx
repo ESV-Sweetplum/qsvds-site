@@ -1,4 +1,5 @@
 "use client";
+import { Toaster, toast } from "sonner";
 
 import "../../styles/global.scss";
 import styles from "./maps.module.scss";
@@ -20,7 +21,9 @@ import {
     Flex,
     Heading,
     Section,
+    Separator,
     Skeleton,
+    Switch,
     Text,
     TextField,
 } from "@radix-ui/themes";
@@ -49,8 +52,8 @@ export default function MapsListPage() {
     const [pageCount, setPageCount] = useState<number>(1);
     const [pageNum, setPageNum] = useState<number>(1);
 
-    const [minRating, setMinRating] = useState<string>("0"); // Search filters
-    const [maxRating, setMaxRating] = useState<string>("60");
+    const [minRating, setMinRating] = useState<string>(""); // Search filters
+    const [maxRating, setMaxRating] = useState<string>("");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
     const [selectingRandom, setSelectingRandom] = useState<boolean>(false);
@@ -101,6 +104,9 @@ export default function MapsListPage() {
                 SearchParamBuilder({
                     query: searchInput,
                     page: newPageNum || 1,
+                    minRating: minRating || 0,
+                    maxRating: maxRating || 60,
+                    showBanned: showBanned || false,
                 })
         ).then(r => r.json());
 
@@ -125,8 +131,22 @@ export default function MapsListPage() {
         search(newPage);
     }
 
+    async function filteredSearch() {
+        if (isNaN(Number(minRating))) {
+            toast.error("Your minimum rating is not a number.");
+            return;
+        }
+        if (isNaN(Number(maxRating))) {
+            toast.error("Your maximum rating is not a number.");
+            return;
+        }
+
+        search(1);
+    }
+
     return (
         <Container width="900px" pt="70px">
+            <Toaster richColors />
             <Flex align="center" justify="between" mt="8" mb="6">
                 <Heading size="8">Maps</Heading>
                 <Flex gap="3">
@@ -169,33 +189,100 @@ export default function MapsListPage() {
                 radius="medium"
                 onKeyDown={e => {
                     if (e.key !== "Enter" || e.repeat) return;
-                    search(1);
+                    search();
                 }}
             >
                 <TextField.Slot>
                     <Dialog.Root>
                         <Dialog.Trigger>
-                            <MagnifyingGlassIcon
+                            <MixerHorizontalIcon
                                 height="16"
                                 width="16"
-                                // style={{ cursor: "pointer" }}
+                                style={{ cursor: "pointer" }}
                                 color="white"
                             />
                         </Dialog.Trigger>
                         <Dialog.Content>
-                            <Dialog.Title size="8">Filters</Dialog.Title>
+                            <Dialog.Title size="8" mt="1">
+                                Filters
+                            </Dialog.Title>
+                            <Separator size="4" mb="3" />
                             <Dialog.Description>
-                                Radix makes me wanna kms (i will do this
-                                eventually) (also don&apos;t forget to replace
-                                the search icon with a filter icon you bozo)
+                                <Flex>
+                                    <Container
+                                        flexGrow="2"
+                                        flexBasis="0"
+                                        pr="5"
+                                    >
+                                        <Flex gap="5">
+                                            <TextField.Root
+                                                value={minRating}
+                                                onChange={e =>
+                                                    setMinRating(e.target.value)
+                                                }
+                                                placeholder="Min Rating"
+                                            />
+                                            <TextField.Root
+                                                value={maxRating}
+                                                onChange={e =>
+                                                    setMaxRating(e.target.value)
+                                                }
+                                                placeholder="Max Rating"
+                                            />
+                                        </Flex>
+                                    </Container>
+                                    <Separator
+                                        orientation={"vertical"}
+                                        size="4"
+                                    />
+                                    <Flex
+                                        flexGrow="1"
+                                        flexBasis="0"
+                                        align={"center"}
+                                    >
+                                        <Text>
+                                            Show Banned?{" "}
+                                            <Switch
+                                                color="red"
+                                                checked={showBanned}
+                                                onCheckedChange={() =>
+                                                    setShowBanned(!showBanned)
+                                                }
+                                            />
+                                        </Text>
+                                    </Flex>
+                                </Flex>
                             </Dialog.Description>
+                            <Flex gap="3" mt="5" justify="end">
+                                <Dialog.Close>
+                                    <Button
+                                        variant="surface"
+                                        color="gray"
+                                        radius="large"
+                                        style={{ cursor: "pointer" }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Dialog.Close>
+                                <Dialog.Close>
+                                    <Button
+                                        radius="large"
+                                        variant="solid"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => filteredSearch()}
+                                    >
+                                        <MagnifyingGlassIcon />
+                                        Search
+                                    </Button>
+                                </Dialog.Close>
+                            </Flex>
                         </Dialog.Content>
                     </Dialog.Root>
                 </TextField.Slot>
                 <TextField.Slot pr="0">
                     <Button
                         size="3"
-                        onClick={() => search(1)}
+                        onClick={() => search()}
                         radius="medium"
                         loading={loading}
                         style={{ gap: "var(--space-1)" }}

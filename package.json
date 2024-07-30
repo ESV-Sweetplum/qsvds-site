@@ -29,7 +29,8 @@
         "next-sitemap": "^4.2.3",
         "react": "^18",
         "react-dom": "^18",
-        "react-textfit": "^1.1.1"
+        "react-textfit": "^1.1.1",
+        "sonner": "^1.5.0"
     },
     "devDependencies": {
         "@types/lodash": "^4.17.6",
