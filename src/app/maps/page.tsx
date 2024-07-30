@@ -147,6 +147,11 @@ export default function MapsListPage() {
             return;
         }
 
+        if (!categoryArray.length) {
+            toast.error("You must select at least one category.");
+            return;
+        }
+
         search(1);
     }
 
@@ -329,6 +334,26 @@ export default function MapsListPage() {
                                         Cancel
                                     </Button>
                                 </Dialog.Close>
+                                <Button
+                                    variant="surface"
+                                    color="red"
+                                    radius="large"
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                        setMinRating("");
+                                        setMaxRating("");
+                                        setShowBanned(false);
+                                        setCategoryArray([
+                                            "rd",
+                                            "hb",
+                                            "mm",
+                                            "rv",
+                                            "ss",
+                                        ]);
+                                    }}
+                                >
+                                    Reset Filters
+                                </Button>
                                 <Dialog.Close>
                                     <Button
                                         radius="large"
@@ -358,7 +383,7 @@ export default function MapsListPage() {
                 </TextField.Slot>
             </TextField.Root>
             <div className={styles.cards}>
-                {documents?.length
+                {!loading
                     ? documents.map(doc => (
                           <MapCard
                               map={doc.mapQua as unknown as MapQua}
