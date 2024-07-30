@@ -14,6 +14,7 @@ interface MapCardProps {
     clickable?: boolean;
     baseline?: boolean;
     banned?: boolean;
+    ranked?: boolean;
 }
 
 export default function MapCard(props: MapCardProps) {
@@ -76,6 +77,19 @@ export default function MapCard(props: MapCardProps) {
                         </div>
                     </div>
                     <div className={styles.rating}>
+                        {props.ranked ? (
+                            <div
+                                className={styles.labelDiv}
+                                style={{
+                                    backgroundColor: "rgb(0,255,0)",
+                                    color: "black",
+                                }}
+                            >
+                                RANKED
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                         {props.baseline ? (
                             <div
                                 className={styles.labelDiv}

@@ -118,6 +118,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
                                             clickable
                                             baseline={rating.map.baseline}
                                             banned={rating.map.banned}
+                                            ranked={rating.map.ranked}
                                         />
                                     );
                                 })

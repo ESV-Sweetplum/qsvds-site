@@ -406,6 +406,7 @@ export default function MapsListPage() {
                               clickable
                               baseline={doc.baseline}
                               banned={doc.banned}
+                              ranked={doc.ranked}
                           />
                       ))
                     : Array(4)
