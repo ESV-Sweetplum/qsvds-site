@@ -43,7 +43,7 @@ export default function MapsListPage() {
 
     const [loading, setLoading] = useState<boolean>(true); // Client only state
     const [searchInput, setSearchInput] = useState<string>("");
-    
+
     const [documents, setDocuments] = useState<Map[]>([]); // State that can be converted to server
     const [id, setID] = useState<number>(-6.9e6);
     const [pageCount, setPageCount] = useState<number>(1);
@@ -139,27 +139,25 @@ export default function MapsListPage() {
                     ) : (
                         <></>
                     )}
-                                            <Link
-                            href="/map/random"
-                            onClick={() => setSelectingRandom(true)}
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
-                    <Button
-                        color="blue"
-                        radius="medium"
-                        size="3"
-                        loading={selectingRandom}
-                        style={{cursor: "pointer",                                 gap: "10px",
+                    <Link
+                        href="/map/random"
+                        onClick={() => setSelectingRandom(true)}
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                         }}
                     >
-
+                        <Button
+                            color="blue"
+                            radius="medium"
+                            size="3"
+                            loading={selectingRandom}
+                            style={{ cursor: "pointer", gap: "10px" }}
+                        >
                             <ShuffleIcon width="20" height="20" /> Select Random
-                    </Button>
-                        </Link>
+                        </Button>
+                    </Link>
                 </Flex>
             </Flex>
 
@@ -169,6 +167,10 @@ export default function MapsListPage() {
                 placeholder="Search for a map..."
                 size="3"
                 radius="medium"
+                onKeyDown={e => {
+                    if (e.key !== "Enter" || e.repeat) return;
+                    search(1);
+                }}
             >
                 <TextField.Slot>
                     <Dialog.Root>
