@@ -17,6 +17,9 @@ export async function GET(request: NextRequest) {
         request.nextUrl.searchParams.get("categories") ?? "rd,hb,mm,rv,ss"
     ).split(",");
 
+    const forceRanked =
+        request.nextUrl.searchParams.get("forceRanked") ?? "false";
+
     const page = parseInt(request.nextUrl.searchParams.get("page") ?? "1");
 
     const limited = request.nextUrl.searchParams.get("limited") ?? "true";
@@ -45,6 +48,8 @@ export async function GET(request: NextRequest) {
             path: ["titleInsensitive"],
             string_contains: searchTerm,
         };
+
+    if (forceRanked === "true") queryBuilder.ranked = true;
 
     const categoryObj: Record<string, Category> = {
         rd: "Reading",

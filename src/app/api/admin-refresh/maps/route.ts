@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import prisma from "../../../../../prisma/initialize";
 import validateAdministrator from "@/lib/validateAdministrator";
+import MapQua from "@/interfaces/mapQua";
 
 export async function POST(request: NextRequest) {
     const authHeader = request.headers.get("authorization");
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
     const mapRatingDictionary: Record<string, number[]> = {};
 
     ratings.forEach(rating => {
-        if (!mapRatingDictionary[rating.map_id].length)
+        if (!mapRatingDictionary[rating.map_id]?.length)
             mapRatingDictionary[rating.map_id] = [];
 
         mapRatingDictionary[rating.map_id].push(rating.rating);
@@ -35,9 +36,21 @@ export async function POST(request: NextRequest) {
             mapRatingDictionary[map_id].reduce((acc, cur) => acc + cur, 0) /
             mapRatingDictionary[map_id].length;
 
+        const map = await prisma.map.findUnique({
+            where: { map_id: parseInt(map_id) },
+        });
+
         await prisma.map.update({
             where: { map_id: parseInt(map_id) },
-            data: { totalRating: averageRating },
+            data: {
+                totalRating: averageRating,
+                ranked: (map?.mapQua as unknown as MapQua).ranked_status === 2,
+            },
         });
     }
+
+    return Response.json({
+        status: 200,
+        message: "success",
+    });
 }

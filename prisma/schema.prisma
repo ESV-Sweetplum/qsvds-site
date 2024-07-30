@@ -35,6 +35,7 @@ model Map {
     updatedAt DateTime @default(now())
     banned Boolean @default(false)
     baseline Boolean @default(false)
+    ranked Boolean @default(false)
     category Category @default(Reading)
     mapQua Json
     totalRating Float
