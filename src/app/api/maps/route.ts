@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import prisma from "../../../../prisma/initialize";
 import GenerateHash from "@/lib/generateHash";
+import { Category, Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
     let LIMIT = 18;
@@ -11,6 +12,10 @@ export async function GET(request: NextRequest) {
     const max = request.nextUrl.searchParams.get("maxRating") ?? "60";
     const showBanned =
         request.nextUrl.searchParams.get("showBanned") ?? "false";
+
+    const categories = (
+        request.nextUrl.searchParams.get("categories") ?? "rd,hb,mm,rv,ss"
+    ).split(",");
 
     const page = parseInt(request.nextUrl.searchParams.get("page") ?? "1");
 
@@ -26,7 +31,7 @@ export async function GET(request: NextRequest) {
         }
     }
 
-    const queryBuilder: Record<string, any> = {
+    const queryBuilder: Prisma.MapWhereInput = {
         totalRating: {
             gte: parseInt(min) - 0.5,
             lte: parseInt(max) + 0.5,
@@ -41,17 +46,31 @@ export async function GET(request: NextRequest) {
             string_contains: searchTerm,
         };
 
+    const categoryObj: Record<string, Category> = {
+        rd: "Reading",
+        hb: "Hybrid",
+        mm: "Memory",
+        rv: "Reverse",
+        ss: "Splitscroll",
+    };
+
+    const totalQuery = {
+        OR: categories.map(category => {
+            return { ...queryBuilder, category: categoryObj[category] };
+        }),
+    };
+
     const maps = await prisma.map.findMany({
         skip: LIMIT * (page - 1),
         take: LIMIT,
-        where: queryBuilder,
+        where: totalQuery,
         orderBy: {
             createdAt: "desc",
         },
     });
 
     const pageCount = Math.ceil(
-        (await prisma.map.count({ where: queryBuilder })) / LIMIT
+        (await prisma.map.count({ where: totalQuery })) / LIMIT
     );
 
     return Response.json({ status: 200, maps, pageCount });

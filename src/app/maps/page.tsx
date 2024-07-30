@@ -14,6 +14,7 @@ import MapQua from "@/interfaces/mapQua";
 import { getUser } from "../actions";
 import {
     Button,
+    CheckboxCards,
     ChevronDownIcon,
     Container,
     Dialog,
@@ -58,20 +59,24 @@ export default function MapsListPage() {
     const [showBanned, setShowBanned] = useState<boolean>(false);
     const [selectingRandom, setSelectingRandom] = useState<boolean>(false);
 
+    const [categoryArray, setCategoryArray] = useState([
+        "rd",
+        "hb",
+        "mm",
+        "rv",
+        "ss",
+    ]);
+
     let button = <></>;
 
     useEffect(() => {
+        const params = new URLSearchParams(searchParams);
         async function getUserData() {
             const user = await getUser();
             setID(user?.user_id ?? -6.9e6);
         }
 
         getUserData();
-    });
-
-    useEffect(() => {
-        const params = new URLSearchParams(searchParams);
-
         search(parseInt(params.get("page") ?? "1"));
     }, []);
 
@@ -107,6 +112,7 @@ export default function MapsListPage() {
                     minRating: minRating || 0,
                     maxRating: maxRating || 60,
                     showBanned: showBanned || false,
+                    categories: categoryArray,
                 })
         ).then(r => r.json());
 
@@ -142,6 +148,12 @@ export default function MapsListPage() {
         }
 
         search(1);
+    }
+
+    function categoryAddOrRemove(item: string) {
+        categoryArray.includes(item)
+            ? setCategoryArray(categoryArray.filter(org => org !== item))
+            : setCategoryArray([...categoryArray, item]);
     }
 
     return (
@@ -252,6 +264,59 @@ export default function MapsListPage() {
                                         </Text>
                                     </Flex>
                                 </Flex>
+                                <Separator my="3" size="4" />
+                                <CheckboxCards.Root
+                                    size="2"
+                                    columns={"3"}
+                                    mb="2"
+                                    value={categoryArray}
+                                >
+                                    <CheckboxCards.Item
+                                        value={"rd"}
+                                        onClick={() =>
+                                            categoryAddOrRemove("rd")
+                                        }
+                                    >
+                                        Reading
+                                    </CheckboxCards.Item>
+                                    <CheckboxCards.Item
+                                        value={"hb"}
+                                        onClick={() =>
+                                            categoryAddOrRemove("hb")
+                                        }
+                                    >
+                                        Hybrid
+                                    </CheckboxCards.Item>
+                                    <CheckboxCards.Item
+                                        value={"mm"}
+                                        onClick={() =>
+                                            categoryAddOrRemove("mm")
+                                        }
+                                    >
+                                        Memory
+                                    </CheckboxCards.Item>
+                                </CheckboxCards.Root>
+                                <CheckboxCards.Root
+                                    size="2"
+                                    value={categoryArray}
+                                >
+                                    <CheckboxCards.Item
+                                        value={"rv"}
+                                        onClick={() =>
+                                            categoryAddOrRemove("rv")
+                                        }
+                                    >
+                                        Reverse
+                                    </CheckboxCards.Item>
+                                    <CheckboxCards.Item
+                                        value={"ss"}
+                                        onClick={() =>
+                                            categoryAddOrRemove("ss")
+                                        }
+                                    >
+                                        Splitscroll
+                                    </CheckboxCards.Item>
+                                </CheckboxCards.Root>
                             </Dialog.Description>
                             <Flex gap="3" mt="5" justify="end">
                                 <Dialog.Close>
