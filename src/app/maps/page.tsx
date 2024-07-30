@@ -1,11 +1,9 @@
 "use client";
 
-import { Title } from "@/components/Typography/typography";
 import "../../styles/global.scss";
 import styles from "./maps.module.scss";
 import { useEffect, useState } from "react";
 import MapCard from "@/components/MapCard";
-import Loading from "@/components/Loading";
 import Link from "next/link";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import _ from "lodash";
@@ -15,6 +13,7 @@ import MapQua from "@/interfaces/mapQua";
 import { getUser } from "../actions";
 import {
     Button,
+    ChevronDownIcon,
     Container,
     Dialog,
     DropdownMenu,
@@ -31,7 +30,6 @@ import {
     ChevronUpIcon,
     DoubleArrowLeftIcon,
     DoubleArrowRightIcon,
-    DropdownMenuIcon,
     MagnifyingGlassIcon,
     MixerHorizontalIcon,
     PlusIcon,
@@ -43,14 +41,15 @@ export default function MapsListPage() {
     const pathname = usePathname();
     const { replace } = useRouter();
 
-    const [documents, setDocuments] = useState<Map[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [id, setID] = useState<number>(-6.9e6);
+    const [loading, setLoading] = useState<boolean>(true); // Client only state
     const [searchInput, setSearchInput] = useState<string>("");
+    
+    const [documents, setDocuments] = useState<Map[]>([]); // State that can be converted to server
+    const [id, setID] = useState<number>(-6.9e6);
     const [pageCount, setPageCount] = useState<number>(1);
     const [pageNum, setPageNum] = useState<number>(1);
 
-    const [minRating, setMinRating] = useState<string>("0");
+    const [minRating, setMinRating] = useState<string>("0"); // Search filters
     const [maxRating, setMaxRating] = useState<string>("60");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
@@ -140,26 +139,27 @@ export default function MapsListPage() {
                     ) : (
                         <></>
                     )}
-                    <Button
-                        color="blue"
-                        radius="medium"
-                        size="3"
-                        loading={selectingRandom}
-                        // asChild
-                    >
-                        <Link
+                                            <Link
                             href="/map/random"
                             onClick={() => setSelectingRandom(true)}
                             style={{
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                gap: "10px",
                             }}
                         >
+                    <Button
+                        color="blue"
+                        radius="medium"
+                        size="3"
+                        loading={selectingRandom}
+                        style={{cursor: "pointer",                                 gap: "10px",
+                        }}
+                    >
+
                             <ShuffleIcon width="20" height="20" /> Select Random
-                        </Link>
                     </Button>
+                        </Link>
                 </Flex>
             </Flex>
 
