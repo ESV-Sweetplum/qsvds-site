@@ -268,6 +268,7 @@ export default function MapsListPage() {
                                                 onCheckedChange={() =>
                                                     setForceRanked(!forceRanked)
                                                 }
+                                                size="1"
                                             />
                                         </Text>
                                         <Text size="2">
@@ -278,6 +279,7 @@ export default function MapsListPage() {
                                                 onCheckedChange={() =>
                                                     setShowBanned(!showBanned)
                                                 }
+                                                size="1"
                                             />
                                         </Text>
                                     </Flex>
