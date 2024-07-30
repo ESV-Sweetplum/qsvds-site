@@ -8,6 +8,7 @@ import { Theme } from "@radix-ui/themes";
 import { Viewport } from "next";
 import prisma from "../../prisma/initialize";
 import { cookies } from "next/headers";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const environment =
     process.env.NODE_ENV === "development" ? "development" : "production";
@@ -64,6 +65,7 @@ export default async function RootLayout({
                         />
                         {children}
                         <Analytics />
+                        <SpeedInsights />
                     </CookiesProvider>
                 </Theme>
             </body>
