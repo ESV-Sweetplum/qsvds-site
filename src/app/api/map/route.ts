@@ -5,6 +5,7 @@ import _ from "lodash";
 import axios from "axios";
 import prisma from "../../../../prisma/initialize";
 import { Prisma } from "@prisma/client";
+import MapQua from "@/interfaces/mapQua";
 
 export async function GET(request: NextRequest) {
     const map_id = request.nextUrl.searchParams.get("id");
@@ -36,7 +37,7 @@ export async function POST(request: NextRequest) {
     if (GenerateHash(body.quaver_id) !== body.hash)
         return Response.json({ status: 401, message: "Unauthorized" });
 
-    const map = body.map;
+    const map: MapQua = body.map;
 
     const quaverResp = await axios
         .get(`https://api.quavergame.com/v2/map/${map.id}`)
@@ -56,13 +57,14 @@ export async function POST(request: NextRequest) {
 
     const mapDoc = await prisma.map.create({
         data: {
-            mapQua: map,
+            mapQua: map as unknown as Prisma.InputJsonValue,
             quaver_id: map.id,
             submittedBy_id: parseInt(body.user_id),
             totalRating: _.clamp(parseInt(body.rating), 1, 60),
             category,
             baseline: false,
             banned: false,
+            ranked: map.ranked_status === 2,
         },
     });
 
