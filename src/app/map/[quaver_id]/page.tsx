@@ -11,8 +11,15 @@ import Loading from "@/components/Loading";
 import RatingDisplay from "@/components/RatingDisplay";
 import _ from "lodash";
 import { Textfit } from "react-textfit";
-import { Category, Rating, Score, User } from "@prisma/client";
+import { Category, Quality, Rating, Score, User } from "@prisma/client";
 import { getUser } from "@/app/actions";
+import {
+    Button,
+    ChevronDownIcon,
+    DropdownMenu,
+    Flex,
+    Text,
+} from "@radix-ui/themes";
 
 export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const router = useRouter();
@@ -24,6 +31,8 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
     const [ratings, setRatings] = useState<Rating[]>([]);
     const [scores, setScores] = useState<Score[]>([]);
     const [category, setCategory] = useState<Category | "">("");
+
+    const [quality, setQuality] = useState<Quality | "">("");
 
     const [loading, setLoading] = useState<boolean>(true);
     const [submittingRating, setSubmittingRating] = useState<boolean>(false);
@@ -47,12 +56,11 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
 
             console.log(resp3);
 
-            const userRating =
-                resp2.ratings.filter(
-                    (r: Rating) => r.user_id === user?.user_id ?? "-6.9e6"
-                )[0]?.rating ?? "-1";
+            const userRatingDoc = resp2.ratings.filter(
+                (r: Rating) => r.user_id === user?.user_id ?? "-6.9e6"
+            )[0];
 
-            setUserRating(userRating);
+            setUserRating(userRatingDoc?.rating ?? "-1");
 
             setTotalRating(resp.map.totalRating);
             setSubmittedRating(userRating);
@@ -61,6 +69,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
             setScores(resp3.scores);
             setMap(resp.map.mapQua);
             setLoading(false);
+            setQuality(userRatingDoc?.quality ?? "Decent");
         }
 
         getMap();
@@ -81,6 +90,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                 hash: user?.hash,
                 rating: userRating,
                 map_id: map.id,
+                quality,
             }),
         }).then(r => r.json());
 
@@ -168,6 +178,49 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                                         )
                                     }
                                 />
+                                <Flex align={"center"} gap={"3"}>
+                                    <Text size="4">Select Quality:</Text>
+                                    <DropdownMenu.Root>
+                                        <DropdownMenu.Trigger>
+                                            <Button
+                                                variant="surface"
+                                                color="gray"
+                                            >
+                                                {quality} <ChevronDownIcon />
+                                            </Button>
+                                        </DropdownMenu.Trigger>
+                                        <DropdownMenu.Content>
+                                            <DropdownMenu.Item
+                                                onClick={() =>
+                                                    setQuality("Bad")
+                                                }
+                                            >
+                                                Bad
+                                            </DropdownMenu.Item>
+                                            <DropdownMenu.Item
+                                                onClick={() =>
+                                                    setQuality("Decent")
+                                                }
+                                            >
+                                                Decent
+                                            </DropdownMenu.Item>
+                                            <DropdownMenu.Item
+                                                onClick={() =>
+                                                    setQuality("Great")
+                                                }
+                                            >
+                                                Great
+                                            </DropdownMenu.Item>
+                                            <DropdownMenu.Item
+                                                onClick={() =>
+                                                    setQuality("Brilliant")
+                                                }
+                                            >
+                                                Brilliant
+                                            </DropdownMenu.Item>
+                                        </DropdownMenu.Content>
+                                    </DropdownMenu.Root>
+                                </Flex>
                                 <button
                                     className={styles.ratingSubmitButton}
                                     onClick={submitRating}
