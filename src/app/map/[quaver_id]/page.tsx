@@ -190,34 +190,23 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                                             </Button>
                                         </DropdownMenu.Trigger>
                                         <DropdownMenu.Content>
-                                            <DropdownMenu.Item
-                                                onClick={() =>
-                                                    setQuality("Bad")
-                                                }
-                                            >
-                                                Bad
-                                            </DropdownMenu.Item>
-                                            <DropdownMenu.Item
-                                                onClick={() =>
-                                                    setQuality("Decent")
-                                                }
-                                            >
-                                                Decent
-                                            </DropdownMenu.Item>
-                                            <DropdownMenu.Item
-                                                onClick={() =>
-                                                    setQuality("Great")
-                                                }
-                                            >
-                                                Great
-                                            </DropdownMenu.Item>
-                                            <DropdownMenu.Item
-                                                onClick={() =>
-                                                    setQuality("Brilliant")
-                                                }
-                                            >
-                                                Brilliant
-                                            </DropdownMenu.Item>
+                                            {[
+                                                "Bad",
+                                                "Decent",
+                                                "Great",
+                                                "Brilliant",
+                                            ].map(qual => (
+                                                <DropdownMenu.Item
+                                                    onClick={() =>
+                                                        setQuality(
+                                                            qual as Quality
+                                                        )
+                                                    }
+                                                    // key={qual}
+                                                >
+                                                    {qual}
+                                                </DropdownMenu.Item>
+                                            ))}
                                         </DropdownMenu.Content>
                                     </DropdownMenu.Root>
                                 </Flex>
