@@ -202,7 +202,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                                                             qual as Quality
                                                         )
                                                     }
-                                                    // key={qual}
+                                                    key={qual}
                                                 >
                                                     {qual}
                                                 </DropdownMenu.Item>
