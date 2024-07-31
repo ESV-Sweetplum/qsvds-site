@@ -179,7 +179,7 @@ export default function MapPage({ params }: { params: { quaver_id: number } }) {
                                     }
                                 />
                                 <Flex align={"center"} gap={"3"}>
-                                    <Text size="4">Select Quality:</Text>
+                                    <Text size="3">Select Quality:</Text>
                                     <DropdownMenu.Root>
                                         <DropdownMenu.Trigger>
                                             <Button
