@@ -29,12 +29,14 @@ export async function POST(request: NextRequest) {
     });
 
     scores.forEach(score => {
-        userScoreDict[`${score.user_id}`] += xpFormula(
-            score.map.totalRating,
-            score.map.category,
-            score.accuracy,
-            score.rate
-        );
+        userScoreDict[`${score.user_id}`] += score.map.banned
+            ? 0
+            : xpFormula(
+                  score.map.totalRating,
+                  score.map.category,
+                  score.accuracy,
+                  score.rate
+              );
     });
 
     for (let i = 0; i < Object.keys(userScoreDict).length; i++) {
