@@ -24,7 +24,7 @@ interface LevelDataResponse {
     xpToNextLevel: number;
 }
 
-function getXPToNextLevel(level: number) {
+export function getXPToNextLevel(level: number) {
     const tenthRootOf3 = 1.11612317;
     let xpToNextLevel = 10 * level + 50;
     if (level < 10) xpToNextLevel = 50 * Math.pow(tenthRootOf3, level);

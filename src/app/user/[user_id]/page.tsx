@@ -13,22 +13,22 @@ import { Title } from "@/components/Typography/typography";
 import MapCard from "@/components/MapCard";
 import { Prisma, User } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
+import { getXPToNextLevel } from "@/lib/getLevelData";
+import { Progress } from "@radix-ui/themes";
 
 const monthArr =
     "January February March April May June July August September October November December".split(
         " "
     );
 
-export default function MapPage({ params }: { params: { id: number } }) {
+export default function MapPage({ params }: { params: { user_id: number } }) {
     const router = useRouter();
 
     const [user, setUser] = useState<
-        Partial<
-            Prisma.UserGetPayload<{
-                include: { ratings: { include: { map: true } } };
-            }>
-        >
-    >({});
+        Prisma.UserGetPayload<{
+            include: { ratings: { include: { map: true } } };
+        }>
+    >();
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ export default function MapPage({ params }: { params: { id: number } }) {
             const resp = await fetch(
                 "/api/user" +
                     SearchParamBuilder({
-                        user_id: params.id,
+                        user_id: params.user_id,
                         includeRatings: true,
                     })
             ).then(r => r.json());
