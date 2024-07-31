@@ -31,7 +31,7 @@
     width: 500px;
     height: 100%;
     gap: 0px;
-    @include flex(row, space-between, center);
+    @include flex(row, center, center);
     margin: auto;
 }
 
