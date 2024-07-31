@@ -6,6 +6,8 @@ export function xpFormula(
     accuracy: number,
     rate: number
 ) {
+    if (rate < 0.99) return 0;
+
     const thresholds = [0, 70, 80, 85, 90, 93, 95, 97, 98, 99, 100];
     const bias = [0, 0.1, 0.5, 0.6, 0.7, 0.77, 0.82, 0.9, 0.95, 1, 1];
 
@@ -25,6 +27,7 @@ export function xpFormula(
         bRange[0],
         bRange[1]
     );
+
     return ratingCoefficient * mapRating;
 }
 
