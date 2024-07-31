@@ -10,7 +10,8 @@ import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 import DynamicBackground from "@/components/DynamicBackground";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { HeaderButton } from "@/components/Home/HeaderButton";
 
 export default async function HomePage({
     searchParams,
@@ -71,10 +72,7 @@ export default async function HomePage({
                         />
                         DS
                     </Text>
-                    <Button className={styles.landerButton} radius="large">
-                        <Text size="4">Progression Guide</Text>
-                        <DoubleArrowRightIcon />
-                    </Button>
+                    <HeaderButton />
                     <Section className={styles.calligraphyBG}>
                         <Image
                             src={Calligraphy}
