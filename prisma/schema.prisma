@@ -49,8 +49,8 @@ model Rating {
     rating_id Int @id @default(autoincrement())
     createdAt DateTime @default(now())
     quality Quality @default(Decent)
-    user User @relation(fields: [user_id], references: [user_id])
-    map Map @relation(fields: [map_id], references: [map_id])
+    user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+    map Map @relation(fields: [map_id], references: [map_id], onDelete: Cascade, onUpdate: Cascade)
     user_id Int
     map_id Int
     rating Int
@@ -60,8 +60,8 @@ model Rating {
 
 model Score {
     score_id Int @id @default(autoincrement())
-    user User @relation(fields: [user_id], references: [user_id])
-    map Map @relation(fields: [map_id], references: [map_id])
+    user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: Cascade)
+    map Map @relation(fields: [map_id], references: [map_id], onDelete: Cascade, onUpdate: Cascade)
     user_id Int
     map_id Int
     accuracy Float
