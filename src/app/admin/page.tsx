@@ -1,6 +1,7 @@
 "use server";
 
 import {
+    AlertDialog,
     Box,
     Button,
     Card,
@@ -19,6 +20,7 @@ import { redirect } from "next/navigation";
 import prisma from "../../../prisma/initialize";
 import MapQua from "@/interfaces/mapQua";
 import { Textfit } from "react-textfit";
+import Link from "next/link";
 
 export default async function AdminPage() {
     const isAdmin = await userIsAdmin();
@@ -59,24 +61,83 @@ export default async function AdminPage() {
                                     <Text size="3">
                                         {mapQua.artist} - {mapQua.title}
                                     </Text>
-                                    <Dialog.Root>
-                                        <Dialog.Trigger>
-                                            <Button
-                                                mt="4"
-                                                mb="1"
-                                                variant="surface"
+                                    <Flex gap="2">
+                                        <Button
+                                            mt="4"
+                                            mb="1"
+                                            variant="surface"
+                                            color="blue"
+                                        >
+                                            <Link
+                                                href={`/map/${map.quaver_id}`}
+                                                target="_blank"
                                             >
-                                                Edit
-                                            </Button>
-                                        </Dialog.Trigger>
-                                        <Dialog.Content>
-                                            <Dialog.Title>
-                                                <Text size="7">
-                                                    {mapQua.title}
-                                                </Text>
-                                            </Dialog.Title>
-                                        </Dialog.Content>
-                                    </Dialog.Root>
+                                                View
+                                            </Link>
+                                        </Button>
+                                        <Dialog.Root>
+                                            <Dialog.Trigger>
+                                                <Button
+                                                    mt="4"
+                                                    mb="1"
+                                                    variant="surface"
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </Dialog.Trigger>
+                                            <Dialog.Content>
+                                                <Dialog.Title>
+                                                    Map: {mapQua.title}
+                                                </Dialog.Title>
+                                                <Dialog.Description>
+                                                    Difficulty:{" "}
+                                                    {mapQua.difficulty_name}
+                                                </Dialog.Description>
+                                            </Dialog.Content>
+                                        </Dialog.Root>
+                                        <AlertDialog.Root>
+                                            <AlertDialog.Trigger>
+                                                <Button
+                                                    mt="4"
+                                                    mb="1"
+                                                    variant="surface"
+                                                    color="red"
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </AlertDialog.Trigger>
+                                            <AlertDialog.Content>
+                                                <AlertDialog.Title>
+                                                    Are you sure you'd like to
+                                                    delete this map?
+                                                </AlertDialog.Title>
+                                                <AlertDialog.Description>
+                                                    This will delete all
+                                                    associated ratings and
+                                                    scores.
+                                                </AlertDialog.Description>
+                                                <Flex
+                                                    justify={"end"}
+                                                    gap="2"
+                                                    mt="4"
+                                                >
+                                                    <AlertDialog.Cancel>
+                                                        <Button
+                                                            color="gray"
+                                                            variant="surface"
+                                                        >
+                                                            Cancel
+                                                        </Button>
+                                                    </AlertDialog.Cancel>
+                                                    <AlertDialog.Action>
+                                                        <Button color="red">
+                                                            Delete
+                                                        </Button>
+                                                    </AlertDialog.Action>
+                                                </Flex>
+                                            </AlertDialog.Content>
+                                        </AlertDialog.Root>
+                                    </Flex>
                                 </Flex>
                             </Card>
                         </Box>
