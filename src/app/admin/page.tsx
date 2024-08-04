@@ -21,6 +21,7 @@ import prisma from "../../../prisma/initialize";
 import MapQua from "@/interfaces/mapQua";
 import { Textfit } from "react-textfit";
 import Link from "next/link";
+import Image from "next/image";
 
 export default async function AdminPage() {
     const isAdmin = await userIsAdmin();
@@ -45,7 +46,7 @@ export default async function AdminPage() {
                                     side="top"
                                     pb="current"
                                 >
-                                    <img
+                                    <Image
                                         src={`https://cdn.quavergame.com/mapsets/${(map.mapQua as unknown as MapQua).mapset_id}.jpg`}
                                         alt={`${mapQua.title} image`}
                                         style={{
@@ -108,8 +109,8 @@ export default async function AdminPage() {
                                             </AlertDialog.Trigger>
                                             <AlertDialog.Content>
                                                 <AlertDialog.Title>
-                                                    Are you sure you'd like to
-                                                    delete this map?
+                                                    Are you sure you&apos;d like
+                                                    to delete this map?
                                                 </AlertDialog.Title>
                                                 <AlertDialog.Description>
                                                     This will delete all
