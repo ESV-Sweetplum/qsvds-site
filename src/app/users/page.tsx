@@ -3,7 +3,7 @@
 import styles from "./users.module.scss";
 import "../../styles/global.scss";
 import { useEffect, useState } from "react";
-import UserCard from "@/components/UserCard";
+import UserCard from "@/components/shared/UserCard";
 import PrimaryInput from "@/components/client/add-map/PrimaryInput";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import Loading from "@/components/shared/Loading";
