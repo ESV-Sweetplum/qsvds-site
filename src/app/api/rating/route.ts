@@ -31,6 +31,12 @@ export async function POST(request: NextRequest) {
             message: "You cannot edit a baseline map.",
         });
 
+    if (existingMap.locked)
+        return Response.json({
+            status: 401,
+            message: "You cannot edit a locked map.",
+        });
+
     await prisma.rating.upsert({
         where: {
             user_id_map_id: {
