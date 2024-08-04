@@ -1,0 +1,31 @@
+@use "../../../styles/styles" as *;
+
+.promise {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    @include centered-flex(column);
+    animation: rotate 0.5s linear infinite;
+    z-index: 10000000;
+}
+
+.halfCircle {
+    width: 200px;
+    height: 100px; /* as the half of the width */
+    border-top-left-radius: 110px; /* 100px of height + 10px of border */
+    border-top-right-radius: 110px; /* 100px of height + 10px of border */
+    border: 10px solid rgb(198, 198, 198);
+    border-bottom: 0;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -4,7 +4,7 @@ import { Toaster, toast } from "sonner";
 import "../../styles/global.scss";
 import styles from "./maps.module.scss";
 import { useEffect, useState } from "react";
-import MapCard from "@/components/MapCard";
+import MapCard from "@/components/shared/MapCard";
 import Link from "next/link";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
 import _ from "lodash";

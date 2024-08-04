@@ -1,5 +1,5 @@
 import styles from "./primaryInput.module.scss";
-import searchIcon from "../../../public/search-icon.svg";
+import searchIcon from "../../../../../public/search-icon.svg";
 import Image from "next/image";
 interface PrimaryInputProps {
     value: string;

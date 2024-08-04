@@ -1,0 +1,51 @@
+@use "../../../../styles/styles" as *;
+@use "sass:color";
+
+.selectedItem {
+    background-color: color.scale($backgroundColor, $lightness: 15%);
+    padding: 10px 20px;
+    color: white;
+    border-radius: 10px;
+    width: 150px;
+    height: 40px;
+    z-index: 3;
+    &:after {
+        position: absolute;
+        content: "";
+        top: 14px;
+        right: 20px;
+        width: 6px;
+        height: 6px;
+        border-bottom: 2px solid white;
+        border-right: 2px solid white;
+        transform: rotate(45deg);
+    }
+}
+
+.dropdown {
+    position: relative;
+    &:hover .dropdownOptions {
+        display: block;
+    }
+}
+
+.dropdownOptions {
+    width: 100%;
+    color: white;
+    position: absolute;
+    left: 0;
+    display: none;
+    z-index: 1;
+    background-color: color.scale($backgroundColor, $lightness: 5%);
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: color 0.3s;
+}
+
+.option {
+    cursor: pointer;
+    &:hover {
+        color: gray;
+    }
+    padding-block: 2px;
+}

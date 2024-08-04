@@ -4,7 +4,7 @@ import { useWindowScroll } from "@uidotdev/usehooks";
 import styles from "./scrollDownIndicator.module.scss";
 import { CSSProperties, useEffect, useState } from "react";
 import { Container, Flex } from "@radix-ui/themes";
-import ScrollIcon from "../../../public/scroll.svg";
+import ScrollIcon from "../../../../../public/scroll.svg";
 import { CursorArrowIcon, DoubleArrowDownIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 

@@ -5,22 +5,20 @@ import styles from "./addMap.module.scss";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import PrimaryInput from "@/components/PrimaryInput";
-import ErrorMessage from "@/components/ErrorMessage";
+import PrimaryInput from "@/components/client/add-map/PrimaryInput";
 import MapQua from "@/interfaces/mapQua";
-import Loading from "@/components/Loading";
-import InputCard from "@/components/InputCard";
-import MapCard from "@/components/MapCard";
-import { Title } from "@/components/Typography/typography";
+import Loading from "@/components/shared/Loading";
+import InputCard from "@/components/client/add-map/InputCard";
+import MapCard from "@/components/shared/MapCard";
 import { User } from "@prisma/client";
 import { getUser } from "../actions";
+import { toast, Toaster } from "sonner";
+import { Heading } from "@radix-ui/themes";
 
 export default function AddMapPage() {
     const router = useRouter();
 
     const [mapIDInput, setMapIDInput] = useState<string>("");
-    const [errorStatus, setErrorStatus] = useState<boolean>(false);
-    const [errorMessage, setErrorMessage] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [map, setMap] = useState<Partial<MapQua>>({});
     const [rating, setRating] = useState<number>(0);
@@ -82,10 +80,7 @@ export default function AddMapPage() {
     }
 
     async function throwError(msg: string, time: number = 3000) {
-        setErrorMessage(msg);
-        setErrorStatus(true);
-        await sleep(time);
-        setErrorStatus(false);
+        toast.error(msg);
     }
 
     async function submitRating() {
@@ -142,10 +137,7 @@ export default function AddMapPage() {
     return (
         <>
             <Loading loadingStatus={loading || !user} />
-            <ErrorMessage
-                errorText={errorMessage}
-                errorTriggered={errorStatus}
-            />
+            <Toaster richColors />
             <main
                 style={
                     loading
@@ -162,7 +154,9 @@ export default function AddMapPage() {
                           }
                 }
             >
-                <Title>Add Map and Rating</Title>
+                <Heading size="8" my="6">
+                    Add Map and Rating
+                </Heading>
                 <PrimaryInput
                     value={mapIDInput}
                     changeValue={setMapIDInput}

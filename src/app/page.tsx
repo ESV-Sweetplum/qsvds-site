@@ -7,11 +7,11 @@ import styles from "./index.module.scss";
 import { Button, Container, Section, Text } from "@radix-ui/themes";
 import "../styles/global.scss";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
-import ScrollDownIndicator from "@/components/ScrollDownIndicator";
-import DynamicBackground from "@/components/DynamicBackground";
+import ScrollDownIndicator from "@/components/client/index/ScrollDownIndicator";
+import DynamicBackground from "@/components/client/index/DynamicBackground";
 import { revalidatePath } from "next/cache";
 import { redirect, useRouter } from "next/navigation";
-import { HeaderButton } from "@/components/Home/HeaderButton";
+import { HeaderButton } from "@/components/client/index/HeaderButton";
 
 export default async function HomePage({
     searchParams,

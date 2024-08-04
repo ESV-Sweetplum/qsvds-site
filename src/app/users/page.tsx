@@ -4,11 +4,11 @@ import styles from "./users.module.scss";
 import "../../styles/global.scss";
 import { useEffect, useState } from "react";
 import UserCard from "@/components/UserCard";
-import { Title } from "@/components/Typography/typography";
-import PrimaryInput from "@/components/PrimaryInput";
+import PrimaryInput from "@/components/client/add-map/PrimaryInput";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
-import Loading from "@/components/Loading";
+import Loading from "@/components/shared/Loading";
 import { Prisma } from "@prisma/client";
+import { Heading } from "@radix-ui/themes";
 
 export default function UsersPage() {
     const [users, setUsers] = useState<
@@ -38,7 +38,9 @@ export default function UsersPage() {
         <>
             <Loading loadingStatus={loading} />
             <main style={{ pointerEvents: loading ? "none" : "all" }}>
-                <Title>Users</Title>
+                <Heading size="8" my="6">
+                    Users
+                </Heading>
                 <PrimaryInput
                     value={searchInput}
                     changeValue={setSearchInput}

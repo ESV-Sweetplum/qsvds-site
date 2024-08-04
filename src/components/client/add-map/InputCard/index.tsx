@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./inputCard.module.scss";
-import RatingDisplay from "../RatingDisplay";
+import RatingDisplay from "../../../shared/RatingDisplay";
 import Dropdown from "../Dropdown";
 
 interface InputCardProps {

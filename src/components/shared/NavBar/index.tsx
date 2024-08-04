@@ -6,7 +6,7 @@ import styles from "./navBar.module.scss";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../../../public/logo.svg";
+import Logo from "../../../../public/logo.svg";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDownIcon, LockClosedIcon } from "@radix-ui/react-icons";
 import { User } from "@prisma/client";

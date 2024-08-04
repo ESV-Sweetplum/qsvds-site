@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "@radix-ui/themes/styles.css";
 
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/shared/NavBar";
 import { CookiesProvider } from "next-client-cookies/server";
 import { Analytics } from "@vercel/analytics/react";
 import { Theme } from "@radix-ui/themes";

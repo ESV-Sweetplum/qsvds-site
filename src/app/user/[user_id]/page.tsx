@@ -6,15 +6,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "../../../styles/global.scss";
 import { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
+import Loading from "@/components/shared/Loading";
 import _ from "lodash";
 import SearchParamBuilder from "@/lib/searchParamBuilder";
-import { Title } from "@/components/Typography/typography";
-import MapCard from "@/components/MapCard";
+import MapCard from "@/components/shared/MapCard";
 import { Prisma, User } from "@prisma/client";
 import MapQua from "@/interfaces/mapQua";
 import { getXPToNextLevel } from "@/lib/getLevelData";
-import { Progress } from "@radix-ui/themes";
+import { Heading, Progress } from "@radix-ui/themes";
 
 const monthArr =
     "January February March April May June July August September October November December".split(
@@ -100,7 +99,9 @@ export default function MapPage({ params }: { params: { user_id: number } }) {
                                 </div>
                             </div>
                         </div>
-                        <Title>Submitted Ratings</Title>
+                        <Heading size="8" mt="9" mb="6">
+                            Submitted Ratings
+                        </Heading>
                         <div className={styles.mapGrid}>
                             {user.ratings?.length ? (
                                 user.ratings?.map((rating, idx) => {
