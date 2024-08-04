@@ -36,6 +36,7 @@ model Map {
     banned Boolean @default(false)
     baseline Boolean @default(false)
     ranked Boolean @default(false)
+    locked Boolean @default(false)
     category Category @default(Reading)
     mapQua Json
     totalRating Float
