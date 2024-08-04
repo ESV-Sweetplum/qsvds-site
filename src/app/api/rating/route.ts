@@ -2,6 +2,7 @@ import prisma from "../../../../prisma/initialize";
 import GenerateHash from "@/lib/generateHash";
 import { NextRequest } from "next/server";
 import _ from "lodash";
+import { ratingFormula } from "@/lib/ratingFormula";
 
 export async function POST(request: NextRequest) {
     const body = await request.json();
@@ -55,16 +56,13 @@ export async function POST(request: NextRequest) {
         },
     });
 
-    const aggregateRating = await prisma.rating
-        .aggregate({
-            _avg: {
-                rating: true,
-            },
-            where: {
-                map_id: existingMap.map_id,
-            },
-        })
-        .then(d => d._avg.rating);
+    const ratings = await prisma.rating.findMany({
+        where: {
+            map_id: existingMap.map_id,
+        },
+    });
+
+    const aggregateRating = ratingFormula(ratings.map(r => r.rating));
 
     const updateMap = await prisma.map.update({
         where: {
