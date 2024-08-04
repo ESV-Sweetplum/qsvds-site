@@ -57,7 +57,7 @@ export default function MapsListPage() {
     const [maxRating, setMaxRating] = useState<string>("");
     //   const [category, setCategory] = useState<string>("All");
     const [showBanned, setShowBanned] = useState<boolean>(false);
-    const [forceRanked, setForceRanked] = useState<boolean>(false);
+    const [showUnranked, setShowUnranked] = useState<boolean>(false);
     const [selectingRandom, setSelectingRandom] = useState<boolean>(false);
 
     const [categoryArray, setCategoryArray] = useState([
@@ -113,7 +113,7 @@ export default function MapsListPage() {
                     minRating: minRating || 0,
                     maxRating: maxRating || 60,
                     showBanned: showBanned || false,
-                    forceRanked: forceRanked || false,
+                    showUnranked: showUnranked || false,
                     categories: categoryArray,
                 })
         ).then(r => r.json());
@@ -265,12 +265,14 @@ export default function MapsListPage() {
                                         justify={"center"}
                                     >
                                         <Text size="2" mb="1">
-                                            Only Show Ranked?{" "}
+                                            Show Unranked?{" "}
                                             <Switch
-                                                color="green"
-                                                checked={forceRanked}
+                                                color="yellow"
+                                                checked={showUnranked}
                                                 onCheckedChange={() =>
-                                                    setForceRanked(!forceRanked)
+                                                    setShowUnranked(
+                                                        !showUnranked
+                                                    )
                                                 }
                                                 size="1"
                                             />

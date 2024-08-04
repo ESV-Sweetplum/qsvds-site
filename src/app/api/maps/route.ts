@@ -17,8 +17,8 @@ export async function GET(request: NextRequest) {
         request.nextUrl.searchParams.get("categories") ?? "rd,hb,mm,rv,ss"
     ).split(",");
 
-    const forceRanked =
-        request.nextUrl.searchParams.get("forceRanked") ?? "false";
+    const showUnranked =
+        request.nextUrl.searchParams.get("showUnranked") ?? "false";
 
     const page = parseInt(request.nextUrl.searchParams.get("page") ?? "1");
 
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
             string_contains: searchTerm,
         };
 
-    if (forceRanked === "true") queryBuilder.ranked = true;
+    if (showUnranked !== "true") queryBuilder.ranked = true;
 
     const categoryObj: Record<string, Category> = {
         rd: "Reading",
