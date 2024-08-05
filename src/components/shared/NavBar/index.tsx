@@ -108,6 +108,7 @@ export default function NavBar({ user, hash }: NavbarProps) {
                                 >
                                     <Avatar
                                         src={user.avatar}
+                                        alt="pfp"
                                         fallback="pfp"
                                         style={{ marginRight: "5px" }}
                                     />
