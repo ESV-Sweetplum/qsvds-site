@@ -4,7 +4,8 @@ export function xpFormula(
     mapRating: number,
     category: Category,
     accuracy: number,
-    rate: number
+    rate: number,
+    verified: boolean
 ) {
     if (rate < 0.99) return 0;
 
@@ -28,7 +29,11 @@ export function xpFormula(
         bRange[1]
     );
 
-    return ratingCoefficient * mapRating;
+    const score = ratingCoefficient * mapRating;
+
+    if (score >= 50 && !verified) return 0;
+
+    return score;
 }
 
 function lerp(v: number, s1: number, e1: number, s2: number, e2: number) {

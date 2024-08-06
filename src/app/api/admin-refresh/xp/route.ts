@@ -35,7 +35,8 @@ export async function POST(request: NextRequest) {
                   score.map.totalRating,
                   score.map.category,
                   score.accuracy,
-                  score.rate
+                  score.rate,
+                  score.verified
               );
     });
 

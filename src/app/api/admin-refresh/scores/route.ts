@@ -85,13 +85,15 @@ export async function POST(request: NextRequest) {
                     existingScore.map.totalRating,
                     existingScore.map.category,
                     existingScore.accuracy,
-                    existingScore.rate
+                    existingScore.rate,
+                    existingScore.verified
                 );
                 const newXP = xpFormula(
                     existingScore.map.totalRating,
                     existingScore.map.category,
                     scoreDoc.accuracy,
-                    scoreDoc.rate
+                    scoreDoc.rate,
+                    existingScore.verified
                 );
 
                 if (oldXP > newXP) continue;
