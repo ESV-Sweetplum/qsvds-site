@@ -67,6 +67,7 @@ model Score {
     accuracy Float
     pass Boolean
     rate Float @default(1.0)
+    verified Boolean @default(false)
 
     @@unique(fields: [user_id, map_id])
 }
