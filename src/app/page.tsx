@@ -49,7 +49,7 @@ export default async function HomePage({
                 >
                     Sign up here
                 </a>{" "}
-                to become a referree, streamer, commentator, or mappooler.
+                to become a referee, streamer, commentator, or mappooler.
             </div>
             <div className={styles.vignette} />
             <DynamicBackground />
