@@ -40,16 +40,8 @@ export default async function HomePage({
                     gap: "4px",
                 }}
             >
-                ESVT staff registrations are open now!{" "}
-                <a
-                    href="https://forms.gle/o5XLDuLGuNBwHAxq8"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ display: "inline", textDecoration: "underline" }}
-                >
-                    Sign up here
-                </a>{" "}
-                to become a referee, streamer, commentator, or mappooler.
+                Site development will be put on hold to focus on ESVT. We
+                appreciate your patience.
             </div>
             <div className={styles.vignette} />
             <DynamicBackground />
