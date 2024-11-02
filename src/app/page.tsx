@@ -4,13 +4,14 @@ import Image from "next/image";
 import Logo from "../../public/logo.svg";
 import Calligraphy from "../../public/calligraphy.svg";
 import styles from "./index.module.scss";
-import { Button, Container, Section, Text } from "@radix-ui/themes";
+import { Container, Section, Text } from "@radix-ui/themes";
 import "../styles/global.scss";
 import { DoubleArrowRightIcon } from "@radix-ui/react-icons";
 import ScrollDownIndicator from "@/components/ScrollDownIndicator";
 import DynamicBackground from "@/components/DynamicBackground";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { LinkButton } from "@/components/client/home/LinkButton";
 
 export default async function HomePage({
     searchParams,
@@ -63,10 +64,7 @@ export default async function HomePage({
                         />
                         DS
                     </Text>
-                    <Button className={styles.landerButton} radius="large">
-                        <Text size="4">Progression Guide</Text>
-                        <DoubleArrowRightIcon />
-                    </Button>
+                    <LinkButton />
                     <Section className={styles.calligraphyBG}>
                         <Image
                             src={Calligraphy}

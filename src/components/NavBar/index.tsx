@@ -79,8 +79,8 @@ export default function NavBar({ user, hash }: NavbarProps) {
             <section className={styles.primaryLinks}>
                 <NavLink href="/maps" text="Maps" />
                 <NavLink href="/users" text="Users" />
-                <NavLink href="/" text="Progression" />
-                <NavLink href="/" text="Courses" />
+                {/* <NavLink href="/" text="Progression" />
+                <NavLink href="/" text="Courses" /> */}
             </section>
             <section className={styles.userData}>
                 {user ? (
