@@ -6,7 +6,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["omitApi"]
 }
 
 model User {
@@ -42,6 +41,13 @@ model Map {
     ratings Rating[]
     scores Score[]
     inTournaments Tournament[] @default([])
+    mapset Mapset @relation(fields:[mapset_id], references: [mapset_id])
+    mapset_id Int @default(-1)
+}
+
+model Mapset {
+    mapset_id Int @id @default(autoincrement())
+    maps Map[]
 }
 
 model Rating {
