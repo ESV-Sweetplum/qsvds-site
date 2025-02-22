@@ -25,7 +25,7 @@ export default async function HomePage({
 
     return (
         <>
-            <div
+            {/* <div
                 style={{
                     width: "100vw",
                     height: "35px",
@@ -43,7 +43,7 @@ export default async function HomePage({
             >
                 Site development will be put on hold to focus on ESVT. We
                 appreciate your patience.
-            </div>
+            </div> */}
             <div className={styles.vignette} />
             <DynamicBackground />
             <ScrollDownIndicator stopDisplayingAt={120} />
